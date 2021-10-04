@@ -33,6 +33,7 @@ checksum = "61604a8f862e1d5c3229fdd78f8b02c68dcf73a4c4b05fd636d12240aaa242c1"
 name = "app"
 version = "0.1.0"
 dependencies = [
+ "libxl",
  "log",
  "log4rs",
  "serde",
@@ -1464,6 +1465,10 @@ name = "libc"
 version = "0.2.103"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "dd8f7255a17a627354f321ef0055d63b898c6fb27eff628af4d1b66b7331edf6"
+
+[[package]]
+name = "libxl"
+version = "0.1.0"
 
 [[package]]
 name = "linked-hash-map"
