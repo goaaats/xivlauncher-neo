@@ -8,7 +8,7 @@ pub enum ClientLanguage {
     Japanese,
     English,
     German,
-    French
+    French,
 }
 
 impl ClientLanguage {

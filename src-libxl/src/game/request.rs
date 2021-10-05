@@ -1,8 +1,8 @@
 use reqwest::{Client, IntoUrl, RequestBuilder};
 
 use crate::game::constants;
-use crate::util::hex_slice::HexSlice;
 use crate::util;
+use crate::util::hex_slice::HexSlice;
 
 use super::ClientLanguage;
 
@@ -11,7 +11,6 @@ lazy_static! {
         .user_agent(generate_user_agent())
         .build()
         .unwrap();
-
     static ref PATCH_CLIENT: Client = reqwest::Client::builder()
         .user_agent(constants::PATCH_CLIENT_USER_AGENT)
         .build()
@@ -23,7 +22,12 @@ pub fn launcher_get<U: IntoUrl>(url: U) -> RequestBuilder {
 }
 
 pub fn get_launcher_referer(language: ClientLanguage) -> String {
-    format!("https://launcher.finalfantasyxiv.com/v550/index.html?rc_lang={}&time={}", language.get_langcode_underscore(), util::get_launcher_formatted_time_long()).to_string()
+    format!(
+        "https://launcher.finalfantasyxiv.com/v550/index.html?rc_lang={}&time={}",
+        language.get_langcode_underscore(),
+        util::get_launcher_formatted_time_long()
+    )
+    .to_string()
 }
 
 fn generate_user_agent() -> String {

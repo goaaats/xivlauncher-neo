@@ -2,10 +2,10 @@ use core::fmt;
 
 use regex::Regex;
 
-use crate::game::{ClientLanguage, constants, request};
+use crate::game::{constants, request, ClientLanguage};
 
-#[derive(Debug)] 
-pub enum OauthLoginError{
+#[derive(Debug)]
+pub enum OauthLoginError {
     NoStored,
 
     Reqwest(reqwest::Error),
@@ -29,11 +29,17 @@ pub struct OauthLoginResult {
     can_play: bool,
     terms_accepted: bool,
     entitled_expansion: i16,
-    region: AccountRegion
+    region: AccountRegion,
 }
 
 /// Login to Square Enix oauth with the supplied credentials
-pub async fn login(username: &str, password: &str, otp: &str, steam_service: bool, region: AccountRegion) -> Result<OauthLoginResult, OauthLoginError> {
+pub async fn login(
+    username: &str,
+    password: &str,
+    otp: &str,
+    steam_service: bool,
+    region: AccountRegion,
+) -> Result<OauthLoginResult, OauthLoginError> {
     let stored = get_stored(steam_service, region).await?;
     println!("{}", stored);
 
@@ -46,8 +52,7 @@ pub async fn login(username: &str, password: &str, otp: &str, steam_service: boo
     })
 }
 
-async fn get_stored(steam_service: bool, region: AccountRegion) -> Result<String, OauthLoginError>
-{
+async fn get_stored(steam_service: bool, region: AccountRegion) -> Result<String, OauthLoginError> {
     let url = constants::get_oauth_top_url(&region, false, steam_service);
     println!("{}", url);
 
@@ -61,11 +66,12 @@ async fn get_stored(steam_service: bool, region: AccountRegion) -> Result<String
     let text = resp.text().await.map_err(OauthLoginError::Reqwest)?;
 
     lazy_static! {
-        static ref RE_STORED: Regex = Regex::new(r#"(?m)<\s*input .* name="_STORED_" value="(.*)">"#).unwrap();
+        static ref RE_STORED: Regex =
+            Regex::new(r#"(?m)<\s*input .* name="_STORED_" value="(.*)">"#).unwrap();
     }
 
     if let Some(stored_captures) = RE_STORED.captures_iter(&text).next() {
-        return Ok(stored_captures[1].to_string())
+        return Ok(stored_captures[1].to_string());
     }
 
     Err(OauthLoginError::NoStored)
