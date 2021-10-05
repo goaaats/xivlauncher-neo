@@ -10,12 +10,13 @@ use log4rs::encode::pattern::PatternEncoder;
 use log4rs::Config;
 use log4rs::config::{Appender, Logger, Root};
 
-fn main() {
+#[tokio::main]
+async fn main()  {
   setup_log();
 
   tauri::Builder::default()
     .run(tauri::generate_context!())
-    .expect("error while running tauri application");
+    .expect("error while running tauri application")
 }
 
 fn setup_log() {

@@ -1,9 +1,17 @@
-enum OauthLoginResult {
-    Success,
-}
+mod oauth {
+    enum OauthLoginStatus {
+        Success,
+    }
 
-impl Oauth {
+    pub struct OauthLoginResult {
+        status: OauthLoginStatus,
+    }
+
     pub async fn login(username: &str, password: &str, otp: &str) -> OauthLoginResult {
-        OauthLoginResult::Success
+
+
+        OauthLoginResult {
+            status: OauthLoginStatus::Success,
+        }
     }
 }
