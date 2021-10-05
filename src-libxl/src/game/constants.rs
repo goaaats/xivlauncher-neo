@@ -24,8 +24,6 @@ pub fn get_oauth_top_url(region: &AccountRegion, free_trial: bool, steam_service
 
 pub static OAUTH_SEND_URL: &str = "https://ffxiv-login.square-enix.com/oauth/ffxivarr/login/login.send";
 
-pub static USER_AGENT_TEMPLATE: &str = "SQEXAuthor/2.0.0(Windows 6.2; ja-jp; {0})";
-
 pub static STEAM_APP_ID: i32 = 39210;
 
 pub static PATCH_GAMEVER_HASHES: [&'static str; 6] = [
