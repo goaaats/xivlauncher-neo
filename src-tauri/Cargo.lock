@@ -1567,6 +1567,8 @@ version = "0.1.0"
 dependencies = [
  "chrono",
  "lazy_static",
+ "num-traits",
+ "regex",
  "reqwest",
  "serde",
  "serde_json",

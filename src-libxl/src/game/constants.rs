@@ -9,6 +9,8 @@ pub fn get_frontier_login_status_url() -> String {
     format!("https://frontier.ffxiv.com/worldStatus/login_status.json?_={}", util::get_utc_millis())
 }
 
+pub static PATCH_CLIENT_USER_AGENT: &str = "FFXIV PATCH CLIENT";
+
 /// fmt 1: language code
 /// fmt 2: unix time
 pub static FRONTIER_NOTICE_ULR: &str = "https://frontier.ffxiv.com/v2/notice/{}/message.json?_={}";

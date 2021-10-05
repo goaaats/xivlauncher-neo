@@ -12,4 +12,7 @@ async fn main() {
     }
 
     let login = libxl::game::oauth::login("test", "test", "", true, libxl::game::oauth::AccountRegion::Europe).await;
+
+    println!("{}", libxl::util::get_launcher_formatted_time());
+    println!("{}", libxl::util::get_launcher_formatted_time_long());
 }
