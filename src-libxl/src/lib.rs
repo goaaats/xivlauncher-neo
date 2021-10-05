@@ -1,5 +1,7 @@
 pub mod game;
 
+mod util;
+
 #[cfg(test)]
 mod test {
     #[test]
