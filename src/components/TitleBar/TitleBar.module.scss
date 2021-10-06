@@ -29,8 +29,10 @@
   
 .titlebarButton:hover {
     background: #158f58;
+    transition-duration: 200ms;
 }
 
 .titlebarButtonClose:hover {
     background: #ea2820;
+    transition-duration: 200ms;
 }
