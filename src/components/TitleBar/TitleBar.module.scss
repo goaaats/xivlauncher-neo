@@ -13,7 +13,7 @@ $button-width: 46px;
     right: 0;
 }
 
-.titlebarText {
+.titlebar-text {
     margin: auto;
     padding: 0;
     padding-left: $button-width * 3;
@@ -22,7 +22,7 @@ $button-width: 46px;
     color: #000;
 }
 
-.titlebarButton, .titlebarButtonClose {
+.titlebar-button, .titlebar-button-close {
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -30,12 +30,12 @@ $button-width: 46px;
     height: $button-height;
 }
   
-.titlebarButton:hover {
+.titlebar-button:hover {
     background: #158f58;
     transition-duration: 200ms;
 }
 
-.titlebarButtonClose:hover {
+.titlebar-button-close:hover {
     background: #ea2820;
     transition-duration: 200ms;
 }
