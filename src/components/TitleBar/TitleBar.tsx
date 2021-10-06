@@ -3,6 +3,9 @@ import { defineComponent } from "@vue/runtime-core"
 import styles from './TitleBar.module.scss'
 
 const TitleBar = defineComponent({
+    props: {
+        title: String,
+    },
     render() {
         return <div data-tauri-drag-region class={styles.titlebar}>
             <span class={styles.titlebarText}>{this.title}</span>
@@ -24,9 +27,6 @@ const TitleBar = defineComponent({
                 </div>
             </div>
         </div>
-    },
-    props: {
-        title: String,
     },
 })
 
