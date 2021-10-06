@@ -3,19 +3,6 @@ import { defineComponent } from "@vue/runtime-core"
 import styles from './TitleBar.module.scss'
 
 const TitleBar = defineComponent({
-    // mounted() {
-    //     document
-    //         ?.getElementById('titlebar-minimize')
-    //         ?.addEventListener('click', () => appWindow.minimize());
-
-    //     document
-    //         ?.getElementById('titlebar-maximize')
-    //         ?.addEventListener('click', () => appWindow.toggleMaximize());
-
-    //     document
-    //         ?.getElementById('titlebar-close')
-    //         ?.addEventListener('click', () => appWindow.close());
-    // },
     render() {
         return <div data-tauri-drag-region class={styles.titlebar}>
             <span class={styles.titlebarText}>{this.title}</span>
