@@ -29,7 +29,7 @@ pub const PATCH_GAMEVER_URL: &str =
 pub const OAUTH_TOP_URL: &str = "https://ffxiv-login.square-enix.com/oauth/ffxivarr/login/top?lng=en&rgn={}&isft=0&cssmode=1&isnew=1&issteam={}";
 
 pub fn get_oauth_top_url(region: &AccountRegion, free_trial: bool, steam_service: bool) -> String {
-    format!("https://ffxiv-login.square-enix.com/oauth/ffxivarr/login/top?lng=en&rgn={}&isft={}&cssmode=1&isnew=1&issteam={}", *region as u8, free_trial as u8, steam_service as u8).to_string()
+    format!("https://ffxiv-login.square-enix.com/oauth/ffxivarr/login/top?lng=en&rgn={}&isft={}&cssmode=1&isnew=1&issteam={}", *region as u8, free_trial as u8, steam_service as u8)
 }
 
 pub const OAUTH_SEND_URL: &str =

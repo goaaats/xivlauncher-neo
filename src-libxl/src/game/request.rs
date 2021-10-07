@@ -27,7 +27,6 @@ pub fn get_launcher_referer(language: ClientLanguage) -> String {
         language.get_langcode_underscore(),
         util::get_launcher_formatted_time_long()
     )
-    .to_string()
 }
 
 fn generate_user_agent() -> String {
@@ -43,5 +42,5 @@ fn generate_user_agent() -> String {
     cid[0] = temp;
     let slice = HexSlice::new(&cid);
 
-    format!("SQEXAuthor/2.0.0(Windows 6.2; ja-jp; {})", slice).to_string()
+    format!("SQEXAuthor/2.0.0(Windows 6.2; ja-jp; {})", slice)
 }
