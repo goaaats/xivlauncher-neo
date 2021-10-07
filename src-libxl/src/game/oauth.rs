@@ -53,7 +53,7 @@ pub async fn login(
 }
 
 async fn stored(steam_service: bool, region: AccountRegion) -> Result<String, LoginError> {
-    let url = constants::oauth_top_url(&region, false, steam_service);
+    let url = constants::oauth_top_url(region, false, steam_service);
     println!("{}", url);
 
     let resp = request::launcher_get(url)
