@@ -22,11 +22,11 @@ pub fn launcher_get<U: IntoUrl>(url: U) -> RequestBuilder {
     LAUNCHER_CLIENT.get(url)
 }
 
-pub fn get_launcher_referer(language: ClientLanguage) -> String {
+pub fn launcher_referer(language: ClientLanguage) -> String {
     format!(
         "https://launcher.finalfantasyxiv.com/v550/index.html?rc_lang={}&time={}",
-        language.get_langcode_underscore(),
-        util::get_launcher_formatted_time_long()
+        language.langcode_underscore(),
+        util::now_launcher_formatted_long()
     )
 }
 

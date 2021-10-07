@@ -1,17 +1,18 @@
 use crate::game::oauth::AccountRegion;
 use crate::util;
 
-pub fn get_frontier_gate_status_url() -> String {
+pub fn frontier_gate_status_url() -> String {
+    
     format!(
         "https://frontier.ffxiv.com/worldStatus/gate_status.json?_={}",
-        util::get_utc_millis()
+        util::now_millis()
     )
 }
 
-pub fn get_frontier_login_status_url() -> String {
+pub fn frontier_login_status_url() -> String {
     format!(
         "https://frontier.ffxiv.com/worldStatus/login_status.json?_={}",
-        util::get_utc_millis()
+        util::now_millis()
     )
 }
 
@@ -28,7 +29,7 @@ pub const PATCH_GAMEVER_URL: &str =
 
 pub const OAUTH_TOP_URL: &str = "https://ffxiv-login.square-enix.com/oauth/ffxivarr/login/top?lng=en&rgn={}&isft=0&cssmode=1&isnew=1&issteam={}";
 
-pub fn get_oauth_top_url(region: &AccountRegion, free_trial: bool, steam_service: bool) -> String {
+pub fn oauth_top_url(region: &AccountRegion, free_trial: bool, steam_service: bool) -> String {
     format!("https://ffxiv-login.square-enix.com/oauth/ffxivarr/login/top?lng=en&rgn={}&isft={}&cssmode=1&isnew=1&issteam={}", *region as u8, free_trial as u8, steam_service as u8)
 }
 

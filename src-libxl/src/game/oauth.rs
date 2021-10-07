@@ -40,7 +40,7 @@ pub async fn login(
     steam_service: bool,
     region: AccountRegion,
 ) -> Result<OauthLoginResult, OauthLoginError> {
-    let stored = get_stored(steam_service, region).await?;
+    let stored = stored(steam_service, region).await?;
     println!("{}", stored);
 
     Ok(OauthLoginResult {
@@ -52,12 +52,12 @@ pub async fn login(
     })
 }
 
-async fn get_stored(steam_service: bool, region: AccountRegion) -> Result<String, OauthLoginError> {
-    let url = constants::get_oauth_top_url(&region, false, steam_service);
+async fn stored(steam_service: bool, region: AccountRegion) -> Result<String, OauthLoginError> {
+    let url = constants::oauth_top_url(&region, false, steam_service);
     println!("{}", url);
 
     let resp = request::launcher_get(url)
-        .header("Referer", request::get_launcher_referer(ClientLanguage::English))
+        .header("Referer", request::launcher_referer(ClientLanguage::English))
         .header("Accept", "image/gif, image/jpeg, image/pjpeg, application/x-ms-application, application/xaml+xml, application/x-ms-xbap, */*")
         .header("Accept-Encoding", "gzip, deflate")
         .header("Accept-Language", "en-US")
