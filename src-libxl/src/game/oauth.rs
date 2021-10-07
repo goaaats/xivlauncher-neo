@@ -1,6 +1,6 @@
 use core::fmt;
-
 use regex::Regex;
+use lazy_static::lazy_static;
 
 use crate::game::{constants, request, ClientLanguage};
 

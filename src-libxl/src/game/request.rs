@@ -1,4 +1,5 @@
 use reqwest::{Client, IntoUrl, RequestBuilder};
+use lazy_static::lazy_static;
 
 use crate::game::constants;
 use crate::util;
