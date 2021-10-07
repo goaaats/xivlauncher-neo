@@ -4,6 +4,7 @@ pub mod status;
 mod constants;
 mod request;
 
+#[derive(Copy, Clone)]
 pub enum ClientLanguage {
     Japanese,
     English,
