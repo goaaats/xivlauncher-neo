@@ -2,17 +2,16 @@ use crate::game::oauth::AccountRegion;
 use crate::util;
 
 pub fn frontier_gate_status_url() -> String {
-    
     format!(
         "https://frontier.ffxiv.com/worldStatus/gate_status.json?_={}",
-        util::now_millis()
+        util::time_utc::now_millis()
     )
 }
 
 pub fn frontier_login_status_url() -> String {
     format!(
         "https://frontier.ffxiv.com/worldStatus/login_status.json?_={}",
-        util::now_millis()
+        util::time_utc::now_millis()
     )
 }
 
