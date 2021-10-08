@@ -34,7 +34,7 @@ pub fn close_process(process_name: &str) {
         }
     }
 
-    if process_id == Default::default() {
+    if process_id == 0 {
         return;
     }
 
