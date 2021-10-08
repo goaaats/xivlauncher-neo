@@ -16,6 +16,7 @@ pub fn run_command(command: &str, args: &[&str]) {
 
 /// Runs the command as an administrator, with the provided arguments.
 pub fn run_command_elevated(command: &str, args: &[&str]) {
+    // TODO: Does this even work?
     let real_command = "runas";
     let mut real_args = vec![command];
     real_args.extend(args);
