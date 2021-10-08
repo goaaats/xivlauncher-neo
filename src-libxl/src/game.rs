@@ -4,6 +4,7 @@ pub mod status;
 mod constants;
 mod request;
 
+#[derive(Copy, Clone)]
 pub enum ClientLanguage {
     Japanese,
     English,
@@ -12,7 +13,7 @@ pub enum ClientLanguage {
 }
 
 impl ClientLanguage {
-    fn get_langcode(&self) -> &str {
+    fn langcode(&self) -> &str {
         match self {
             ClientLanguage::Japanese => "ja",
             ClientLanguage::English => "en-gb", // TODO: Handle NA
@@ -21,7 +22,7 @@ impl ClientLanguage {
         }
     }
 
-    fn get_langcode_underscore(&self) -> &str {
+    fn langcode_underscore(&self) -> &str {
         match self {
             ClientLanguage::Japanese => "ja",
             ClientLanguage::English => "en_gb", // TODO: Handle NA
