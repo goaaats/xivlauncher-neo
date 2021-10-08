@@ -1,10 +1,13 @@
+use serde::Serialize;
+use std::fmt::{Display, Formatter};
+
 pub mod oauth;
 pub mod status;
 
 mod constants;
 mod request;
 
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Serialize)]
 pub enum ClientLanguage {
     Japanese,
     English,
@@ -29,5 +32,11 @@ impl ClientLanguage {
             ClientLanguage::German => "de",
             ClientLanguage::French => "fr",
         }
+    }
+}
+
+impl Display for ClientLanguage {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.langcode())
     }
 }
