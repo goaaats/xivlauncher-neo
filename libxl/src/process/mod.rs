@@ -1,3 +1,4 @@
+use lazy_static::lazy_static;
 use std::process::Command;
 use sysinfo::{Pid, ProcessExt, System, SystemExt};
 

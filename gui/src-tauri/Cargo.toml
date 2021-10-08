@@ -12,16 +12,16 @@ build = "src/build.rs"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [build-dependencies]
-tauri-build = { version = "1.0.0-beta.3" }
+tauri-build = { version = "1.0.0-beta.4" }
 
 [dependencies]
 tokio = { version = "1.12.0", features = ["full"] }
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
-tauri = { version = "1.0.0-beta.5", features = ["api-all"] }
+tauri = { version = "1.0.0-beta.8", features = ["api-all"] }
 log = { version = "0.4.14" }
 log4rs = { version = "1.0.0", features = ["console_appender", "file_appender", "pattern_encoder"] }
-libxl = { path = "../src-libxl" }
+libxl = { path = "../../libxl" }
 
 [features]
 default = [ "custom-protocol" ]

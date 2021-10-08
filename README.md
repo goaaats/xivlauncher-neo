@@ -4,22 +4,22 @@ Concept for a XIVLauncher rewrite in Rust, UI via Vue + Tauri.
 
 ## Project setup
 ```
-yarn install
+yarn --cwd gui install
 ```
 
 ### Compiles and hot-reloads for development
 ```
-yarn tauri:serve
+yarn --cwd gui tauri dev
 ```
 
 ### Compiles and minifies for production
 ```
-yarn tauri:build
+yarn --cwd gui tauri build
 ```
 
 ### Lints and fixes files
 ```
-yarn lint
+yarn --cwd gui lint
 ```
 
 ### Customize configuration
