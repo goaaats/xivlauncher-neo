@@ -4,6 +4,7 @@ use data_encoding::HEXLOWER;
 
 #[derive(Debug)]
 pub enum VersionError {
+    PathConversion,
     IOError(std::io::Error),
 }
 
@@ -14,16 +15,16 @@ pub fn get_boot_hash(game_path: &Path) -> Result<String, VersionError> {
 }
 
 fn get_file_hash(path: &Path) -> Result<String, VersionError> {
-    // Get file length
     let file = File::open(&path).map_err(VersionError::IOError)?;
     let file_length = file.metadata().unwrap().len();
 
     let reader = BufReader::new(file);
     let digest = sha1_digest(reader)?;
 
-    let hex = HEXLOWER.encode(&digest.as_ref());
+    let hex = HEXLOWER.encode(digest.as_ref());
 
-    Ok(file_length.to_string() + "/" + &hex)
+    let file_name = path.file_name().ok_or(VersionError::PathConversion)?.to_str().ok_or(VersionError::PathConversion)?;
+    Ok(format!("{}/{}/{}", file_name, file_length, hex))
 }
 
 fn sha1_digest<R: Read>(mut reader: R) -> Result<Digest, VersionError> {
