@@ -23,7 +23,7 @@ async fn main() {
     )
     .await;
 
-    let hash = libxl::game::version::get_boot_hash(Path::new("E:\\Games\\SquareEnix\\FINAL FANTASY XIV - A Realm Reborn"));
+    let hash = libxl::game::version::get_patch_gamever_info(Path::new("E:\\Games\\SquareEnix\\FINAL FANTASY XIV - A Realm Reborn"));
     match hash {
         Ok(res) => println!("{}", res),
         Err(err) => println!("Could not fetch"),

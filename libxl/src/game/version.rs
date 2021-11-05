@@ -2,7 +2,7 @@ use std::{fs::File, io::{BufReader, Read}, path::Path};
 use ring::digest::{Context, Digest, SHA1_FOR_LEGACY_USE_ONLY};
 use data_encoding::HEXLOWER;
 
-use super::constants;
+use super::{constants, repository::Repository};
 
 #[derive(Debug)]
 pub enum VersionError {
@@ -10,7 +10,13 @@ pub enum VersionError {
     IOError(std::io::Error),
 }
 
-pub fn get_boot_hash(game_path: &Path) -> Result<String, VersionError> {
+pub fn get_patch_gamever_info(game_path: &Path) -> Result<String, VersionError> {
+    let ver = Repository::Boot.get_version(game_path).map_err(|e| {VersionError::IOError(e)})?;
+    let hash = get_patch_gamever_hash(game_path)?;
+    Ok(format!("{}={}", ver, hash))
+}
+
+fn get_patch_gamever_hash(game_path: &Path) -> Result<String, VersionError> {
     let mut output = String::new();
     let num_hashes = constants::PATCH_GAMEVER_HASHES.len();
 

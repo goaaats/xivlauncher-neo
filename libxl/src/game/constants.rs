@@ -37,6 +37,8 @@ pub const OAUTH_SEND_URL: &str =
 
 pub const STEAM_APP_ID: i32 = 39210;
 
+pub const DEFAULT_VERSION: &str = "2012.01.01.0000.0000";
+
 pub const PATCH_GAMEVER_HASHES: &[&str; 6] = &[
     "ffxivboot.exe",
     "ffxivboot64.exe",
