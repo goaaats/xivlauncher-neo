@@ -2,6 +2,8 @@ use std::{fs::File, io::{BufReader, Read}, path::Path};
 use ring::digest::{Context, Digest, SHA1_FOR_LEGACY_USE_ONLY};
 use data_encoding::HEXLOWER;
 
+use super::constants;
+
 #[derive(Debug)]
 pub enum VersionError {
     PathConversion,
@@ -9,17 +11,26 @@ pub enum VersionError {
 }
 
 pub fn get_boot_hash(game_path: &Path) -> Result<String, VersionError> {
-    let path = get_file_hash(&game_path.join("boot").join("ffxivboot.exe"))?;
+    let mut output = String::new();
+    let num_hashes = constants::PATCH_GAMEVER_HASHES.len();
 
-    Ok(path)
+    for n  in 0..num_hashes {
+        let bin_name = constants::PATCH_GAMEVER_HASHES[n];
+        let hash = get_file_hash(&game_path.join("boot").join(bin_name))?;
+        output.push_str(&hash);
+
+        if n != num_hashes - 1 {
+            output.push_str(",");
+        }
+    }
+
+    Ok(output)
 }
 
 fn get_file_hash(path: &Path) -> Result<String, VersionError> {
     let file = File::open(&path).map_err(VersionError::IOError)?;
     let file_length = file.metadata().unwrap().len();
-
-    let reader = BufReader::new(file);
-    let digest = sha1_digest(reader)?;
+    let digest = sha1_digest(BufReader::new(file))?;
 
     let hex = HEXLOWER.encode(digest.as_ref());
 
