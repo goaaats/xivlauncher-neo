@@ -1,4 +1,6 @@
-use std::fmt;
+use std::{fmt, path::Path};
+
+use libxl::game::oauth::AccountRegion;
 
 #[tokio::main]
 async fn main() {
@@ -15,11 +17,15 @@ async fn main() {
         "test",
         "test",
         "",
+        libxl::game::platform::Platform::Win32,
         true,
-        libxl::game::oauth::AccountRegion::Europe,
+        AccountRegion::Europe,
     )
     .await;
 
-    println!("{}", libxl::util::get_launcher_formatted_time());
-    println!("{}", libxl::util::get_launcher_formatted_time_long());
+    let hash = libxl::game::version::get_boot_hash(Path::new("E:\\Games\\SquareEnix\\FINAL FANTASY XIV - A Realm Reborn"));
+    match hash {
+        Ok(res) => println!("{}", res),
+        Err(err) => println!("Could not fetch"),
+    }
 }

@@ -3,6 +3,9 @@ use std::fmt::{Display, Formatter};
 
 pub mod oauth;
 pub mod status;
+pub mod platform;
+pub mod version;
+pub mod repository;
 
 mod constants;
 mod request;

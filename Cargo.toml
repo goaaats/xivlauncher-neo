@@ -1,5 +1,6 @@
 [workspace]
 members = [
     "gui/src-tauri",
-    "libxl"
+    "libxl",
+    "libxl-test"
 ]

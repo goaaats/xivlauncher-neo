@@ -2,7 +2,7 @@ use core::fmt;
 use lazy_static::lazy_static;
 use regex::Regex;
 
-use crate::game::{constants, request, ClientLanguage};
+use crate::game::{constants, request, platform::Platform, ClientLanguage};
 
 #[derive(Debug)]
 pub enum LoginError {
@@ -37,6 +37,7 @@ pub async fn login(
     username: &str,
     password: &str,
     otp: &str,
+    platform: Platform,
     steam_service: bool,
     region: AccountRegion,
 ) -> Result<LoginResult, LoginError> {
