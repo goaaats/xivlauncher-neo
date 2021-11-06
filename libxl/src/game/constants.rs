@@ -4,14 +4,14 @@ use crate::util;
 pub fn frontier_gate_status_url() -> String {
     format!(
         "https://frontier.ffxiv.com/worldStatus/gate_status.json?_={}",
-        util::time::now_millis()
+        util::time::utc_now_millis()
     )
 }
 
 pub fn frontier_login_status_url() -> String {
     format!(
         "https://frontier.ffxiv.com/worldStatus/login_status.json?_={}",
-        util::time::now_millis()
+        util::time::utc_now_millis()
     )
 }
 

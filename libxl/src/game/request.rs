@@ -26,7 +26,7 @@ pub fn launcher_referer(language: ClientLanguage) -> String {
     format!(
         "https://launcher.finalfantasyxiv.com/v550/index.html?rc_lang={}&time={}",
         language.langcode_underscore(),
-        util::time::now_launcher_formatted_long()
+        util::time::utc_now_launcher_formatted_long()
     )
 }
 
