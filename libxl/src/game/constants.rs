@@ -15,7 +15,9 @@ pub fn frontier_login_status_url() -> String {
     )
 }
 
-pub const PATCH_CLIENT_USER_AGENT: &str = "FFXIV PATCH CLIENT";
+pub fn patch_bootver_url(version: String) -> String {
+    format!("http://patch-bootver.ffxiv.com/http/win32/ffxivneo_release_boot/{}/?time={}", version, util::time::utc_now_launcher_formatted_long())
+}
 
 /// fmt 1: language code
 /// fmt 2: unix time
