@@ -29,9 +29,9 @@ impl Repository {
             Repository::Boot => game_path.join("boot").join("ffxivboot.ver"),
             Repository::FFXIV => game_path.join("game").join("ffxivgame.ver"),
             Repository::Ex1 => get_ex_path(game_path, 1),
-            Repository::Ex2 => get_ex_path(game_path, 1),
-            Repository::Ex3 => get_ex_path(game_path, 1),
-            Repository::Ex4 => get_ex_path(game_path, 1),
+            Repository::Ex2 => get_ex_path(game_path, 2),
+            Repository::Ex3 => get_ex_path(game_path, 3),
+            Repository::Ex4 => get_ex_path(game_path, 4),
         }
     }
 
