@@ -1,21 +1,25 @@
 use lazy_static::lazy_static;
 use reqwest::{Client, IntoUrl, RequestBuilder};
 
-use crate::game::constants;
 use crate::util;
 use crate::util::hex_slice::HexSlice;
 
-use super::ClientLanguage;
+use super::{ClientLanguage, platform::{self, Platform}};
 
 lazy_static! {
     static ref LAUNCHER_CLIENT: Client = reqwest::Client::builder()
         .user_agent(generate_user_agent())
         .build()
         .unwrap();
-    static ref PATCH_CLIENT: Client = reqwest::Client::builder()
-        .user_agent(constants::PATCH_CLIENT_USER_AGENT)
+}
+
+pub fn patch_get(platform: Platform) -> Client {
+    let user_agent = platform.get_patch_useragent();
+
+    reqwest::Client::builder()
+        .user_agent(user_agent)
         .build()
-        .unwrap();
+        .unwrap()
 }
 
 pub fn launcher_get<U: IntoUrl>(url: U) -> RequestBuilder {

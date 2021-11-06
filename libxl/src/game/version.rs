@@ -2,16 +2,29 @@ use std::{fs::File, io::{BufReader, Read}, path::Path};
 use ring::digest::{Context, Digest, SHA1_FOR_LEGACY_USE_ONLY};
 use data_encoding::HEXLOWER;
 
-use super::{constants, repository::Repository};
+use crate::patch::patchlist::PatchList;
+
+use super::{constants, platform::Platform, repository::Repository, request};
 
 #[derive(Debug)]
 pub enum VersionError {
     PathConversion,
+
     IOError(std::io::Error),
+    Reqwest(reqwest::Error),
+}
+
+pub async fn check_boot_version(game_path: &Path, platform: Platform) -> Result<PatchList, VersionError> {
+    let ver = Repository::Boot.get_version(game_path).map_err(VersionError::IOError)?;
+    let url = constants::patch_bootver_url(ver);
+    let resp = request::patch_get(platform).get(url).send().await.map_err(VersionError::Reqwest)?;
+    let text = resp.text().await.map_err(VersionError::Reqwest)?;
+
+    Ok(PatchList::from(text))
 }
 
 pub fn get_patch_gamever_info(game_path: &Path) -> Result<String, VersionError> {
-    let ver = Repository::Boot.get_version(game_path).map_err(|e| {VersionError::IOError(e)})?;
+    let ver = Repository::Boot.get_version(game_path).map_err(VersionError::IOError)?;
     let hash = get_patch_gamever_hash(game_path)?;
     Ok(format!("{}={}", ver, hash))
 }
