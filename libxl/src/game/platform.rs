@@ -3,9 +3,11 @@ pub enum Platform {
     Mac,
 }
 
-pub fn get_patch_useragent(platform: Platform) -> &'static str {
-    match platform {
-        Platform::Win32 => "FFXIV PATCH CLIENT",
-        Platform::Mac => "FFXIV PATCH CLIENT",
+impl Platform {
+    pub fn get_patch_useragent(&self) -> &'static str {
+        match self {
+            Platform::Win32 => "FFXIV PATCH CLIENT",
+            Platform::Mac => "FFXIV PATCH CLIENT",
+        }
     }
 }
