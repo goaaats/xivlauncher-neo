@@ -4,7 +4,7 @@ use data_encoding::HEXLOWER;
 
 use crate::patch::patchlist::PatchList;
 
-use super::{constants, platform::Platform, repository::Repository, request};
+use super::{constants, platform::Platform, repository::{Repository, get_ex_ver}, request};
 
 #[derive(Debug)]
 pub enum VersionError {
@@ -14,8 +14,19 @@ pub enum VersionError {
     Reqwest(reqwest::Error),
 }
 
+pub fn get_version_report(game_path: &Path, ex_level: u8) -> Result<String, VersionError> {
+    let mut version_report = String::from(get_patch_gamever_hash(game_path)?);
+
+    for n in 1..ex_level + 1 {
+        let ex_ver = get_ex_ver(game_path, n);
+        version_report.push_str(&format!("\nex{}\t{}", n, ex_ver));
+    }
+
+    Ok(version_report)
+}
+
 pub async fn check_boot_version(game_path: &Path, platform: Platform) -> Result<PatchList, VersionError> {
-    let ver = Repository::Boot.get_version(game_path).map_err(VersionError::IOError)?;
+    let ver = Repository::Boot.get_version(game_path);
     let url = constants::patch_bootver_url(ver);
     let resp = request::patch_get(platform).get(url).send().await.map_err(VersionError::Reqwest)?;
     let text = resp.text().await.map_err(VersionError::Reqwest)?;
@@ -24,7 +35,7 @@ pub async fn check_boot_version(game_path: &Path, platform: Platform) -> Result<
 }
 
 pub fn get_patch_gamever_info(game_path: &Path) -> Result<String, VersionError> {
-    let ver = Repository::Boot.get_version(game_path).map_err(VersionError::IOError)?;
+    let ver = Repository::Boot.get_version(game_path);
     let hash = get_patch_gamever_hash(game_path)?;
     Ok(format!("{}={}", ver, hash))
 }

@@ -4,8 +4,7 @@ use libxl::game::oauth::AccountRegion;
 
 #[tokio::main]
 async fn main() {
-    println!("Hello, world!");
-
+    /*
     let status = libxl::game::status::is_gate().await;
 
     match status {
@@ -22,10 +21,17 @@ async fn main() {
         AccountRegion::Europe,
     )
     .await;
+    */
 
-    let hash = libxl::game::version::get_patch_gamever_info(Path::new("E:\\Games\\SquareEnix\\FINAL FANTASY XIV - A Realm Reborn"));
+    let hash = libxl::game::version::get_version_report(Path::new("E:\\Games\\SquareEnix\\FINAL FANTASY XIV - A Realm Reborn"), 4);
     match hash {
         Ok(res) => println!("{}", res),
-        Err(err) => println!("Could not fetch"),
+        Err(err) => println!("Could not fetch: {:?}", err),
+    }
+
+    let bootpatch = libxl::game::version::check_boot_version(Path::new("E:\\Games\\SquareEnix\\FINAL FANTASY XIV - A Realm Reborn"), libxl::game::platform::Platform::Win32).await;
+    match bootpatch {
+        Ok(res) => println!("{}", res.patches.len()),
+        Err(err) => println!("Could not fetch: {:?}", err),
     }
 }
