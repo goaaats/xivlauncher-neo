@@ -36,6 +36,6 @@ impl Repository {
     }
 
     pub fn get_version(&self, game_path: &Path) -> String {
-        fs::read_to_string(self.get_path(game_path)).unwrap_or(DEFAULT_VERSION.to_string())
+        read_ver(&self.get_path(game_path))
     }
 }
