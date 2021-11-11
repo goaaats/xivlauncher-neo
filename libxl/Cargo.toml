@@ -16,3 +16,4 @@ regex = "1"
 num-traits = "0.2.14"
 ring = "0.16"
 data-encoding = "2.3"
+linked-hash-map = { version  = "0.5", features = ["serde_impl"] }

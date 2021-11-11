@@ -28,6 +28,15 @@ impl ClientLanguage {
         }
     }
 
+    fn langcode_short(&self) -> &str {
+        match self {
+            ClientLanguage::Japanese => "ja",
+            ClientLanguage::English => "en", // TODO: Handle NA
+            ClientLanguage::German => "de",
+            ClientLanguage::French => "fr",
+        }
+    }
+
     fn langcode_underscore(&self) -> &str {
         match self {
             ClientLanguage::Japanese => "ja",

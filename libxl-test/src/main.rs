@@ -34,4 +34,18 @@ async fn main() {
         Ok(res) => println!("{}", res.patches.len()),
         Err(err) => println!("Could not fetch: {:?}", err),
     }
+
+    let oauth = libxl::game::oauth::login(
+        "test",
+        "test",
+        "",
+        libxl::game::platform::Platform::Win32,
+        true,
+        AccountRegion::Europe,
+    ).await;
+
+    match oauth {
+        Ok(res) => println!("{}", res.session_id),
+        Err(err) => println!("Could not oauth: {:?}", err),
+    }
 }

@@ -8,6 +8,7 @@ use super::{ClientLanguage, platform::{self, Platform}};
 
 lazy_static! {
     static ref LAUNCHER_CLIENT: Client = reqwest::Client::builder()
+        .http1_title_case_headers()
         .user_agent(generate_user_agent())
         .build()
         .unwrap();
@@ -24,6 +25,10 @@ pub fn patch_get(platform: Platform) -> Client {
 
 pub fn launcher_get<U: IntoUrl>(url: U) -> RequestBuilder {
     LAUNCHER_CLIENT.get(url)
+}
+
+pub fn launcher_post<U: IntoUrl>(url: U) -> RequestBuilder {
+    LAUNCHER_CLIENT.post(url)
 }
 
 pub fn launcher_referer(language: ClientLanguage) -> String {

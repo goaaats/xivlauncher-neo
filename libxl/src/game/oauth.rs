@@ -1,8 +1,8 @@
 use core::fmt;
 use std::collections::HashMap;
 use lazy_static::lazy_static;
+use linked_hash_map::LinkedHashMap;
 use regex::Regex;
-use reqwest::multipart;
 
 use crate::game::{constants, request, platform::Platform, ClientLanguage};
 
@@ -28,12 +28,18 @@ pub enum AccountRegion {
     Europe = 3,
 }
 
+impl AccountRegion {
+    pub fn as_u8(&self) -> u8 {
+        *self as u8
+    }
+}
+
 pub struct LoginResult {
-    session_id: String,
-    can_play: bool,
-    terms_accepted: bool,
-    entitled_expansion: i16,
-    region: AccountRegion,
+    pub session_id: String,
+    pub can_play: bool,
+    pub terms_accepted: bool,
+    pub entitled_expansion: i16,
+    pub region: AccountRegion,
 }
 
 /// Login to Square Enix oauth with the supplied credentials
@@ -47,40 +53,47 @@ pub async fn login(
 ) -> Result<LoginResult, LoginError> {
     let stored = stored(steam_service, region).await?;
 
-    let mut form = HashMap::new();
+    let mut form = LinkedHashMap::new();
     form.insert("_STORED_", stored);
     form.insert("sqexid", username.to_string());
     form.insert("password", password.to_string());
     form.insert("otppw", otp.to_string());
 
-    let resp = request::launcher_get(constants::OAUTH_SEND_URL)
+    let req = request::launcher_post(constants::OAUTH_SEND_URL)
         .header("Cache-Control", "no-cache")
         .header("Accept", "image/gif, image/jpeg, image/pjpeg, application/x-ms-application, application/xaml+xml, application/x-ms-xbap, */*")
         .header("Accept-Encoding", "gzip, deflate")
         .header("Accept-Language", "en-US,en;q=0.9")
-        .header("Referer", request::launcher_referer(ClientLanguage::English))
+        .header("Referer", oauth_referer(ClientLanguage::English, region, steam_service))
         .header("Content-Type", "application/x-www-form-urlencoded")
-        .form(&form)
-        .send().await.map_err(LoginError::Reqwest)?;
+        .header("Connection", "Keep-Alive")
+        .header("Cookie", "_rsid=\"\"")
+        .form(&form);
 
+    let resp = req.send().await.map_err(LoginError::Reqwest)?;
     let text = resp.text().await.map_err(LoginError::Reqwest)?;
 
     lazy_static! {
         static ref RE_LOGINRES: Regex =
-            Regex::new(r#"(?m)<\s*input .* name="_STORED_" value="(.*)">"#).unwrap();
+            Regex::new(r#"window\.external\.user\("login=auth,ok,(.*)"\);"#).unwrap();
+
+        static ref RE_LOGINERR: Regex =
+            Regex::new(r#"window\.external\.user\("login=auth,ng,err,(.*)"\);"#).unwrap();
     }
     
     if let Some(login_captures) = RE_LOGINRES.captures_iter(&text).next() {
-        let params = login_captures[1]
-
-        return Ok(login_captures[1].to_string());
+        println!("{}", login_captures[1].to_string());
     }
-    
+
+    if let Some(error_captures) = RE_LOGINERR.captures_iter(&text).next() {
+        return Err(LoginError::Account(error_captures[1].to_string()));
+    }
+
     Err(LoginError::NoResultMatch)
 }
 
-fn get_oauth_referer(language: ClientLanguage, region: AccountRegion, steam_service: bool) -> String {
-    
+fn oauth_referer(language: ClientLanguage, region: AccountRegion, steam_service: bool) -> String {
+    format!("https://ffxiv-login.square-enix.com/oauth/ffxivarr/login/top?lng={}&rgn={}&isft=0&cssmode=1&isnew=1&issteam={}", language.langcode_short(), region.as_u8(), if steam_service { "1" } else { "0" })
 }
 
 async fn stored(steam_service: bool, region: AccountRegion) -> Result<String, LoginError> {
@@ -92,6 +105,8 @@ async fn stored(steam_service: bool, region: AccountRegion) -> Result<String, Lo
         .header("Accept", "image/gif, image/jpeg, image/pjpeg, application/x-ms-application, application/xaml+xml, application/x-ms-xbap, */*")
         .header("Accept-Encoding", "gzip, deflate")
         .header("Accept-Language", "en-US")
+        .header("Connection", "Keep-Alive")
+        .header("Cookie", "_rsid=\"\"")
         .send().await.map_err(LoginError::Reqwest)?;
 
     let text = resp.text().await.map_err(LoginError::Reqwest)?;
