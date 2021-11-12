@@ -15,11 +15,7 @@
       "targets": "all",
       "identifier": "com.tauri.dev",
       "icon": [
-        "icons/32x32.png",
-        "icons/128x128.png",
-        "icons/128x128@2x.png",
-        "icons/icon.icns",
-        "icons/icon.ico"
+        "icons/dalamud.ico"
       ],
       "resources": [],
       "externalBin": [],
@@ -53,12 +49,12 @@
     },
     "windows": [
       {
-        "title": "XIVLauncher",
-        "width": 800,
-        "height": 600,
-        "resizable": true,
+        "title": "XIVLauncher v1.2.3.4",
+        "width": 830,
+        "height": 340,
+        "resizable": false,
         "fullscreen": false,
-        "decorations": false
+        "decorations": true
       }
     ],
     "security": {

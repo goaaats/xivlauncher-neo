@@ -1,9 +1,9 @@
 module.exports = {
     css: {
-      loaderOptions: {
-        css: {
-          localsConvention: 'camelCaseOnly'
+        loaderOptions: {
+            css: {
+                localsConvention: 'camelCaseOnly'
+            }
         }
-      }
     }
-  }
+}

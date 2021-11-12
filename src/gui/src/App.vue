@@ -1,24 +1,17 @@
 <template>
-  <TitleBar title="XIVLauncher" />
   <div class="content">
-    <Test />
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App in a Rust Workspace." />
+    <MainWindow msg="Welcome to Your Vue.js + TypeScript App in a Rust Workspace." />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import HelloWorld from './components/HelloWorld.vue';
-import {TitleBar} from './components/TitleBar/TitleBar';
-import {Test} from './components/Test';
+import MainWindow from './views/Main.vue';
 
 export default defineComponent({
   name: 'App',
   components: {
-    HelloWorld,
-    Test,
-    TitleBar,
+    MainWindow,
   }
 });
 </script>
@@ -39,8 +32,7 @@ body {
 }
 
 .content {
-  margin: 8px;
-  margin-top: 30px;
+  margin: 30px 8px 8px;
   overflow-y: auto;
 }
 </style>
