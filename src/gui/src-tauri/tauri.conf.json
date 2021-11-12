@@ -1,7 +1,7 @@
 {
   "package": {
-    "productName": "xivlauncher-neo",
-    "version": "0.1.0"
+    "productName": "xivlauncher",
+    "version": "0.0.1"
   },
   "build": {
     "distDir": "../dist",
@@ -13,7 +13,7 @@
     "bundle": {
       "active": true,
       "targets": "all",
-      "identifier": "com.tauri.dev",
+      "identifier": "com.goatcorp.xivlauncher",
       "icon": [
         "icons/dalamud.ico"
       ],
