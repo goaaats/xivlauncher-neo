@@ -1,4 +1,4 @@
-use std::{fmt, path::Path};
+use std::{fmt, path::Path, slice::SliceIndex};
 
 use libxl::game::oauth::AccountRegion;
 
@@ -23,6 +23,8 @@ async fn main() {
     .await;
     */
 
+    /*
+
     let hash = libxl::game::version::get_version_report(Path::new("E:\\Games\\SquareEnix\\FINAL FANTASY XIV - A Realm Reborn"), 4);
     match hash {
         Ok(res) => println!("{}", res),
@@ -46,6 +48,14 @@ async fn main() {
 
     match oauth {
         Ok(res) => println!("{}", res.session_id),
+        Err(err) => println!("Could not oauth: {:?}", err),
+    }
+
+    */
+
+    let headline = libxl::game::launcher::headline::Headline::get(libxl::game::ClientLanguage::English).await;
+    match headline {
+        Ok(res) => println!("{}", res.news[0].title),
         Err(err) => println!("Could not oauth: {:?}", err),
     }
 }

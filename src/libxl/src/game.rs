@@ -6,6 +6,7 @@ pub mod status;
 pub mod platform;
 pub mod version;
 pub mod repository;
+pub mod launcher;
 
 mod constants;
 mod request;
