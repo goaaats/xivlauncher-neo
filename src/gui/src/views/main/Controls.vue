@@ -15,13 +15,6 @@
   </q-card>
 </template>
 
-<style lang="sass" scoped>
-.control
-  border-radius: 5px
-  width: 77px
-  height: 77px
-</style>
-
 <script>
 import {defineComponent} from "vue"
 import {QBtn, QCard, QIcon} from "quasar"
@@ -52,4 +45,9 @@ export default defineComponent({
 })
 </script>
 
-
+<style lang="sass" scoped>
+.control
+  border-radius: 5px
+  width: 77px
+  height: 77px
+</style>

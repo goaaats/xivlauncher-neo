@@ -7,8 +7,26 @@
   </div>
 </template>
 
-<style lang="sass">
-</style>
+<script lang="ts">
+import {defineComponent} from "vue"
+import MainNews from "@/views/main/News.vue"
+import MainHeadlines from "@/views/main/Headlines.vue"
+import MainLogin from "@/views/main/Login.vue"
+import MainControls from "@/views/main/Controls.vue"
+
+export default defineComponent({
+  name: 'main-view',
+  props: {
+    msg: String,
+  },
+  components: {
+    MainControls,
+    MainLogin,
+    MainHeadlines,
+    MainNews,
+  },
+})
+</script>
 
 <style lang="sass" scoped>
 $width: 830px
@@ -30,24 +48,3 @@ $bottomRow: $height - $topRow - $tableGap - ($windowPadding * 2)
   row-gap: 10px
 
 </style>
-
-<script lang="ts">
-import {defineComponent} from "vue"
-import MainNews from "@/views/main/News.vue"
-import MainHeadlines from "@/views/main/Headlines.vue"
-import MainLogin from "@/views/main/Login.vue"
-import MainControls from "@/views/main/Controls.vue"
-
-export default defineComponent({
-  name: 'main-view',
-  props: {
-    msg: String,
-  },
-  components: {
-    MainControls,
-    MainLogin,
-    MainHeadlines,
-    MainNews,
-  },
-})
-</script>

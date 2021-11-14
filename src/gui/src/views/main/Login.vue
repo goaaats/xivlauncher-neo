@@ -28,12 +28,6 @@
   </q-card>
 </template>
 
-<style lang="sass" scoped>
-.q-checkbox
-  height: 20px
-
-</style>
-
 <script>
 import {defineComponent, ref} from "vue"
 import {QCard, QBtn, QCheckbox, QInput} from "quasar";
@@ -68,4 +62,8 @@ export default defineComponent({
 })
 </script>
 
+<style lang="sass" scoped>
+.q-checkbox
+  height: 20px
 
+</style>

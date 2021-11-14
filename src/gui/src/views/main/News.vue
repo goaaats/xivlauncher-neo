@@ -6,9 +6,6 @@
   </q-card>
 </template>
 
-<style lang="sass" scoped>
-</style>
-
 <script>
 import {defineComponent} from "vue"
 import {QCard} from "quasar";
@@ -33,4 +30,5 @@ export default defineComponent({
 })
 </script>
 
-
+<style lang="sass" scoped>
+</style>
