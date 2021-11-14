@@ -1,39 +1,25 @@
 <template>
-  <q-card id="main-controls">
-    <div class="centered">
-      <q-btn flat @click="clickMaintenance" class="control-button">
-        <q-tooltip :delay="500"> {{ $t("MaintenanceQueue") }}</q-tooltip>
-        <q-icon name="update" size="3rem" color="info"/>
-      </q-btn>
-      <q-btn flat @click="clickWorldStatus" class="control-button">
-        <q-tooltip :delay="500"> {{ $t("WorldStatus") }}</q-tooltip>
-        <q-icon name="public" size="3rem" color="info"/>
-      </q-btn>
-      <q-btn flat @click="clickSettings" class="control-button">
-        <q-tooltip :delay="500"> {{ $t("Settings") }}</q-tooltip>
-        <q-icon name="settings" size="3rem" color="info"/>
-      </q-btn>
-    </div>
+  <q-card class="flex full-width full-height justify-center content-center">
+    <q-btn flat @click="clickMaintenance" class="control">
+      <q-tooltip :delay="500"> {{ $t("MaintenanceQueue") }}</q-tooltip>
+      <q-icon name="update" size="3rem" color="primary"/>
+    </q-btn>
+    <q-btn flat @click="clickWorldStatus" class="control">
+      <q-tooltip :delay="500"> {{ $t("WorldStatus") }}</q-tooltip>
+      <q-icon name="public" size="3rem" color="primary"/>
+    </q-btn>
+    <q-btn flat @click="clickSettings" color="primary" class="control">
+      <q-tooltip :delay="500"> {{ $t("Settings") }}</q-tooltip>
+      <q-icon name="settings" size="3rem" color="primary"/>
+    </q-btn>
   </q-card>
 </template>
 
 <style lang="sass" scoped>
-#main-controls
-  display: flex
-  flex-grow: 1
-
-.centered
-  display: flex
-  align-items: center
-  justify-content: center
-  width: 100%
-  height: 100%
-
-.control-button
+.control
   border-radius: 5px
   width: 77px
   height: 77px
-
 </style>
 
 <script>

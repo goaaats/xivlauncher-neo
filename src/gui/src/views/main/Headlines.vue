@@ -1,15 +1,32 @@
 <template>
-  <q-card id="xiv-headlines">
-    <q-scroll-area id="xiv-headlines-scroll">
+  <q-card class="overflow-hidden">
+    <q-scroll-area class="full-height full-width">
       <q-list>
 
         <q-item clickable v-ripple>
           <q-item-section avatar>
-            <q-icon name="feed"/>
+            <q-skeleton type="rect" animation="blink" width="24px"/>
           </q-item-section>
           <q-item-section>
-            blah blah
-            <!--<q-skeleton type="text" animation="blink"/>-->
+            <q-skeleton type="text" animation="blink"/>
+          </q-item-section>
+        </q-item>
+
+        <q-item clickable v-ripple>
+          <q-item-section avatar>
+            <q-icon name="priority_high"/>
+          </q-item-section>
+          <q-item-section>
+            Actions Taken Against In-Game RMT & Other Illicit Activities (Nov. 11)
+          </q-item-section>
+        </q-item>
+
+        <q-item clickable v-ripple>
+          <q-item-section avatar>
+            <q-icon name="error_outline"/>
+          </q-item-section>
+          <q-item-section>
+            [Chaos] Recovery from Instanced Areas Technical Difficulties (Nov. 08)
           </q-item-section>
         </q-item>
 
@@ -18,18 +35,7 @@
             <q-icon name="feed"/>
           </q-item-section>
           <q-item-section>
-            blah blah
-            <!--<q-skeleton type="text" animation="blink"/>-->
-          </q-item-section>
-        </q-item>
-
-        <q-item clickable v-ripple>
-          <q-item-section avatar>
-            <q-icon name="feed"/>
-          </q-item-section>
-          <q-item-section>
-            blah blah
-            <!--<q-skeleton type="text" animation="blink"/>-->
+            [Primal] Leviathan World Emergency Maintenance (Nov. 6): Follow-up
           </q-item-section>
         </q-item>
 
@@ -39,12 +45,6 @@
 </template>
 
 <style lang="sass" scoped>
-#xiv-headlines
-  overflow: hidden
-  
-#xiv-headlines-scroll
-  width: 100%
-  height: 100%
 </style>
 
 <script>
