@@ -1,7 +1,7 @@
 .DS_Store
 node_modules
-/gui/dist
-
+/src/gui/dist
+requests.log
 
 # local env files
 .env.local

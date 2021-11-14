@@ -1,0 +1,694 @@
+{
+  "updatefailureerror": {
+    "message": "XIVLauncher не удалось проверить наличие обновлений. Это может быть вызвано проблемами с подключением к GitHub. Подождите несколько минут и повторите попытку.\nОтключите свой VPN, если он у вас есть.\nЕсли через несколько минут всё еще не удаётся проверить наличие обновлений, пожалуйста, присоединитесь к Discord, ссылка на который есть на GitHub, для поддержки.",
+    "description": "<Run>d__0.MoveNext"
+  },
+  "DalamudUpdateDalamud": {
+    "message": "Обновление Dalamud...",
+    "description": "DalamudLoadingOverlay.SetProgress"
+  },
+  "DalamudUpdateAssets": {
+    "message": "Обновление ресурсов...",
+    "description": "DalamudLoadingOverlay.SetProgress"
+  },
+  "DalamudUpdateRuntime": {
+    "message": "Обновление среды выполнения...",
+    "description": "DalamudLoadingOverlay.SetProgress"
+  },
+  "DalamudUnavailable": {
+    "message": "Плагины в настоящее время недоступны\nиз-за обновления игры.",
+    "description": "DalamudLoadingOverlay.SetProgress"
+  },
+  "GamePathEmptyError": {
+    "message": "Пожалуйста, выберите игровой путь.",
+    "description": "FirstTimeSetup.NextButton_Click"
+  },
+  "GamePathSafeguardError": {
+    "message": "Пожалуйста, не выбирайте папки \"game\" или \"boot\" в папке с установленной игрой FFXIV, а вместо этого выберите САМУ папку с игрой, содержащую их.",
+    "description": "FirstTimeSetup.NextButton_Click"
+  },
+  "GamePathInvalidError": {
+    "message": "В выбранной папке не установлена FFXIV.\nXIVLauncher установит FFXIV при первом входе в систему.",
+    "description": "FirstTimeSetup.NextButton_Click"
+  },
+  "NewsLoading": {
+    "message": "Загрузка...",
+    "description": "MainWindow..ctor"
+  },
+  "CheckLoginInfo": {
+    "message": "Пожалуйста, проверьте свои данные для входа или попробуйте еще раз.",
+    "description": "MainWindow.Initialize"
+  },
+  "AutoLoginIntro": {
+    "message": "You are enabling Auto-Login.\nThis means that XIVLauncher will always log you in with the current account and you will not see this window.\n\nTo change settings and accounts, you have to hold the shift button on your keyboard while clicking the XIVLauncher icon.",
+    "description": "MainWindow.LoginButton_Click"
+  },
+  "CheckBootVersionError": {
+    "message": "XIVLauncher не смог проверить версию загрузки для выбранной установки игры. Это может произойти, если в настоящее время выполняется техническое обслуживание или если Ваше подключение к серверу проверки версий недоступно. Пожалуйста, сообщите об этой ошибке, если вы можете войти в систему с помощью официального лаунчера, но не с помощью XIVLauncher.",
+    "description": "MainWindow.HandleBootCheck"
+  },
+  "GameIsOpenError": {
+    "message": "Игра и/или официальный лаунчер открыты. XIVLauncher не может патчить игру, если это так.\nПожалуйста, закройте официальный лаунчер и повторите попытку.",
+    "description": "MainWindow.HandleBootCheck"
+  },
+  "PatcherAlreadyInProgress": {
+    "message": "XIVLauncher уже обновляет Вашу игру в другом экземпляре. Пожалуйста, проверьте, открыт ли ещё один XIVLauncher.",
+    "description": "MainWindow.HandleBootCheck"
+  },
+  "EmptyUsernameError": {
+    "message": "Пожалуйста, введите имя пользователя.",
+    "description": "MainWindow.PrepareLogin"
+  },
+  "EmailUsernameError": {
+    "message": "Please enter your SE account name, not your email address.",
+    "description": "MainWindow.PrepareLogin"
+  },
+  "EmptyPasswordError": {
+    "message": "Пожалуйста, введите пароль.",
+    "description": "MainWindow.PrepareLogin"
+  },
+  "UidCacheInstallError": {
+    "message": "Вы включили кеш UID в настройках патчера.\nЭтот параметр не позволяет переустановить FFXIV.\n\nЕсли Вы хотите переустановить FFXIV, пожалуйста, сначала отключите его.",
+    "description": "MainWindow.PrepareLogin"
+  },
+  "MaintenanceQueueBootPatch": {
+    "message": "Обнаружен патч для лаунчера FFXIV.\nОбычно это означает, что для игры также есть патч.\n\nТеперь вы войдете в систему.",
+    "description": "MainWindow.OnMaintenanceQueueTimerEvent"
+  },
+  "NewsDlFailed": {
+    "message": "Не удалось загрузить данные новостей.",
+    "description": "MainWindow.<SetupHeadlines>b__10_3"
+  },
+  "LoginNoStartOk": {
+    "message": "Была выполнена проверка обновлений, и все ожидающие обновления были установлены.",
+    "description": "<>c__DisplayClass18_0.<InstallGamePatch>b__3"
+  },
+  "LoginNoOauthMessage": {
+    "message": "Не удалось войти в Вашу учетную запись Square Enix.\nЭто могло быть вызвано неверными учетными данными или одноразовыми паролями.\n\nПожалуйста, также проверьте свой почтовый ящик на наличие любых сообщений от Square Enix - они могут попросить Вас сбросить пароль из-за «подозрительной активности».\nЭто НЕ вызвано проблемой безопасности в XIVLauncher, это просто мера безопасности Square Enix для предотвращения входа в систему из новых мест на случай кражи Вашей учетной записи.\nXIVLauncher и официальный лаунчер снова будут работать нормально после сброса пароля.",
+    "description": "<StartLogin>d__19.MoveNext"
+  },
+  "LoginNoOauthAutologinHint": {
+    "message": "\n\nАвтоматический вход в систему был отключен.",
+    "description": "<StartLogin>d__19.MoveNext"
+  },
+  "LoginNoOauthTitle": {
+    "message": "Проблема с входом в систему",
+    "description": "<StartLogin>d__19.MoveNext"
+  },
+  "LoginNoServiceMessage": {
+    "message": "Эта учетная запись Square Enix не может играть в FINAL FANTASY XIV.\n\nЕсли вы купили FINAL FANTASY XIV в Steam, обязательно установите флажок \"Использовать учетную запись службы Steam\" при входе в систему.\nЕсли включен автоматический вход в систему, удерживайте нажатой клавишу Shift при запуске для доступа к настройкам.",
+    "description": "<StartLogin>d__19.MoveNext"
+  },
+  "LoginAcceptTermsMessage": {
+    "message": "Пожалуйста, примите условия использования FINAL FANTASY XIV в официальном лаунчере.",
+    "description": "<StartLogin>d__19.MoveNext"
+  },
+  "EverythingIsFuckedMessage": {
+    "message": "Некоторые важные файлы игры были изменены/повреждены сторонними программами, и игра не может ни обновляться, ни запускаться.\nВам необходимо полностью переустановить игру, чтобы продолжить.\n\nЕсли это будет повторятся, пожалуйста, свяжитесь с нами через Discord.",
+    "description": "<StartLogin>d__19.MoveNext"
+  },
+  "PatchInstallDisclaimer": {
+    "message": "Обнаружен новый патч, который необходимо установить, прежде чем вы сможете играть.\nВы хотите, чтобы XIVLauncher установил его?",
+    "description": "<StartLogin>d__19.MoveNext"
+  },
+  "MaintenanceNotice": {
+    "message": "Кажется, идет техническое обслуживание. Игра не должна запускаться.",
+    "description": "<StartLogin>d__19.MoveNext"
+  },
+  "LaunchAsSteam": {
+    "message": "Запускать в качестве пользователя Steam?",
+    "description": "SettingsControl.OriginalLauncherButton_OnClick"
+  },
+  "DalamudIncompatible": {
+    "message": "Внутриигровое дополнение XIVLauncher еще не обновлено для вашей текущей версии FFXIV.\nЭто обычное явление после патчей, поэтому, пожалуйста, наберитесь терпения или спросите в Discord о статусе обновления!",
+    "description": "SettingsControl.EnableHooksCheckBox_OnChecked"
+  },
+  "DalamudCompatCheckFailed": {
+    "message": "Не удалось связаться с сервером, чтобы получить текущую совместимую версию FFXIV для внутриигрового дополнения. Это может означать, что ваша установленная версия .NET устарела.\nПожалуйста, проверьте Discord для получения дополнительной информации.",
+    "description": "SettingsControl.EnableHooksCheckBox_OnChecked"
+  },
+  "PluginPathNotFound": {
+    "message": "Не удалось найти путь к каталогу плагина.",
+    "description": "SettingsControl.TogglePlugin_OnClick"
+  },
+  "GameIsOpenPluginLocked": {
+    "message": "Игра открыта, пожалуйста, закройте ее и повторите попытку.",
+    "description": "SettingsControl.DeletePlugin_OnClick"
+  },
+  "DisabledPlugin": {
+    "message": " (отключено)",
+    "description": "SettingsControl.ReloadPluginList"
+  },
+  "IntegrityCheckImpossible": {
+    "message": "Для этой версии игры пока нет справочного отчета. Пожалуйста, повторите попытку позже.",
+    "description": "<>c__DisplayClass17_0.<RunIntegrityCheck_OnClick>b__2"
+  },
+  "IntegrityCheckFailed": {
+    "message": "Некоторые файлы игры изменены или повреждены. Для получения дополнительной информации, пожалуйста, проверьте файл \"integrationreport.txt\" в папке XIVLauncher.\n\nЕсли вы используете моды TexTools, то это ожидаемый результат.\n\nЕсли вы не пользуетесь модами, пожалуйста, переустановите игру.",
+    "description": "<>c__DisplayClass17_0.<RunIntegrityCheck_OnClick>b__2"
+  },
+  "IntegrityCheckValid": {
+    "message": "Ваша игра, кажется, актуальна.",
+    "description": "<>c__DisplayClass17_0.<RunIntegrityCheck_OnClick>b__2"
+  },
+  "AccountSwitcherSetProfilePic": {
+    "message": "Установить изображение профиля",
+    "description": "AccountSwitcherViewModel.SetupLoc"
+  },
+  "AccountSwitcherCreateShortcut": {
+    "message": "Создать ярлык на рабочем столе",
+    "description": "AccountSwitcherViewModel.SetupLoc"
+  },
+  "Remove": {
+    "message": "Удалить",
+    "description": "AccountSwitcherViewModel.SetupLoc"
+  },
+  "AccountSwitcherDontSavePassword": {
+    "message": "Не сохранять пароль",
+    "description": "AccountSwitcherViewModel.SetupLoc"
+  },
+  "UpdateNotice": {
+    "message": "XIVLauncher был обновлен до версии {0}.",
+    "description": "ChangeLogWindowViewModel.SetupLoc"
+  },
+  "JoinDiscord": {
+    "message": "Присоединиться к Discord",
+    "description": "ChangeLogWindowViewModel.SetupLoc"
+  },
+  "SendEmail": {
+    "message": "Send Email",
+    "description": "ChangeLogWindowViewModel.SetupLoc"
+  },
+  "EmailInfo": {
+    "message": "XIVLauncher is free, open-source software - it doesn't use any telemetry or analysis tools to collect your data, but it would help a lot if you could send me a short email with your operating system, why you use XIVLauncher and, if needed, any criticism or things we can do better. Your email will be deleted immediately after evaluation and I won't ever contact you.\n\nThank you very much for using XIVLauncher!",
+    "description": "ChangeLogWindowViewModel.SetupLoc"
+  },
+  "ChangelogThanks": {
+    "message": "XIVLauncher is free, open-source software supported by a variety of people from all over the world.\nThank you for sticking around!",
+    "description": "ChangeLogWindowViewModel.SetupLoc"
+  },
+  "OK": {
+    "message": "ОК",
+    "description": "ChangeLogWindowViewModel.SetupLoc"
+  },
+  "ChatChannelSetupTitle": {
+    "message": "Настроить канал чата",
+    "description": "ChatChannelSetupViewModel.SetupLoc"
+  },
+  "ChatChannelSetupDescription": {
+    "message": "Пожалуйста, укажите, должен ли XIVLauncher отправлять сообщения на канал на сервере или пользователю в личные сообщения,\nи их соответствующие ID.",
+    "description": "ChatChannelSetupViewModel.SetupLoc"
+  },
+  "HowToHint": {
+    "message": "Как мне это настроить?",
+    "description": "ChatChannelSetupViewModel.SetupLoc"
+  },
+  "DalamudUpdate": {
+    "message": "Обновление внутриигрового дополнения...",
+    "description": "DalamudLoadingOverlayViewModel.SetupLoc"
+  },
+  "ErrorExplanation": {
+    "message": "Произошла ошибка в XIVLauncher. Пожалуйста, ознакомьтесь с FAQ. Если проблема не исчезнет, сообщите об этом\nна GitHub, нажав кнопку ниже, описав проблему и скопировав текст в поле.",
+    "description": "ErrorWindowViewModel.SetupLoc"
+  },
+  "OpenIntegrityReport": {
+    "message": "Open Integrity Report",
+    "description": "ErrorWindowViewModel.SetupLoc"
+  },
+  "OpenFaq": {
+    "message": "Открыть FAQ",
+    "description": "ErrorWindowViewModel.SetupLoc"
+  },
+  "ReportError": {
+    "message": "Сообщить об ошибке",
+    "description": "ErrorWindowViewModel.SetupLoc"
+  },
+  "ChooseGamePathFTS": {
+    "message": "Please select the folder your game is installed in.\r\nIt should contain the folders \"game\" and \"boot\".",
+    "description": "FirstTimeSetupViewModel.SetupLoc"
+  },
+  "FirstTimeSteamNotice": {
+    "message": "Пожалуйста, установите этот флажок, если Вы обычно запускаете игру через Steam.",
+    "description": "FirstTimeSetupViewModel.SetupLoc"
+  },
+  "FirstTimeSteamCheckBox": {
+    "message": "Включить интеграцию со Steam",
+    "description": "FirstTimeSetupViewModel.SetupLoc"
+  },
+  "ChooseDirectXFTS": {
+    "message": "Please select which DirectX version you want to use.",
+    "description": "FirstTimeSetupViewModel.SetupLoc"
+  },
+  "DirectX9NoticeFTS": {
+    "message": "DirectX 9 mode is not supported anymore. It will still start, but you will not get support from SE for any technical issues any additional XIVLauncher features such as Rich Presence and the In-Game addon will not work.",
+    "description": "FirstTimeSetupViewModel.SetupLoc"
+  },
+  "ChooseLanguageFTS": {
+    "message": "Please select which language you want to load the game with.",
+    "description": "FirstTimeSetupViewModel.SetupLoc"
+  },
+  "FirstTimeActLaunch": {
+    "message": "Advanced Combat Tracker установлен на вашем компьютере.\nХотите, чтобы он запускался автоматически при запуске игры?",
+    "description": "FirstTimeSetupViewModel.SetupLoc"
+  },
+  "FirstTimeActLaunchCheckBox": {
+    "message": "Включить автоматический запуск ACT",
+    "description": "FirstTimeSetupViewModel.SetupLoc"
+  },
+  "Next": {
+    "message": "Далее",
+    "description": "FirstTimeSetupViewModel.SetupLoc"
+  },
+  "FirstTimeDalamudNotice": {
+    "message": "Do you want to enable the XIVLauncher in-game features?\r\nThis will add some extra functionality to your game, such as RMT chat filtering and Discord notifications for chat messages or Duty Finder pops.\r\n\r\nTo configure these settings, please use the XIVLauncher settings menu and switch to the in-game tab.\r\nEnabling this however could cause a false positive on your antivirus software, please check its settings and add any needed exclusions if you run into problems.",
+    "description": "FirstTimeSetupViewModel.SetupLoc"
+  },
+  "FirstTimeDalamudCheckBox": {
+    "message": "Включить внутриигровые функции",
+    "description": "FirstTimeSetupViewModel.SetupLoc"
+  },
+  "GenericAddonSetupTitle": {
+    "message": "Настройка автоматического запуска",
+    "description": "GenericAddonSetupWindowViewModel.SetupLoc"
+  },
+  "GenericAddonSetupDescription": {
+    "message": "Пожалуйста, выберите приложение, которое должно быть запущено, любые дополнительные параметры и \nесли оно должно запускаться от имени администратора.",
+    "description": "GenericAddonSetupWindowViewModel.SetupLoc"
+  },
+  "CommandLineParameters": {
+    "message": "Параметры командной строки",
+    "description": "GenericAddonSetupWindowViewModel.SetupLoc"
+  },
+  "RunAsAdminLoc": {
+    "message": "Запуск от имени администратора",
+    "description": "GenericAddonSetupWindowViewModel.SetupLoc"
+  },
+  "RunOnCloseLoc": {
+    "message": "Запуск при закрытии игры",
+    "description": "GenericAddonSetupWindowViewModel.SetupLoc"
+  },
+  "KillAfterCloseLoc": {
+    "message": "Завершить процесс после закрытия игры",
+    "description": "GenericAddonSetupWindowViewModel.SetupLoc"
+  },
+  "IntegrityCheckRunning": {
+    "message": "Запуск проверки целостности...",
+    "description": "IntegrityCheckProgressWindowViewModel.SetupLoc"
+  },
+  "LoginBoxUsername": {
+    "message": "Square Enix ID",
+    "description": "MainWindowViewModel.SetupLoc"
+  },
+  "LoginBoxPassword": {
+    "message": "Пароль",
+    "description": "MainWindowViewModel.SetupLoc"
+  },
+  "LoginBoxAutoLogin": {
+    "message": "Авторизоваться автоматически",
+    "description": "MainWindowViewModel.SetupLoc"
+  },
+  "LoginBoxOtp": {
+    "message": "Использовать одноразовые пароли",
+    "description": "MainWindowViewModel.SetupLoc"
+  },
+  "LoginBoxSteam": {
+    "message": "Используйте учетную запись сервиса Steam",
+    "description": "MainWindowViewModel.SetupLoc"
+  },
+  "LoginBoxLogin": {
+    "message": "Авторизоваться",
+    "description": "MainWindowViewModel.SetupLoc"
+  },
+  "LoginBoxNoStartLogin": {
+    "message": "Обновить без запуска",
+    "description": "MainWindowViewModel.SetupLoc"
+  },
+  "LoginBoxLoginTooltip": {
+    "message": "Войти в систему с предоставленными учетными данными",
+    "description": "MainWindowViewModel.SetupLoc"
+  },
+  "LoginBoxWaitingForMaint": {
+    "message": "Ожидание окончания технического обслуживания...",
+    "description": "MainWindowViewModel.SetupLoc"
+  },
+  "Cancel": {
+    "message": "Отменить",
+    "description": "MainWindowViewModel.SetupLoc"
+  },
+  "OpenAccountSwitcher": {
+    "message": "Открыть менеджер аккаунтов",
+    "description": "MainWindowViewModel.SetupLoc"
+  },
+  "Settings": {
+    "message": "Настройки",
+    "description": "MainWindowViewModel.SetupLoc"
+  },
+  "WorldStatus": {
+    "message": "Статус мира",
+    "description": "MainWindowViewModel.SetupLoc"
+  },
+  "MaintenanceQueue": {
+    "message": "Дождитесь окончания технического обслуживания",
+    "description": "MainWindowViewModel.SetupLoc"
+  },
+  "OtpInputPrompt": {
+    "message": "Пожалуйста, введите свой одноразовый пароль.",
+    "description": "OtpInputDialogViewModel.SetupLoc"
+  },
+  "OtpOneClickHint": {
+    "message": "Или используйте приложение!\nНажмите здесь, чтобы узнать больше!",
+    "description": "OtpInputDialogViewModel.SetupLoc"
+  },
+  "PatchPreparing": {
+    "message": "Подготовка...",
+    "description": "PatchDownloadDialogViewModel.SetupLoc"
+  },
+  "PatchGeneralStatus": {
+    "message": "Патч через {0} обновлений...",
+    "description": "PatchDownloadDialogViewModel.SetupLoc"
+  },
+  "PatchChecking": {
+    "message": "Проверка...",
+    "description": "PatchDownloadDialogViewModel.SetupLoc"
+  },
+  "PatchDone": {
+    "message": "Загрузка завершена!",
+    "description": "PatchDownloadDialogViewModel.SetupLoc"
+  },
+  "PatchInstalling": {
+    "message": "Установка...",
+    "description": "PatchDownloadDialogViewModel.SetupLoc"
+  },
+  "PatchInstallingFormatted": {
+    "message": "Установка #{0}...",
+    "description": "PatchDownloadDialogViewModel.SetupLoc"
+  },
+  "PatchInstallingIdle": {
+    "message": "Waiting for download...",
+    "description": "PatchDownloadDialogViewModel.SetupLoc"
+  },
+  "PatchEta": {
+    "message": "Осталось скачать {0} со скоростью {1}/с.",
+    "description": "PatchDownloadDialogViewModel.SetupLoc"
+  },
+  "ProfilePictureInputTitle": {
+    "message": "Настроить изображение профиля",
+    "description": "ProfilePictureInputWindowViewModel.SetupLoc"
+  },
+  "ProfilePictureInputDescription": {
+    "message": "Пожалуйста, введите имя персонажа и его мир.",
+    "description": "ProfilePictureInputWindowViewModel.SetupLoc"
+  },
+  "CharacterName": {
+    "message": "Имя персонажа",
+    "description": "ProfilePictureInputWindowViewModel.SetupLoc"
+  },
+  "WorldName": {
+    "message": "Название мира",
+    "description": "ProfilePictureInputWindowViewModel.SetupLoc"
+  },
+  "OpenPluginsFolder": {
+    "message": "Открыть папку плагинов",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "SaveSettings": {
+    "message": "Сохранить настройки",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "SettingsGame": {
+    "message": "Игра",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "ChooseGamePath": {
+    "message": "Пожалуйста, выберите папку, в которой установлена Ваша игра.\nОна должен содержать папки \"game\" и \"boot\".",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "OtpServerCheckBox": {
+    "message": "Enable XL Authenticator app/OTP macro support",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "AdditionalArguments": {
+    "message": "Дополнительные параметры запуска",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "RunIntegrityCheck": {
+    "message": "Запустить проверку целостности",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "RunIntegrityCheckTooltip": {
+    "message": "Запустить проверку целостности файлов игры.",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "SettingsGameSettings": {
+    "message": "Настройки игры",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "ChooseDirectX": {
+    "message": "Пожалуйста, выберите, какую версию DirectX вы хотите использовать.",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "DirectX9Notice": {
+    "message": "Режим DirectX 9 больше не поддерживается. Он все равно запустится, но вы не получите поддержки от\nSE по любым техническим вопросам, любые дополнительные функции XIVLauncher, такие как богатое присутствие и\nвнутриигровое дополнение, работать не будут.",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "ChooseLanguage": {
+    "message": "Пожалуйста, выберите, на каком языке вы хотите загрузить игру.",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "ChooseLauncherLanguage": {
+    "message": "Пожалуйста, выберите язык лаунчера, потребуется перезапуск.",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "LauncherLanguageHelpCtaLoc": {
+    "message": "Заметили какие-нибудь ошибки? Вы можете помочь с переводом лаунчера! Просто нажмите здесь!",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "LauncherLanguageNotice": {
+    "message": "Для применения языковых настроек лаунчера требуется перезапуск.",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "SettingsAutoLaunch": {
+    "message": "Автоматический запуск",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "AutoLaunchHint": {
+    "message": "Приложения, которые запускаются сразу после начала игры.",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "AddNew": {
+    "message": "Добавить новое",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "AutoLaunchAddNewToolTip": {
+    "message": "Добавьте новую запись автоматического запуска, которая позволяет запускать любую программу.",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "SettingsInGame": {
+    "message": "Внутриигровые",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "InGameAddonDescription": {
+    "message": "Эти параметры влияют на внутриигровые функции XIVLauncher. Эти функции будут автоматически\nвключены, если вы используете версию игры с DirectX 11, версия игры\nсовместима, и установлен флажок ниже.",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "InGameAddonCommandHint": {
+    "message": "Если этот параметр включен, введите в игре «/xlhelp», чтобы увидеть другие доступные команды.",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "InGameAddonEnabledCheckBox": {
+    "message": "Включить внутриигровые функции",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "ChatSettings": {
+    "message": "Настройки чата",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "DiscordBotToken": {
+    "message": "Токен Discord бота",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "AddChatChannel": {
+    "message": "Добавить канал чата",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "InGameAddonSetCfChannel": {
+    "message": "Установить канал для уведомлений Duty Finder",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "InGameAddonSetRouletteChannel": {
+    "message": "Установить канал для уведомлений о бонусах в рулетке",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "InGameAddonSetRetainerChannel": {
+    "message": "Установить канал для уведомлений о продажах ретейнера",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "InGameAddonChatDelay": {
+    "message": "Задержка на отправку сообщений в чате",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "InGameAddonChatDelayDescription": {
+    "message": "Проверяйте недавно отправленные сообщения, чтобы избежать дублирования.\nПозволяет нескольким пользователям использовать один и тот же канал в качестве журнала чата.\nПожалуйста, установите соответствующую задержку в миллисекундах ниже (например, 1000).",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "InGameAddonInjectionDelayLoc": {
+    "message": "Задержка введения дополнения",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "InGameAddonInjectionDelayDescriptionLoc": {
+    "message": "Задержите ввод внутриигрового дополнения. Это позволяет вам скрыть его, например, от OBS и Discord, так как они покажут его раньше, чем это произойдет на самом деле.",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "UniversalisHint": {
+    "message": "Данные Market Board предоставлены в сотрудничестве с Universalis.",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "UniversalisOptOut": {
+    "message": "Отказ от анонимного участия в краудсорсинговом Market Board",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "PluginsDescriptionLoc": {
+    "message": "Это плагины, которые в настоящее время доступны и установлены на вашем компьютере.",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "Toggle": {
+    "message": "Переключить",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "Delete": {
+    "message": "Удалить",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "PluginsInstallHint": {
+    "message": "Вы можете использовать команду /xlplugins в игре, чтобы установить дополнительные плагины.",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "SettingsPatching": {
+    "message": "Патч",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "AskBeforePatch": {
+    "message": "Спрашивать перед установкой игрового патча",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "PatchPath": {
+    "message": "Каталог загрузки патча",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "PatchSpeedLimit": {
+    "message": "Ограничение скорости загрузки",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "KeepPatches": {
+    "message": "Сохранять загруженные патчи для будущих переустановок",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "PatchAcquisitionMethod": {
+    "message": "Choose the method used to acquire patches. We recommend \"ARIA(HTTP)\".",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "SettingsAbout": {
+    "message": "О программе",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "Credits": {
+    "message": "Создано goat. Особая благодарность Mino, sky, LeonBlade, Wintermute, Zyian,\nRoy, Meli, Aida Enna, Aireil и the angry paissa artist!\n\nКакие-либо вопросы или просьбы? Присоединяйтесь к Discord или создайте запрос на GitHub!",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "License": {
+    "message": "Лицензия под GPLv3 или более поздней версии. Нажмите здесь для получения дополнительной информации.",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "StartBackupTool": {
+    "message": "Запустить средство резервного копирования",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "StartOriginalLauncher": {
+    "message": "Запустить оригинальный лаунчер",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "EnabledUidCache": {
+    "message": "Включить экспериментальный UID кеш (будет ломаться при обновлениях игры!)",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "ResetUidCacheTip": {
+    "message": "Удерживайте клавишу Ctrl при запуске лаунчера, чтобы сбросить кеш UID",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "EnableEncryption": {
+    "message": "Включить шифрование параметров для клиента",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "UpdateCheckMsg": {
+    "message": "Проверка обновлений...",
+    "description": "UpdateLoadingDialogViewModel.SetupLoc"
+  },
+  "AutoLoginHint": {
+    "message": "Удерживайте клавишу Shift, чтобы изменить настройки!",
+    "description": "UpdateLoadingDialogViewModel.SetupLoc"
+  },
+  "ResetUidCacheHint": {
+    "message": "Удерживайте клавишу Ctrl, чтобы сбросить кеш UID!",
+    "description": "UpdateLoadingDialogViewModel.SetupLoc"
+  },
+  "BinaryNotPresentError": {
+    "message": "Не удалось найти исполняемый файл игры.\nЭто может быть вызвано Вашим антивирусом. Возможно, Вам придется переустановить игру.",
+    "description": "Launcher.LaunchGame"
+  },
+  "NativeLauncherError": {
+    "message": "Не удалось правильно запустить игру. Пожалуйста, сообщите об этой ошибке.\n\nHRESULT: 0x{0}",
+    "description": "Launcher.LaunchGame"
+  },
+  "MultiboxDeniedWarning": {
+    "message": "You can't launch more than two instances of the game by default.\n\nPlease check if there is an instance of the game that did not close correctly.",
+    "description": "Launcher.LaunchGame"
+  },
+  "AdminCheck": {
+    "message": "XIVLauncher и/или FINAL FANTASY XIV настроены на запуск от имени администратора.\nЭто может привести к различным проблемам, в том числе к сбою при запуске дополнений и отказу горячих клавиш.\n\nВы хотите исправить эту проблему автоматически?",
+    "description": "ProblemCheck.RunCheck"
+  },
+  "AdminCheckNag": {
+    "message": "XIVLauncher работает от имени администратора.\nЭто может привести к различным проблемам, в том числе к сбою при запуске дополнений и отказу горячих клавиш.\n\nПожалуйста, постарайтесь не запускать XIVLauncher от имени администратора.",
+    "description": "ProblemCheck.RunCheck"
+  },
+  "MacTypeNag": {
+    "message": "На этом компьютере был обнаружен MacType.\nЭто вызовет проблемы с FFXIV; как с официальным лаунчером, так и с XIVLauncher.\n\nПожалуйста, добавьте в исключения MacType: XIVLauncher, ffxivboot, ffxivlauncher, ffxivupdater и ffxiv_dx11.",
+    "description": "ProblemCheck.RunCheck"
+  },
+  "GShadeError": {
+    "message": "A broken GShade installation was detected.\n\nThe game cannot start. Do you want XIVLauncher to fix this? You will need to reinstall GShade.",
+    "description": "ProblemCheck.RunCheck"
+  },
+  "PatchInstallerNotOpen": {
+    "message": "Не удалось подключиться к установщику патча.\nПожалуйста, сообщите об этой ошибке.",
+    "description": "PatchInstaller.WaitOnHello"
+  },
+  "PatchInstallerInstallFailed": {
+    "message": "The patch installer ran into an error.\nPlease report this error.\n\nPlease try again or use the official launcher.",
+    "description": "PatchInstaller.ServerOnReceivedRequest"
+  },
+  "PatchManNoInstaller": {
+    "message": "The patch installer could not start correctly.\n\nIf you have denied access to it, please try again. If this issue persists, please contact us via Discord.",
+    "description": "PatchManager.Start"
+  },
+  "PatchManDlFailure": {
+    "message": "XIVLauncher не смог проверить загруженные файлы игры.\n\nОбычно это указывает на проблему с подключением к Интернету.\nЕсли эта ошибка повторится, попробуйте использовать VPN, настроенный на Японию.\n\nКонтекст: {0}\n{1}",
+    "description": "<>c__DisplayClass33_0.<DownloadPatchAsync>b__1"
+  },
+  "DalamudAntivirusHint": {
+    "message": "Внутриигровое дополнение столкнулось с ошибкой.\n\nСкорее всего, это вызвано вашим антивирусом. Пожалуйста, внесите в исключения файлы, помещенные на карантин, или отключите внутриигровое дополнение.",
+    "description": "DalamudLauncher.Run"
+  },
+  "DalamudDotNet48RedistError": {
+    "message": "Для работы внутриигрового дополнения XIVLauncher необходимо установить .NET Framework 4.8. Пожалуйста, установите его с домашней страницы Microsoft.",
+    "description": "DalamudLauncher.CheckVcRedist"
+  },
+  "DalamudVc2019RedistError": {
+    "message": "Для работы внутриигровых дополнений XIVLauncher необходимо установить Microsoft Visual C++ 2015-2019. Пожалуйста, установите его с домашней страницы Microsoft.",
+    "description": "DalamudLauncher.CheckVcRedist"
+  },
+  "DalamudVcRedistError": {
+    "message": "Для продолжения работы внутриигрового дополнения XIVLauncher необходимо установить распространяемый пакет Microsoft Visual C++ 2015-2019 и .NET Framework 4.8. Пожалуйста, установите их с домашней страницы Microsoft.",
+    "description": "DalamudLauncher.CheckVcRedist"
+  }
+}
