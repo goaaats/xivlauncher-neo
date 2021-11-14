@@ -1,0 +1,694 @@
+{
+  "updatefailureerror": {
+    "message": "XIVLauncher 无法检查更新。这可能是因为无法连接至 GitHub。您可以等待几分钟后重试。\n如果您正在使用 VPN，请禁用后重试。\n如果此错误持续发生，请加入 Discord 伺服器以寻求帮助，您可以在 GitHub 上找到邀请链接。",
+    "description": "<Run>d__0.MoveNext"
+  },
+  "DalamudUpdateDalamud": {
+    "message": "正在更新 Dalamud 框架...",
+    "description": "DalamudLoadingOverlay.SetProgress"
+  },
+  "DalamudUpdateAssets": {
+    "message": "正在更新资源文件...",
+    "description": "DalamudLoadingOverlay.SetProgress"
+  },
+  "DalamudUpdateRuntime": {
+    "message": "正在更新依赖库...",
+    "description": "DalamudLoadingOverlay.SetProgress"
+  },
+  "DalamudUnavailable": {
+    "message": "由于游戏更新，插件目前无法使用。",
+    "description": "DalamudLoadingOverlay.SetProgress"
+  },
+  "GamePathEmptyError": {
+    "message": "请选择游戏所在文件夹。",
+    "description": "FirstTimeSetup.NextButton_Click"
+  },
+  "GamePathSafeguardError": {
+    "message": "请不要选择「game」或「boot」资料夹，请选择它们的上层资料夹。",
+    "description": "FirstTimeSetup.NextButton_Click"
+  },
+  "GamePathInvalidError": {
+    "message": "无法在此文件夹中找到 FFXIV。\nXIVLauncher 将在您下次登录时自动为您安装游戏。",
+    "description": "FirstTimeSetup.NextButton_Click"
+  },
+  "NewsLoading": {
+    "message": "加载中...",
+    "description": "MainWindow..ctor"
+  },
+  "CheckLoginInfo": {
+    "message": "另外，请检查您的账号密码是否正确无误并再试一次。",
+    "description": "MainWindow.Initialize"
+  },
+  "AutoLoginIntro": {
+    "message": "您正在启用自动登录功能。\nXIVLauncher 此后将使用当前账户登录，并不再弹出主窗口。\n\n如果您需要更改设置和账户，请在登录时按住 SHIFT 键。",
+    "description": "MainWindow.LoginButton_Click"
+  },
+  "CheckBootVersionError": {
+    "message": "XIVLauncher 无法获取可用的启动器版本。这可能是因为游戏服务器正在进行维护，或者您与版本服务器的连接不可用。如果您能够使用官方启动器登录，请向我们报告此问题。",
+    "description": "MainWindow.HandleBootCheck"
+  },
+  "GameIsOpenError": {
+    "message": "游戏或官方启动器正在运行中，XIVLauncher 无法为您更新游戏。\n请关闭游戏或官方启动器后再试一遍。",
+    "description": "MainWindow.HandleBootCheck"
+  },
+  "PatcherAlreadyInProgress": {
+    "message": "XIVLauncher 正在另一个进程中为您更新游戏。请检查您是否启动了两个 XIVLauncher。",
+    "description": "MainWindow.HandleBootCheck"
+  },
+  "EmptyUsernameError": {
+    "message": "请输入您的账号。",
+    "description": "MainWindow.PrepareLogin"
+  },
+  "EmailUsernameError": {
+    "message": "请输入您的 SE 账号，而不是您的邮箱。",
+    "description": "MainWindow.PrepareLogin"
+  },
+  "EmptyPasswordError": {
+    "message": "请输入您的密码。",
+    "description": "MainWindow.PrepareLogin"
+  },
+  "UidCacheInstallError": {
+    "message": "您在更新设置中启用了 UID 缓存。\n我们无法在此情况下为您重新安装游戏。\n\n如果您希望重新安装游戏，请先禁用 UID 缓存。",
+    "description": "MainWindow.PrepareLogin"
+  },
+  "MaintenanceQueueBootPatch": {
+    "message": "检测到启动器更新。\n这通常意味着游戏也有更新。\n\n即将为您登录。",
+    "description": "MainWindow.OnMaintenanceQueueTimerEvent"
+  },
+  "NewsDlFailed": {
+    "message": "无法获取公告信息。",
+    "description": "MainWindow.<SetupHeadlines>b__10_3"
+  },
+  "LoginNoStartOk": {
+    "message": "执行了更新检查并安装了任何待处理的更新。",
+    "description": "<>c__DisplayClass18_0.<InstallGamePatch>b__3"
+  },
+  "LoginNoOauthMessage": {
+    "message": "无法登入您的 Square Enix 账户。\n请可能是由于密码或是动态密码（OTP）错误导致的。\n\n另外，也请检查您的电子邮箱中来自 Square Enix 的邮件 - 他们可能会因为您的「可疑活动」而要求您重置密码。\n这并非是由 XIVLauncher 的安全问题引起的，它仅仅是 Square Enix 的安全措施，用于防止您的账户被盗或从新的地点登入。\n重置密码后，XIVLauncher 和官方启动器将再次正常工作。",
+    "description": "<StartLogin>d__19.MoveNext"
+  },
+  "LoginNoOauthAutologinHint": {
+    "message": "\n\n自动登录已被禁用。",
+    "description": "<StartLogin>d__19.MoveNext"
+  },
+  "LoginNoOauthTitle": {
+    "message": "登录问题",
+    "description": "<StartLogin>d__19.MoveNext"
+  },
+  "LoginNoServiceMessage": {
+    "message": "该账户无法游玩 FINAL FANTASY XIV。\n\n如果您的 FFXIV 在 Steam 上购买，请确保您在登入时勾选了「使用 Steam 账户」。\n如果您启用了自动登入，请在启动时按住 Shift 键以访问设置。",
+    "description": "<StartLogin>d__19.MoveNext"
+  },
+  "LoginAcceptTermsMessage": {
+    "message": "请在官方启动器中接受 FINAL FANTASY XIV 的使用条款。",
+    "description": "<StartLogin>d__19.MoveNext"
+  },
+  "EverythingIsFuckedMessage": {
+    "message": "部分游戏文件已损坏或被第三方篡改，无法进行更新和启动。\n请重新安装游戏以修复此问题。\n\n如果该错误仍然持续，请通过 Discord 联系我们。",
+    "description": "<StartLogin>d__19.MoveNext"
+  },
+  "PatchInstallDisclaimer": {
+    "message": "发现新的补丁需要安装才能游玩。\n您想要 XIVLauncher 安装吗？",
+    "description": "<StartLogin>d__19.MoveNext"
+  },
+  "MaintenanceNotice": {
+    "message": "维护似乎正在进行中。游戏不应启动。",
+    "description": "<StartLogin>d__19.MoveNext"
+  },
+  "LaunchAsSteam": {
+    "message": "您希望使用 Steam 启动游戏吗？",
+    "description": "SettingsControl.OriginalLauncherButton_OnClick"
+  },
+  "DalamudIncompatible": {
+    "message": "XIVLauncher 游戏内组件尚未支持您的游戏版本。\n这可能由于游戏更新导致，请耐心等待。您可以在 Discord 上获取到最新的消息。",
+    "description": "SettingsControl.EnableHooksCheckBox_OnChecked"
+  },
+  "DalamudCompatCheckFailed": {
+    "message": "无法从服务器获取游戏内组件兼容的游戏版本。这可能是因为您的 .NET 框架版本过旧。\n您可以在 Discord 获取更多有关信息。",
+    "description": "SettingsControl.EnableHooksCheckBox_OnChecked"
+  },
+  "PluginPathNotFound": {
+    "message": "无法找到插件目录。",
+    "description": "SettingsControl.TogglePlugin_OnClick"
+  },
+  "GameIsOpenPluginLocked": {
+    "message": "游戏正在运行中，请关闭后再试。",
+    "description": "SettingsControl.DeletePlugin_OnClick"
+  },
+  "DisabledPlugin": {
+    "message": " （已禁用）",
+    "description": "SettingsControl.ReloadPluginList"
+  },
+  "IntegrityCheckImpossible": {
+    "message": "此游戏版本尚无参考报告。我们无法为您运行完整性检查，请稍后再试。",
+    "description": "<>c__DisplayClass17_0.<RunIntegrityCheck_OnClick>b__2"
+  },
+  "IntegrityCheckFailed": {
+    "message": "一些游戏文件似乎已被修改或损坏。您可以从 XIVLauncher 文件夹中的「integrityreport.txt」文件中获取更多信息。\n\n如果您正在使用 TexTools 或其他模组，则这是必然的结果。\n\n如果您没有使用任何模组，请重新安装您的游戏。",
+    "description": "<>c__DisplayClass17_0.<RunIntegrityCheck_OnClick>b__2"
+  },
+  "IntegrityCheckValid": {
+    "message": "您的游戏安装完整。",
+    "description": "<>c__DisplayClass17_0.<RunIntegrityCheck_OnClick>b__2"
+  },
+  "AccountSwitcherSetProfilePic": {
+    "message": "更改头像",
+    "description": "AccountSwitcherViewModel.SetupLoc"
+  },
+  "AccountSwitcherCreateShortcut": {
+    "message": "创建桌面快捷方式",
+    "description": "AccountSwitcherViewModel.SetupLoc"
+  },
+  "Remove": {
+    "message": "移除",
+    "description": "AccountSwitcherViewModel.SetupLoc"
+  },
+  "AccountSwitcherDontSavePassword": {
+    "message": "不保存密码",
+    "description": "AccountSwitcherViewModel.SetupLoc"
+  },
+  "UpdateNotice": {
+    "message": "XIVLauncher 已更新至 {0} 版本。",
+    "description": "ChangeLogWindowViewModel.SetupLoc"
+  },
+  "JoinDiscord": {
+    "message": "加入 Discord 服务器",
+    "description": "ChangeLogWindowViewModel.SetupLoc"
+  },
+  "SendEmail": {
+    "message": "发送邮件",
+    "description": "ChangeLogWindowViewModel.SetupLoc"
+  },
+  "EmailInfo": {
+    "message": "XIVLauncher 是一个免费的开源软件。我们不会在未经您同意的情况下收集您的信息。但如果您能够将相关信息通过邮件发送给我们，会对我们的维护工作帮助巨大，相关信息包括：您的操作系统、使用本软件的原因以及您遇到的困难或您想对我们提出的意见。您的邮件将会在处理完毕后立即删除，且开发人员不会就此联系您。\n\n非常感谢您对我们的支持。",
+    "description": "ChangeLogWindowViewModel.SetupLoc"
+  },
+  "ChangelogThanks": {
+    "message": "XIVLauncher 是由无数来自世界各地的人共同创造出的、免费且开源的软件。\n衷心感谢您在我们成长之路上的陪伴。",
+    "description": "ChangeLogWindowViewModel.SetupLoc"
+  },
+  "OK": {
+    "message": "确定",
+    "description": "ChangeLogWindowViewModel.SetupLoc"
+  },
+  "ChatChannelSetupTitle": {
+    "message": "配置聊天频道",
+    "description": "ChatChannelSetupViewModel.SetupLoc"
+  },
+  "ChatChannelSetupDescription": {
+    "message": "如果您希望 XIVLauncher 发送至指定的伺服器频道或私信某位用户，请输入它们的 ID。",
+    "description": "ChatChannelSetupViewModel.SetupLoc"
+  },
+  "HowToHint": {
+    "message": "如何设置？",
+    "description": "ChatChannelSetupViewModel.SetupLoc"
+  },
+  "DalamudUpdate": {
+    "message": "正在更新游戏内组件...",
+    "description": "DalamudLoadingOverlayViewModel.SetupLoc"
+  },
+  "ErrorExplanation": {
+    "message": "XIVLauncher 发生了未知错误。请先尝试查阅常见问题以找到解决方案。如果问题仍然存在，请点击下方按钮前往 GitHub 报告此问题。请简单描述您的问题并附上方框内的文本。",
+    "description": "ErrorWindowViewModel.SetupLoc"
+  },
+  "OpenIntegrityReport": {
+    "message": "打开检查报告",
+    "description": "ErrorWindowViewModel.SetupLoc"
+  },
+  "OpenFaq": {
+    "message": "查阅常见问题",
+    "description": "ErrorWindowViewModel.SetupLoc"
+  },
+  "ReportError": {
+    "message": "报告错误",
+    "description": "ErrorWindowViewModel.SetupLoc"
+  },
+  "ChooseGamePathFTS": {
+    "message": "请选择游戏所在文件夹。\n该文件夹应该包含「game」和「boot」文件夹。",
+    "description": "FirstTimeSetupViewModel.SetupLoc"
+  },
+  "FirstTimeSteamNotice": {
+    "message": "如果您通常使用 Steam 启动游戏，请选中此项。",
+    "description": "FirstTimeSetupViewModel.SetupLoc"
+  },
+  "FirstTimeSteamCheckBox": {
+    "message": "启用 Steam 集成",
+    "description": "FirstTimeSetupViewModel.SetupLoc"
+  },
+  "ChooseDirectXFTS": {
+    "message": "请选择您希望使用的 DirectX 版本。",
+    "description": "FirstTimeSetupViewModel.SetupLoc"
+  },
+  "DirectX9NoticeFTS": {
+    "message": "DirectX 9 已经不再受支持。您仍然可以启动游戏，但 SE 不再对此提供任何技术支持。此外，所有的 XIVLauncher 组件（如 Discord 集成 和 游戏内组件）将无法正常运作。",
+    "description": "FirstTimeSetupViewModel.SetupLoc"
+  },
+  "ChooseLanguageFTS": {
+    "message": "请选择您希望使用的游戏语言。",
+    "description": "FirstTimeSetupViewModel.SetupLoc"
+  },
+  "FirstTimeActLaunch": {
+    "message": "检测到您在电脑上安装了 ACT (Advanced Combat Tracker)。\n您希望在启动游戏时自动启动它吗？",
+    "description": "FirstTimeSetupViewModel.SetupLoc"
+  },
+  "FirstTimeActLaunchCheckBox": {
+    "message": "让 ACT 随游戏启动",
+    "description": "FirstTimeSetupViewModel.SetupLoc"
+  },
+  "Next": {
+    "message": "下一步",
+    "description": "FirstTimeSetupViewModel.SetupLoc"
+  },
+  "FirstTimeDalamudNotice": {
+    "message": "您希望启用 XIVLauncher 游戏内功能吗？\n这将为您的游戏添加额外的功能，例如 RMT 自动屏蔽、聊天消息和副本弹窗的 Discord 通知。\n\n您可以在 XIVLauncher 设置面板，游戏内功能选项卡处更改这些设置。\n启用此功能后，您的杀毒软件可能会误报病毒。请手动检查杀毒软件的设置并将 XIVLauncher 添加到白名单。",
+    "description": "FirstTimeSetupViewModel.SetupLoc"
+  },
+  "FirstTimeDalamudCheckBox": {
+    "message": "启用游戏内功能",
+    "description": "FirstTimeSetupViewModel.SetupLoc"
+  },
+  "GenericAddonSetupTitle": {
+    "message": "配置自动启动项",
+    "description": "GenericAddonSetupWindowViewModel.SetupLoc"
+  },
+  "GenericAddonSetupDescription": {
+    "message": "请选择您希望自动启动的软件。",
+    "description": "GenericAddonSetupWindowViewModel.SetupLoc"
+  },
+  "CommandLineParameters": {
+    "message": "命令行参数",
+    "description": "GenericAddonSetupWindowViewModel.SetupLoc"
+  },
+  "RunAsAdminLoc": {
+    "message": "以管理员身份运行",
+    "description": "GenericAddonSetupWindowViewModel.SetupLoc"
+  },
+  "RunOnCloseLoc": {
+    "message": "游戏结束时运行",
+    "description": "GenericAddonSetupWindowViewModel.SetupLoc"
+  },
+  "KillAfterCloseLoc": {
+    "message": "随游戏关闭",
+    "description": "GenericAddonSetupWindowViewModel.SetupLoc"
+  },
+  "IntegrityCheckRunning": {
+    "message": "正在检查游戏完整性...",
+    "description": "IntegrityCheckProgressWindowViewModel.SetupLoc"
+  },
+  "LoginBoxUsername": {
+    "message": "Square Enix ID",
+    "description": "MainWindowViewModel.SetupLoc"
+  },
+  "LoginBoxPassword": {
+    "message": "密码",
+    "description": "MainWindowViewModel.SetupLoc"
+  },
+  "LoginBoxAutoLogin": {
+    "message": "自动登录",
+    "description": "MainWindowViewModel.SetupLoc"
+  },
+  "LoginBoxOtp": {
+    "message": "使用动态密码（OTP）",
+    "description": "MainWindowViewModel.SetupLoc"
+  },
+  "LoginBoxSteam": {
+    "message": "使用 Steam 账户",
+    "description": "MainWindowViewModel.SetupLoc"
+  },
+  "LoginBoxLogin": {
+    "message": "登录",
+    "description": "MainWindowViewModel.SetupLoc"
+  },
+  "LoginBoxNoStartLogin": {
+    "message": "更新",
+    "description": "MainWindowViewModel.SetupLoc"
+  },
+  "LoginBoxLoginTooltip": {
+    "message": "使用提供的账号密码登录",
+    "description": "MainWindowViewModel.SetupLoc"
+  },
+  "LoginBoxWaitingForMaint": {
+    "message": "正在等待维护结束...",
+    "description": "MainWindowViewModel.SetupLoc"
+  },
+  "Cancel": {
+    "message": "取消",
+    "description": "MainWindowViewModel.SetupLoc"
+  },
+  "OpenAccountSwitcher": {
+    "message": "打开账户管理器",
+    "description": "MainWindowViewModel.SetupLoc"
+  },
+  "Settings": {
+    "message": "设置",
+    "description": "MainWindowViewModel.SetupLoc"
+  },
+  "WorldStatus": {
+    "message": "服务器状态",
+    "description": "MainWindowViewModel.SetupLoc"
+  },
+  "MaintenanceQueue": {
+    "message": "等待维护结束",
+    "description": "MainWindowViewModel.SetupLoc"
+  },
+  "OtpInputPrompt": {
+    "message": "请输入您的动态密码（OTP）。",
+    "description": "OtpInputDialogViewModel.SetupLoc"
+  },
+  "OtpOneClickHint": {
+    "message": "推荐使用我们的定制APP！\n点击此处以了解详情！",
+    "description": "OtpInputDialogViewModel.SetupLoc"
+  },
+  "PatchPreparing": {
+    "message": "正在准备更新...",
+    "description": "PatchDownloadDialogViewModel.SetupLoc"
+  },
+  "PatchGeneralStatus": {
+    "message": "正在更新第 {0} 个补丁...",
+    "description": "PatchDownloadDialogViewModel.SetupLoc"
+  },
+  "PatchChecking": {
+    "message": "正在检查更新...",
+    "description": "PatchDownloadDialogViewModel.SetupLoc"
+  },
+  "PatchDone": {
+    "message": "更新下载完成！",
+    "description": "PatchDownloadDialogViewModel.SetupLoc"
+  },
+  "PatchInstalling": {
+    "message": "正在安装更新...",
+    "description": "PatchDownloadDialogViewModel.SetupLoc"
+  },
+  "PatchInstallingFormatted": {
+    "message": "正在安装第 #{0} 个更新...",
+    "description": "PatchDownloadDialogViewModel.SetupLoc"
+  },
+  "PatchInstallingIdle": {
+    "message": "正在等待下载...",
+    "description": "PatchDownloadDialogViewModel.SetupLoc"
+  },
+  "PatchEta": {
+    "message": "剩余 {0} （下载速度：{1}/s）",
+    "description": "PatchDownloadDialogViewModel.SetupLoc"
+  },
+  "ProfilePictureInputTitle": {
+    "message": "更改头像",
+    "description": "ProfilePictureInputWindowViewModel.SetupLoc"
+  },
+  "ProfilePictureInputDescription": {
+    "message": "请输入角色名称及其所在服务器。",
+    "description": "ProfilePictureInputWindowViewModel.SetupLoc"
+  },
+  "CharacterName": {
+    "message": "角色名称",
+    "description": "ProfilePictureInputWindowViewModel.SetupLoc"
+  },
+  "WorldName": {
+    "message": "服务器名称",
+    "description": "ProfilePictureInputWindowViewModel.SetupLoc"
+  },
+  "OpenPluginsFolder": {
+    "message": "打开插件文件夹",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "SaveSettings": {
+    "message": "保存设置",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "SettingsGame": {
+    "message": "游戏",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "ChooseGamePath": {
+    "message": "请选择游戏所在文件夹。\n该文件夹应该包含「game」和「boot」文件夹。",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "OtpServerCheckBox": {
+    "message": "启用 XL Authentixator 应用/OTP 宏支持",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "AdditionalArguments": {
+    "message": "额外启动参数",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "RunIntegrityCheck": {
+    "message": "检查游戏完整性",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "RunIntegrityCheckTooltip": {
+    "message": "对游戏文件运行完整性检查。",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "SettingsGameSettings": {
+    "message": "游戏设置",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "ChooseDirectX": {
+    "message": "请选择您希望使用的 DirectX 版本。",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "DirectX9Notice": {
+    "message": "DirectX 9 已经不再受支持。您仍然可以启动游戏，但 SE 不再对此提供任何技术支持。此外，所有的 XIVLauncher 组件（如 Discord 集成 和 游戏内组件）将无法运行。",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "ChooseLanguage": {
+    "message": "请选择您希望使用的游戏语言。",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "ChooseLauncherLanguage": {
+    "message": "请选择启动器语言。（修改后需要重启以生效）",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "LauncherLanguageHelpCtaLoc": {
+    "message": "发现了翻译错误？您可以帮助翻译启动器！只需点击这里！",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "LauncherLanguageNotice": {
+    "message": "您需要重启 XIVLauncher 以应用启动器语言设置。",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "SettingsAutoLaunch": {
+    "message": "自动启动",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "AutoLaunchHint": {
+    "message": "这些软件将随游戏启动。",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "AddNew": {
+    "message": "新增",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "AutoLaunchAddNewToolTip": {
+    "message": "添加新的自动启动项。",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "SettingsInGame": {
+    "message": "游戏内",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "InGameAddonDescription": {
+    "message": "这些选项影响 XIVLauncher 的游戏内组件。只有在您勾选了下方的单选框，且使用 DirectX 11 模式启动受支持的游戏时，游戏内组件才会正常运行。",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "InGameAddonCommandHint": {
+    "message": "启用后，您可以在游戏中使用「/xlhelp」命令来查看其他可用命令。\n请注意，这不适用于汉化客户端。",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "InGameAddonEnabledCheckBox": {
+    "message": "启用游戏内功能",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "ChatSettings": {
+    "message": "聊天设置",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "DiscordBotToken": {
+    "message": "Discord 机器人令牌",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "AddChatChannel": {
+    "message": "添加聊天频道",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "InGameAddonSetCfChannel": {
+    "message": "设置队员招募通知频道",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "InGameAddonSetRouletteChannel": {
+    "message": "设置随机任务加成通知频道",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "InGameAddonSetRetainerChannel": {
+    "message": "设置雇员销售信息频道",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "InGameAddonChatDelay": {
+    "message": "聊天消息发送延迟",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "InGameAddonChatDelayDescription": {
+    "message": "检查最近发送的消息以避免重复发送。\n这允许多个用户使用相同的频道作为聊天记录。\n请设置一个适当的延迟时间，以毫秒为单位（例如1000）。",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "InGameAddonInjectionDelayLoc": {
+    "message": "组件注入延迟",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "InGameAddonInjectionDelayDescriptionLoc": {
+    "message": "延迟游戏内组件的注入。这可以让您在 OBS 和 Discord 中隐藏它。",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "UniversalisHint": {
+    "message": "市场数据将被分享至 Universalis。",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "UniversalisOptOut": {
+    "message": "匿名分享市场数据",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "PluginsDescriptionLoc": {
+    "message": "这些是当前您已安装的插件。",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "Toggle": {
+    "message": "启用/禁用",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "Delete": {
+    "message": "删除",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "PluginsInstallHint": {
+    "message": "您可以在游戏中使用「/xlplugins」命令来安装更多插件。\n请注意，这不适用于汉化客户端。",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "SettingsPatching": {
+    "message": "更新",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "AskBeforePatch": {
+    "message": "安装更新前先行询问",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "PatchPath": {
+    "message": "更新下载目录",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "PatchSpeedLimit": {
+    "message": "下载速度限制",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "KeepPatches": {
+    "message": "保留已下载更新包以用于游戏重装",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "PatchAcquisitionMethod": {
+    "message": "请选择用于下载更新包的方法。我们建议您选择「ARIA(HTTP)」。",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "SettingsAbout": {
+    "message": "关于",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "Credits": {
+    "message": "作者：goat\n特别鸣谢：Mino、sky、LeonBlade、Wintermute、Zyian、\nRoy、Meli、Aida Enna、Aireil 以及 Angry Paissa Artist\n\n如果您有任何问题或建议，请加入 Discord 服务器或在 GitHub 上建立一个「Issue」。",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "License": {
+    "message": "本软件基于 GPLv3 协议发布。点此以了解更多。",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "StartBackupTool": {
+    "message": "开启备份工具",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "StartOriginalLauncher": {
+    "message": "开启官方启动器",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "EnabledUidCache": {
+    "message": "启用实验性 UID 缓存（这将在游戏更新后失效！）",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "ResetUidCacheTip": {
+    "message": "启动启动器时长按 Ctrl 以重置 UID 缓存",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "EnableEncryption": {
+    "message": "启用客户端加密参数传输",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "UpdateCheckMsg": {
+    "message": "正在检查更新...",
+    "description": "UpdateLoadingDialogViewModel.SetupLoc"
+  },
+  "AutoLoginHint": {
+    "message": "按住 Shift 键以更改设置！",
+    "description": "UpdateLoadingDialogViewModel.SetupLoc"
+  },
+  "ResetUidCacheHint": {
+    "message": "按住 Ctrl 键以重置 UID 缓存！",
+    "description": "UpdateLoadingDialogViewModel.SetupLoc"
+  },
+  "BinaryNotPresentError": {
+    "message": "无法找到游戏本体程序。\n这可能是您的杀毒软件造成的。您可能需要重装游戏。",
+    "description": "Launcher.LaunchGame"
+  },
+  "NativeLauncherError": {
+    "message": "无法正确启动游戏。请向我们报告此错误。\n\nHRESULT: 0x{0}",
+    "description": "Launcher.LaunchGame"
+  },
+  "MultiboxDeniedWarning": {
+    "message": "您无法启动两个以上的游戏程序。\n\n请检查是否存在没有正确关闭的游戏进程。",
+    "description": "Launcher.LaunchGame"
+  },
+  "AdminCheck": {
+    "message": "XIVLauncher 或 FFXIV 已被设置为使用管理员身份运行。\n这可能会引起各类问题，包括无法注入游戏内组件或快捷键无响应等。\n\n是否自动修复此问题？",
+    "description": "ProblemCheck.RunCheck"
+  },
+  "AdminCheckNag": {
+    "message": "XIVLauncher 正在以管理员身份运行。\n这可能会引起各类问题，例如无法注入游戏内组件或快捷键无回应等。\n\n请尽量避免以管理员身份运行 XIVLauncher。",
+    "description": "ProblemCheck.RunCheck"
+  },
+  "MacTypeNag": {
+    "message": "检测到您在电脑上安装了 MacType 。\n这可能会导致游戏出现问题，不管您使用的是官方启动器还是 XIVLauncher。\n\n请将 XIVLauncher、ffxivboot、ffxivlauncher、ffxivupdater 和 ffxiv_dx11 添加进 MacType 的白名单中。",
+    "description": "ProblemCheck.RunCheck"
+  },
+  "GShadeError": {
+    "message": "检测到您的 GShade 已经损坏。\n\n游戏无法启动。您需要 XIVLauncher 为您解决此问题吗？您需要重新安装 GShade 。",
+    "description": "ProblemCheck.RunCheck"
+  },
+  "PatchInstallerNotOpen": {
+    "message": "无法连接到更新程序。\n请报告此错误。",
+    "description": "PatchInstaller.WaitOnHello"
+  },
+  "PatchInstallerInstallFailed": {
+    "message": "更新程序发生错误。\n请向我们报告此错误。\n\n请再试一次或使用官方启动器进行更新。",
+    "description": "PatchInstaller.ServerOnReceivedRequest"
+  },
+  "PatchManNoInstaller": {
+    "message": "更新程序无法正常启动。\n\n\n如果您刚才拒绝了权限请求，请重试并授权。\n如果该问题仍然持续，请在 Discord 上联系我们。",
+    "description": "PatchManager.Start"
+  },
+  "PatchManDlFailure": {
+    "message": "XIVLauncher无法验证已下载的游戏文件。\n\n这通常表明您的互联网连接存在问题。\n如果再次发生错误，请尝试使用 VPN 设置为日本。\n\n上下文： {0}\n{1}",
+    "description": "<>c__DisplayClass33_0.<DownloadPatchAsync>b__1"
+  },
+  "DalamudAntivirusHint": {
+    "message": "游戏内插件出现了一个错误。\n\n这很可能是由您的杀毒软件引起的。 请将隔离的文件加入白名单或禁用游戏内插件。",
+    "description": "DalamudLauncher.Run"
+  },
+  "DalamudDotNet48RedistError": {
+    "message": "XIVLauncher 游戏内组件需要安装 .NET Framework 4.8 才能启用。请在微软官网下载并安装。",
+    "description": "DalamudLauncher.CheckVcRedist"
+  },
+  "DalamudVc2019RedistError": {
+    "message": "XIVLauncher 游戏内组件需要安装 Microsoft Visual C++ 2015-2019 Redistributable 才能启用。请在微软官网下载并安装。",
+    "description": "DalamudLauncher.CheckVcRedist"
+  },
+  "DalamudVcRedistError": {
+    "message": "XIVLauncher 游戏内组件需要安装 Microsoft Visual C++ 2015-2019 Redistributable 及 .NET Framework 4.8 才能启用。请在微软官网下载并安装。",
+    "description": "DalamudLauncher.CheckVcRedist"
+  }
+}

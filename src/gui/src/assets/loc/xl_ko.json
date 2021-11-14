@@ -1,0 +1,694 @@
+{
+  "updatefailureerror": {
+    "message": "XIVLancher가 업데이트 확인에 실패했습니다. GitHub와의 연결 문제일 수 있습니다. 잠시 기다리고 다시 시도하십시오.\n만약 VPN을 쓰고 계시다면 해제해 주십시오.\n계속 실패한다면 GitHub에 있는 Discord 링크를 통해 지원을 받으십시오.",
+    "description": "<Run>d__0.MoveNext"
+  },
+  "DalamudUpdateDalamud": {
+    "message": "Dalamud 업데이트 중...",
+    "description": "DalamudLoadingOverlay.SetProgress"
+  },
+  "DalamudUpdateAssets": {
+    "message": "에셋 업데이트 중...",
+    "description": "DalamudLoadingOverlay.SetProgress"
+  },
+  "DalamudUpdateRuntime": {
+    "message": "런타임 업데이트 중...",
+    "description": "DalamudLoadingOverlay.SetProgress"
+  },
+  "DalamudUnavailable": {
+    "message": "게임 업데이트로 인해 플러그인을\n사용할 수 없습니다.",
+    "description": "DalamudLoadingOverlay.SetProgress"
+  },
+  "GamePathEmptyError": {
+    "message": "게임이 설치된 경로를 선택하십시오.",
+    "description": "FirstTimeSetup.NextButton_Click"
+  },
+  "GamePathSafeguardError": {
+    "message": "\"game\" 또는 \"boot\" 폴더를 선택하지 말고, 이를 포함하는 폴더를 선택하십시오.",
+    "description": "FirstTimeSetup.NextButton_Click"
+  },
+  "GamePathInvalidError": {
+    "message": "선택한 폴더에 FFXIV가 설치되어 있지 않습니다.\n처음 로그인할 때 XIVLauncher가 FFXIV 클라이언트를 설치하게 됩니다.",
+    "description": "FirstTimeSetup.NextButton_Click"
+  },
+  "NewsLoading": {
+    "message": "불러오는 중…",
+    "description": "MainWindow..ctor"
+  },
+  "CheckLoginInfo": {
+    "message": "로그인 정보를 확인하고 다시 시도하십시오.",
+    "description": "MainWindow.Initialize"
+  },
+  "AutoLoginIntro": {
+    "message": "You are enabling Auto-Login.\nThis means that XIVLauncher will always log you in with the current account and you will not see this window.\n\nTo change settings and accounts, you have to hold the shift button on your keyboard while clicking the XIVLauncher icon.",
+    "description": "MainWindow.LoginButton_Click"
+  },
+  "CheckBootVersionError": {
+    "message": "XIVLauncher가 게임 설치에 대한 boot 버전 체크를 할 수 없습니다. 게임이 점검 중이거나 버전 체크 서버에 접속할 수 없을 수 있습니다. 공식 런처로 로그인이 성공했다면, 에러로 보고해주세요.",
+    "description": "MainWindow.HandleBootCheck"
+  },
+  "GameIsOpenError": {
+    "message": "현재 게임 클라이언트나 공식 런처가 열려 있습니다. 이 상태에서는 게임을 패치할 수 없습니다.\n클라이언트와 런처를 닫고 다시 시도하십시오.",
+    "description": "MainWindow.HandleBootCheck"
+  },
+  "PatcherAlreadyInProgress": {
+    "message": "다른 XIVLauncher가 실행 중이고, 패치를 진행하고 있습니다. 다른 XIVLauncher 창이 아직 열려 있는지 확인하십시오.",
+    "description": "MainWindow.HandleBootCheck"
+  },
+  "EmptyUsernameError": {
+    "message": "ID를 입력하십시오.",
+    "description": "MainWindow.PrepareLogin"
+  },
+  "EmailUsernameError": {
+    "message": "Please enter your SE account name, not your email address.",
+    "description": "MainWindow.PrepareLogin"
+  },
+  "EmptyPasswordError": {
+    "message": "비밀번호를 입력하십시오.",
+    "description": "MainWindow.PrepareLogin"
+  },
+  "UidCacheInstallError": {
+    "message": "UID 캐시를 활성화했습니다.\n이 설정은 FF14의 재설치를 허용하지 않습니다.\n\n재설치하기 전에 반드시 해당 설정을 비활성화하세요.",
+    "description": "MainWindow.PrepareLogin"
+  },
+  "MaintenanceQueueBootPatch": {
+    "message": "FFXIV 공식 런처의 업데이트가 감지되었습니다.\n이럴 땐 대부분의 경우 게임 쪽에도 새로운 패치가 있음을 나타냅니다.\n\n로그인을 계속 진행합니다.",
+    "description": "MainWindow.OnMaintenanceQueueTimerEvent"
+  },
+  "NewsDlFailed": {
+    "message": "새로운 소식 데이터를 가져오지 못했습니다.",
+    "description": "MainWindow.<SetupHeadlines>b__10_3"
+  },
+  "LoginNoStartOk": {
+    "message": "업데이트 체크가 이루어졌으며 모든 업데이트가 설치되었습니다.",
+    "description": "<>c__DisplayClass18_0.<InstallGamePatch>b__3"
+  },
+  "LoginNoOauthMessage": {
+    "message": "Square Enix 게정에 로그인 할 수 없습니다.\nOTP의 인증정보가 잘못 된 것일 수도 있습니다.\n\nSquare Enix로부터 온 이메일이 있는지 확인하십시오. \"의심스러운 활동\"으로 인해 비밀번호 변경을 요구할 수 있습니다.\n이 에러는 XIVLauncher의 보안 문제로 인해 발생한 것이 아닙니다. 계정 도난에 대비한 Square Enix의 안전 조치입니다.\nXIVLancher와 공식 런처는 비밀번호 변경 후 정상적으로 작동 할 것입니다.",
+    "description": "<StartLogin>d__19.MoveNext"
+  },
+  "LoginNoOauthAutologinHint": {
+    "message": "\n\n자동 로그인이 비활성화 되었습니다.",
+    "description": "<StartLogin>d__19.MoveNext"
+  },
+  "LoginNoOauthTitle": {
+    "message": "로그인 문제",
+    "description": "<StartLogin>d__19.MoveNext"
+  },
+  "LoginNoServiceMessage": {
+    "message": "이 Square Enix 계정은 FINAL FANTASY XIV를 플레이 할 수 없습니다.\n\n만약 스팀판이라면 \"Steam 서비스 계정 사용\" 체크박스를 체크하십시오.\n만약 자동 로그인이 켜져 있다면 런처 실행시 Shift를 홀드하여 설정을 확인할 수 있습니다.",
+    "description": "<StartLogin>d__19.MoveNext"
+  },
+  "LoginAcceptTermsMessage": {
+    "message": "공식 런처에서 FINAL FANTASY XIV의 사용자 계약에 동의하십시오.",
+    "description": "<StartLogin>d__19.MoveNext"
+  },
+  "EverythingIsFuckedMessage": {
+    "message": "몇개의 필수 게임 파일들이 외부 요인에 의해 수정되거나 손상되었기 때문에 업데이트나 실행을 할 수 없습니다.\n계속하려면 게임을 완전히 지웠다가 재설치 하십시오.\n\n계속 오류가 발생하면 디스코드를 통해 알려주십시오.",
+    "description": "<StartLogin>d__19.MoveNext"
+  },
+  "PatchInstallDisclaimer": {
+    "message": "새로운 패치가 발견되어 설치 해야 게임을 이용할 수 있습니다.\nXIVLauncher를 통해 설치하시겠습니까?",
+    "description": "<StartLogin>d__19.MoveNext"
+  },
+  "MaintenanceNotice": {
+    "message": "점검이 진행 중인 것 같습니다. 게임을 실행할 수 없습니다.",
+    "description": "<StartLogin>d__19.MoveNext"
+  },
+  "LaunchAsSteam": {
+    "message": "Steam 계정으로 실행합니까?",
+    "description": "SettingsControl.OriginalLauncherButton_OnClick"
+  },
+  "DalamudIncompatible": {
+    "message": "XIVLauncher의 인게임 애드온이 아직 FFXIV의 현재 버전에 대응하지 않습니다.\n패치 이후 자주 일어나는 일이므로, Discord에 문의하기 전에 잠시만 기다려주십시오.",
+    "description": "SettingsControl.EnableHooksCheckBox_OnChecked"
+  },
+  "DalamudCompatCheckFailed": {
+    "message": "FFXIV의 현재 버전에 대응하는 인게임 애드온의 정보를 서버에서 가져오려 했으나 실패했습니다. 설치되어 있는 .NET Framework가 너무 오래되었을지도 모릅니다.\n자세한 사항은 Discord를 확인하십시오.",
+    "description": "SettingsControl.EnableHooksCheckBox_OnChecked"
+  },
+  "PluginPathNotFound": {
+    "message": "플러그인 디렉토리 경로를 찾을 수 없습니다.",
+    "description": "SettingsControl.TogglePlugin_OnClick"
+  },
+  "GameIsOpenPluginLocked": {
+    "message": "게임이 실행 중입니다. 게임을 끄고 다시 시도하십시오.",
+    "description": "SettingsControl.DeletePlugin_OnClick"
+  },
+  "DisabledPlugin": {
+    "message": " (비활성화됨)",
+    "description": "SettingsControl.ReloadPluginList"
+  },
+  "IntegrityCheckImpossible": {
+    "message": "현재 게임 버전에 대한 레퍼런스 리포트가 없습니다. 나중에 다시 시도하십시오.",
+    "description": "<>c__DisplayClass17_0.<RunIntegrityCheck_OnClick>b__2"
+  },
+  "IntegrityCheckFailed": {
+    "message": "게임 파일이 일부 변경되었거나 손상된 것 같습니다. XIVLauncher 폴더의 \"integrityreport.txt\" 파일을 열어서 자세한 정보를 확인하십시오.\n\n게임을 마지막 패치 시점으로 되돌릴까요? 패치를 다시 진행하게 되고, 문제가 해결될 수도 있습니다.",
+    "description": "<>c__DisplayClass17_0.<RunIntegrityCheck_OnClick>b__2"
+  },
+  "IntegrityCheckValid": {
+    "message": "게임 파일에서 문제를 발견하지 못했습니다.",
+    "description": "<>c__DisplayClass17_0.<RunIntegrityCheck_OnClick>b__2"
+  },
+  "AccountSwitcherSetProfilePic": {
+    "message": "프로필 사진 설정",
+    "description": "AccountSwitcherViewModel.SetupLoc"
+  },
+  "AccountSwitcherCreateShortcut": {
+    "message": "바탕 화면에 바로 가기 만들기",
+    "description": "AccountSwitcherViewModel.SetupLoc"
+  },
+  "Remove": {
+    "message": "삭제",
+    "description": "AccountSwitcherViewModel.SetupLoc"
+  },
+  "AccountSwitcherDontSavePassword": {
+    "message": "비밀번호 저장 안 함",
+    "description": "AccountSwitcherViewModel.SetupLoc"
+  },
+  "UpdateNotice": {
+    "message": "XIVLauncher가 버전 {0} 으로 업데이트 되었습니다.",
+    "description": "ChangeLogWindowViewModel.SetupLoc"
+  },
+  "JoinDiscord": {
+    "message": "Discord 서버 참여하기",
+    "description": "ChangeLogWindowViewModel.SetupLoc"
+  },
+  "SendEmail": {
+    "message": "Send Email",
+    "description": "ChangeLogWindowViewModel.SetupLoc"
+  },
+  "EmailInfo": {
+    "message": "XIVLauncher is free, open-source software - it doesn't use any telemetry or analysis tools to collect your data, but it would help a lot if you could send me a short email with your operating system, why you use XIVLauncher and, if needed, any criticism or things we can do better. Your email will be deleted immediately after evaluation and I won't ever contact you.\n\nThank you very much for using XIVLauncher!",
+    "description": "ChangeLogWindowViewModel.SetupLoc"
+  },
+  "ChangelogThanks": {
+    "message": "XIVLauncher is free, open-source software supported by a variety of people from all over the world.\nThank you for sticking around!",
+    "description": "ChangeLogWindowViewModel.SetupLoc"
+  },
+  "OK": {
+    "message": "OK",
+    "description": "ChangeLogWindowViewModel.SetupLoc"
+  },
+  "ChatChannelSetupTitle": {
+    "message": "채팅 채널 설정",
+    "description": "ChatChannelSetupViewModel.SetupLoc"
+  },
+  "ChatChannelSetupDescription": {
+    "message": "XIVLauncher가 메시지를 보내야 할 서버의 채널, 또는 DM을 보낼 유저의 내부 ID를 적어주십시오.",
+    "description": "ChatChannelSetupViewModel.SetupLoc"
+  },
+  "HowToHint": {
+    "message": "(어떻게 설정하나요?)",
+    "description": "ChatChannelSetupViewModel.SetupLoc"
+  },
+  "DalamudUpdate": {
+    "message": "인게임 애드온 업데이트 중...",
+    "description": "DalamudLoadingOverlayViewModel.SetupLoc"
+  },
+  "ErrorExplanation": {
+    "message": "XIVLauncher에 오류가 발생했습니다. FAQ를 먼저 확인하십시오. 만약 문제가 계속된다면, 아래 버튼을 눌러서 GitHub의 Issue에 문제를 설명하고 에러 로그를 남기십시오.",
+    "description": "ErrorWindowViewModel.SetupLoc"
+  },
+  "OpenIntegrityReport": {
+    "message": "Open Integrity Report",
+    "description": "ErrorWindowViewModel.SetupLoc"
+  },
+  "OpenFaq": {
+    "message": "FAQ 열기",
+    "description": "ErrorWindowViewModel.SetupLoc"
+  },
+  "ReportError": {
+    "message": "에러 보고하기",
+    "description": "ErrorWindowViewModel.SetupLoc"
+  },
+  "ChooseGamePathFTS": {
+    "message": "Please select the folder your game is installed in.\r\nIt should contain the folders \"game\" and \"boot\".",
+    "description": "FirstTimeSetupViewModel.SetupLoc"
+  },
+  "FirstTimeSteamNotice": {
+    "message": "Steam으로 게임을 실행하고 있을 경우, 여기를 체크하십시오.",
+    "description": "FirstTimeSetupViewModel.SetupLoc"
+  },
+  "FirstTimeSteamCheckBox": {
+    "message": "Steam 연동 활성화",
+    "description": "FirstTimeSetupViewModel.SetupLoc"
+  },
+  "ChooseDirectXFTS": {
+    "message": "Please select which DirectX version you want to use.",
+    "description": "FirstTimeSetupViewModel.SetupLoc"
+  },
+  "DirectX9NoticeFTS": {
+    "message": "DirectX 9 mode is not supported anymore. It will still start, but you will not get support from SE for any technical issues any additional XIVLauncher features such as Rich Presence and the In-Game addon will not work.",
+    "description": "FirstTimeSetupViewModel.SetupLoc"
+  },
+  "ChooseLanguageFTS": {
+    "message": "Please select which language you want to load the game with.",
+    "description": "FirstTimeSetupViewModel.SetupLoc"
+  },
+  "FirstTimeActLaunch": {
+    "message": "컴퓨터에 Advanced Combat Tracker가 설치되어 있습니다.\n게임을 켤 때 자동으로 실행하겠습니까?",
+    "description": "FirstTimeSetupViewModel.SetupLoc"
+  },
+  "FirstTimeActLaunchCheckBox": {
+    "message": "ACT 자동 실행 켜기",
+    "description": "FirstTimeSetupViewModel.SetupLoc"
+  },
+  "Next": {
+    "message": "다음",
+    "description": "FirstTimeSetupViewModel.SetupLoc"
+  },
+  "FirstTimeDalamudNotice": {
+    "message": "Do you want to enable the XIVLauncher in-game features?\r\nThis will add some extra functionality to your game, such as RMT chat filtering and Discord notifications for chat messages or Duty Finder pops.\r\n\r\nTo configure these settings, please use the XIVLauncher settings menu and switch to the in-game tab.\r\nEnabling this however could cause a false positive on your antivirus software, please check its settings and add any needed exclusions if you run into problems.",
+    "description": "FirstTimeSetupViewModel.SetupLoc"
+  },
+  "FirstTimeDalamudCheckBox": {
+    "message": "인게임 기능 활성화",
+    "description": "FirstTimeSetupViewModel.SetupLoc"
+  },
+  "GenericAddonSetupTitle": {
+    "message": "자동 실행 설정",
+    "description": "GenericAddonSetupWindowViewModel.SetupLoc"
+  },
+  "GenericAddonSetupDescription": {
+    "message": "게임을 실행할 때 자동으로 함께 실행할 프로그램을, 필요하다면 추가 명령줄 인수와\n관리자 권한으로 실행할 지를 선택하십시오.",
+    "description": "GenericAddonSetupWindowViewModel.SetupLoc"
+  },
+  "CommandLineParameters": {
+    "message": "명령줄 인수",
+    "description": "GenericAddonSetupWindowViewModel.SetupLoc"
+  },
+  "RunAsAdminLoc": {
+    "message": "관리자 권한으로 실행",
+    "description": "GenericAddonSetupWindowViewModel.SetupLoc"
+  },
+  "RunOnCloseLoc": {
+    "message": "게임 종료 시 실행",
+    "description": "GenericAddonSetupWindowViewModel.SetupLoc"
+  },
+  "KillAfterCloseLoc": {
+    "message": "게임 종료 시 강제 종료",
+    "description": "GenericAddonSetupWindowViewModel.SetupLoc"
+  },
+  "IntegrityCheckRunning": {
+    "message": "파일에 문제가 없는지 검사하는 중...",
+    "description": "IntegrityCheckProgressWindowViewModel.SetupLoc"
+  },
+  "LoginBoxUsername": {
+    "message": "Square Enix ID",
+    "description": "MainWindowViewModel.SetupLoc"
+  },
+  "LoginBoxPassword": {
+    "message": "비밀번호",
+    "description": "MainWindowViewModel.SetupLoc"
+  },
+  "LoginBoxAutoLogin": {
+    "message": "자동으로 로그인",
+    "description": "MainWindowViewModel.SetupLoc"
+  },
+  "LoginBoxOtp": {
+    "message": "One-Time-Password 사용",
+    "description": "MainWindowViewModel.SetupLoc"
+  },
+  "LoginBoxSteam": {
+    "message": "Steam 서비스 계정 사용",
+    "description": "MainWindowViewModel.SetupLoc"
+  },
+  "LoginBoxLogin": {
+    "message": "로그인",
+    "description": "MainWindowViewModel.SetupLoc"
+  },
+  "LoginBoxNoStartLogin": {
+    "message": "실행 없이 로그인",
+    "description": "MainWindowViewModel.SetupLoc"
+  },
+  "LoginBoxLoginTooltip": {
+    "message": "이 정보로 로그인",
+    "description": "MainWindowViewModel.SetupLoc"
+  },
+  "LoginBoxWaitingForMaint": {
+    "message": "점검이 끝나길 기다리는 중...",
+    "description": "MainWindowViewModel.SetupLoc"
+  },
+  "Cancel": {
+    "message": "취소",
+    "description": "MainWindowViewModel.SetupLoc"
+  },
+  "OpenAccountSwitcher": {
+    "message": "계정 전환",
+    "description": "MainWindowViewModel.SetupLoc"
+  },
+  "Settings": {
+    "message": "설정",
+    "description": "MainWindowViewModel.SetupLoc"
+  },
+  "WorldStatus": {
+    "message": "서버 상태",
+    "description": "MainWindowViewModel.SetupLoc"
+  },
+  "MaintenanceQueue": {
+    "message": "점검이 끝나길 기다리기",
+    "description": "MainWindowViewModel.SetupLoc"
+  },
+  "OtpInputPrompt": {
+    "message": "OTP 키를 입력하십시오.",
+    "description": "OtpInputDialogViewModel.SetupLoc"
+  },
+  "OtpOneClickHint": {
+    "message": "아니면 앱을 사용하십시오!\n여기를 클릭해 더 알아보십시오!",
+    "description": "OtpInputDialogViewModel.SetupLoc"
+  },
+  "PatchPreparing": {
+    "message": "준비 중…",
+    "description": "PatchDownloadDialogViewModel.SetupLoc"
+  },
+  "PatchGeneralStatus": {
+    "message": "{0}개의 업데이트를 적용하고 있습니다…",
+    "description": "PatchDownloadDialogViewModel.SetupLoc"
+  },
+  "PatchChecking": {
+    "message": "확인 중…",
+    "description": "PatchDownloadDialogViewModel.SetupLoc"
+  },
+  "PatchDone": {
+    "message": "다운로드 완료!",
+    "description": "PatchDownloadDialogViewModel.SetupLoc"
+  },
+  "PatchInstalling": {
+    "message": "설치 중...",
+    "description": "PatchDownloadDialogViewModel.SetupLoc"
+  },
+  "PatchInstallingFormatted": {
+    "message": "#{0} 설치 중...",
+    "description": "PatchDownloadDialogViewModel.SetupLoc"
+  },
+  "PatchInstallingIdle": {
+    "message": "Waiting for download...",
+    "description": "PatchDownloadDialogViewModel.SetupLoc"
+  },
+  "PatchEta": {
+    "message": "{0}개 남음 ({1}/s)",
+    "description": "PatchDownloadDialogViewModel.SetupLoc"
+  },
+  "ProfilePictureInputTitle": {
+    "message": "프로필 사진 설정",
+    "description": "ProfilePictureInputWindowViewModel.SetupLoc"
+  },
+  "ProfilePictureInputDescription": {
+    "message": "캐릭터의 월드와 이름을 입력해 주세요.",
+    "description": "ProfilePictureInputWindowViewModel.SetupLoc"
+  },
+  "CharacterName": {
+    "message": "캐릭터 이름",
+    "description": "ProfilePictureInputWindowViewModel.SetupLoc"
+  },
+  "WorldName": {
+    "message": "월드 이름",
+    "description": "ProfilePictureInputWindowViewModel.SetupLoc"
+  },
+  "OpenPluginsFolder": {
+    "message": "플러그인 폴더 열기",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "SaveSettings": {
+    "message": "설정 저장",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "SettingsGame": {
+    "message": "게임",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "ChooseGamePath": {
+    "message": "게임이 설치되어 있는 폴더를 선택하십시오. \"game\"과 \"boot\" 폴더를 포함해야 합니다.",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "OtpServerCheckBox": {
+    "message": "XL 인증 APP/OTP 매크로 지원 활성화",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "AdditionalArguments": {
+    "message": "추가 명령줄 인수",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "RunIntegrityCheck": {
+    "message": "게임 파일 문제 확인",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "RunIntegrityCheckTooltip": {
+    "message": "게임 파일에 문제가 없는지 검사하고 있습니다.",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "SettingsGameSettings": {
+    "message": "게임 설정",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "ChooseDirectX": {
+    "message": "사용하려는 DirectX 버전을 선택하십시오.",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "DirectX9Notice": {
+    "message": "DirectX 9 모드는 더 이상 지원되지 않습니다. 아직 켜지긴 하지만, Discord 연동이나 인게임\n애드온 같은 기능이 작동하지 않고 개발사로부터 어떠한 기술적 지원도 받을 수 없습니다.",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "ChooseLanguage": {
+    "message": "게임을 실행할 언어를 선택하십시오.",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "ChooseLauncherLanguage": {
+    "message": "런처에서 사용할 언어를 선택하십시오. (재실행이 필요합니다)",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "LauncherLanguageHelpCtaLoc": {
+    "message": "실수를 발견했나요? 여기를 클릭해서 런처의 번역에 도움을 주세요!",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "LauncherLanguageNotice": {
+    "message": "언어 설정을 적용하려면 런처를 다시 열어야 합니다.",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "SettingsAutoLaunch": {
+    "message": "자동 실행",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "AutoLaunchHint": {
+    "message": "게임과 함께 자동으로 실행될 프로그램의 목록입니다.",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "AddNew": {
+    "message": "추가",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "AutoLaunchAddNewToolTip": {
+    "message": "자동 실행 항목으로 아무 프로그램을 추가합니다.",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "SettingsInGame": {
+    "message": "인게임",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "InGameAddonDescription": {
+    "message": "아래 옵션은 XIVLauncher의 인게임 기능에 영향을 미칩니다. 게임이 DirectX 11 모드로 실행되도록 설정되어 있고, \n게임의 버전이 호환되며, 아래 체크박스가 체크되어 있으면 자동으로 활성화됩니다.",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "InGameAddonCommandHint": {
+    "message": "활성화되었을 때, 게임 안에서 \"/xlhelp\"를 입력해서 사용 가능한 명령어를 볼 수 있습니다.",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "InGameAddonEnabledCheckBox": {
+    "message": "인게임 기능 활성화",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "ChatSettings": {
+    "message": "채팅 설정",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "DiscordBotToken": {
+    "message": "Discord 봇 토큰",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "AddChatChannel": {
+    "message": "채팅 채널 추가",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "InGameAddonSetCfChannel": {
+    "message": "매칭 알림을 보낼 채널 설정",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "InGameAddonSetRouletteChannel": {
+    "message": "무작위 임무 추가 보상 알림을 보낼 채널 설정",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "InGameAddonSetRetainerChannel": {
+    "message": "집사 판매 알림을 보낼 채널 설정",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "InGameAddonChatDelay": {
+    "message": "알림 지연 시간",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "InGameAddonChatDelayDescription": {
+    "message": "중복 알림을 막기 위해 최근 보낸 메시지를 확인하도록 합니다.\n이 기능으로, 여러 명의 유저가 같은 채널에 알림을 보내게 설정해도 중복이 없게 할 수 있습니다.\n적당한 확인 딜레이를 설정하십시오. (단위: ms, 예: 1000)",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "InGameAddonInjectionDelayLoc": {
+    "message": "애드온 inject 딜레이",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "InGameAddonInjectionDelayDescriptionLoc": {
+    "message": "인-게임 애드온을 게임에 주입(inject)하기 전에 잠시 시간을 둡니다. OBS나 Discord같이 화면을 캡쳐하는 프로그램들보다 늦게 inject하면, 해당 프로그램에선 애드온 UI가 보이지 않게 됩니다.",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "UniversalisHint": {
+    "message": "장터 게시판의 데이터는 Universalis와의 협력으로 제공됩니다.",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "UniversalisOptOut": {
+    "message": "익명으로 진행되는 장터 게시판 가격 데이터의 수집을 중지(opt-out)합니다.",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "PluginsDescriptionLoc": {
+    "message": "설치되어 있는 플러그인의 목록입니다.",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "Toggle": {
+    "message": "토글",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "Delete": {
+    "message": "삭제",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "PluginsInstallHint": {
+    "message": "게임 내에서 /xlplugins 명령어를 실행해서 더 많은 플러그인을 설치할 수 있습니다.",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "SettingsPatching": {
+    "message": "패치",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "AskBeforePatch": {
+    "message": "게임 패치를 설치하기 전에 묻기",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "PatchPath": {
+    "message": "패치를 다운로드할 폴더",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "PatchSpeedLimit": {
+    "message": "다운로드 속도 제한",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "KeepPatches": {
+    "message": "다운로드한 패치 삭제하지 않기 (재설치할 경우를 대비)",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "PatchAcquisitionMethod": {
+    "message": "Choose the method used to acquire patches. We recommend \"ARIA(HTTP)\".",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "SettingsAbout": {
+    "message": "정보",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "Credits": {
+    "message": "Made by goat. Special thanks to Mino, sky, LeonBlade, Wintermute, Zyian,\r\nRoy, Meli, Aida Enna, Aireil, and the angry paissa artist!\r\n\r\nAny issues or requests? Join the Discord or create an issue on GitHub!",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "License": {
+    "message": "Licensed under GPLv3 or later. Click here for more.",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "StartBackupTool": {
+    "message": "백업 도구 열기",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "StartOriginalLauncher": {
+    "message": "공식 런처 열기",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "EnabledUidCache": {
+    "message": "UID 캐싱 활성화 (시험적 기능이며 게임 업데이트 시 오작동합니다)",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "ResetUidCacheTip": {
+    "message": "UID 캐시를 리셋하려면 Ctrl 키를 누르면서 런처를 실행하세요.",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "EnableEncryption": {
+    "message": "클라이언트에 넘기는 명령줄 인수를 암호화하기",
+    "description": "SettingsControlViewModel.SetupLoc"
+  },
+  "UpdateCheckMsg": {
+    "message": "업데이트 확인 중...",
+    "description": "UpdateLoadingDialogViewModel.SetupLoc"
+  },
+  "AutoLoginHint": {
+    "message": "Shift를 홀드 해 설정을 바꿀 수 있습니다.",
+    "description": "UpdateLoadingDialogViewModel.SetupLoc"
+  },
+  "ResetUidCacheHint": {
+    "message": "Ctrl 키를 꾹 누르고 있으면 UID 캐시를 초기화합니다.",
+    "description": "UpdateLoadingDialogViewModel.SetupLoc"
+  },
+  "BinaryNotPresentError": {
+    "message": "게임 실행 파일을 찾을 수 없습니다.\n백신 프로그램에 의한 것일 수도 있습니다. 게임을 재설치 해야 할 수도 있습니다.",
+    "description": "Launcher.LaunchGame"
+  },
+  "NativeLauncherError": {
+    "message": "게임을 정상적으로 실행할 수 없습니다. 에러를 제보해 주십시오.\n\nHRESULT: 0x{0}",
+    "description": "Launcher.LaunchGame"
+  },
+  "MultiboxDeniedWarning": {
+    "message": "You can't launch more than two instances of the game by default.\n\nPlease check if there is an instance of the game that did not close correctly.",
+    "description": "Launcher.LaunchGame"
+  },
+  "AdminCheck": {
+    "message": "XIVLauncher 또는 FFXIV가 관리자 권한으로 실행하게 되어 있습니다.\n이렇게 하면 단축키를 사용하는 다른 프로그램이 키 입력에 반응하지 않거나, 애드온이 작동하지 않는 등 문제가 발생할 수 있습니다.\n\n이 문제를 자동으로 수정하도록 합니까?",
+    "description": "ProblemCheck.RunCheck"
+  },
+  "AdminCheckNag": {
+    "message": "XIVLauncher가 관리자 권한으로 실행되고 있습니다.\n이렇게 하면 단축키를 사용하는 다른 프로그램이 키 입력에 반응하지 않거나, 애드온이 작동하지 않는 등 문제가 발생할 수 있습니다.\n\nXIVLauncher를 관리자 권한으로 실행하지 않게 주의해주세요.",
+    "description": "ProblemCheck.RunCheck"
+  },
+  "MacTypeNag": {
+    "message": "MacType이 설치되어 있음을 감지했습니다.\n이 프로그램은 공식 런처와 XIVLauncher 어느 쪽이든 문제를 일으킬 수 있습니다.\n\nMacType의 제외 목록에 XIVLauncher, ffxivboot, ffxivlauncher, ffxivupdater, ffxiv_dx11을 추가해주세요.",
+    "description": "ProblemCheck.RunCheck"
+  },
+  "GShadeError": {
+    "message": "A broken GShade installation was detected.\n\nThe game cannot start. Do you want XIVLauncher to fix this? You will need to reinstall GShade.",
+    "description": "ProblemCheck.RunCheck"
+  },
+  "PatchInstallerNotOpen": {
+    "message": "패치 인스톨러에 연결하지 못했습니다.\n오류를 보고해주세요.",
+    "description": "PatchInstaller.WaitOnHello"
+  },
+  "PatchInstallerInstallFailed": {
+    "message": "The patch installer ran into an error.\nPlease report this error.\n\nPlease try again or use the official launcher.",
+    "description": "PatchInstaller.ServerOnReceivedRequest"
+  },
+  "PatchManNoInstaller": {
+    "message": "The patch installer could not start correctly.\n\nIf you have denied access to it, please try again. If this issue persists, please contact us via Discord.",
+    "description": "PatchManager.Start"
+  },
+  "PatchManDlFailure": {
+    "message": "XIVLancher가 다운로드 된 게임 파일을 검증할 수 없습니다.\n\n보통 사용자의 인터넷 연결에 문제가 있다는 것을 의미합니다.\n다시 이 에러가 발생한다면 일본 서버로 VPN을 사용하십시오.\n\nContext: {0}\n{1}",
+    "description": "<>c__DisplayClass33_0.<DownloadPatchAsync>b__1"
+  },
+  "DalamudAntivirusHint": {
+    "message": "인게임 애드온에 에러가 발생했습니다.\n\n백신으로 인해 일어났을 수 있습니다. 검역된 파일을 검사 에외로 두거나 인게임 애드온을 비활성화 하십시오.",
+    "description": "DalamudLauncher.Run"
+  },
+  "DalamudDotNet48RedistError": {
+    "message": "XIVLauncher 인게임 애드온을 사용하려면 Microsoft Visual C++ 2015 재배포 가능 패키지 및 .NET Framework 4.8이 설치되어 있어야 합니다.\nMicrosoft 공식 홈페이지에서 다운로드하여 설치하십시오.",
+    "description": "DalamudLauncher.CheckVcRedist"
+  },
+  "DalamudVc2019RedistError": {
+    "message": "XIVLauncher 인게임 애드온을 사용하려면 Microsoft Visual C++ 2015-2019 재배포 가능 패키지가 설치되어 있어야 합니다.\nMicrosoft 공식 홈페이지에서 다운로드하여 설치하십시오.",
+    "description": "DalamudLauncher.CheckVcRedist"
+  },
+  "DalamudVcRedistError": {
+    "message": "XIVLauncher 인게임 애드온을 사용하려면 Microsoft Visual C++ 2015-2019 재배포 가능 패키지 및 .NET Frameworkd 4.8이 설치되어 있어야 합니다.\nMicrosoft 공식 홈페이지에서 다운로드하여 설치하십시오.",
+    "description": "DalamudLauncher.CheckVcRedist"
+  }
+}

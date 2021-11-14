@@ -1,38 +1,29 @@
 <template>
   <div class="content">
-    <MainWindow msg="Welcome to Your Vue.js + TypeScript App in a Rust Workspace." />
+    <MainWindow/>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import MainWindow from './views/Main.vue';
+import {defineComponent} from "vue";
+import {useQuasar} from "quasar"
+import MainWindow from "@/views/main/Main.vue"
 
 export default defineComponent({
   name: 'App',
   components: {
     MainWindow,
+  },
+  setup() {
+    const $q = useQuasar()
+    $q.dark.set(true)
   }
 });
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<style lang="sass">
 
-body {
-  margin: 0;
-  padding: 0;
-  overflow-y: hidden;
-}
+body
+  margin: 0
 
-.content {
-  margin: 30px 8px 8px;
-  overflow-y: auto;
-}
 </style>

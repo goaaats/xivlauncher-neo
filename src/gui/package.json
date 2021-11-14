@@ -8,11 +8,12 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@material/card": "^13.0.0",
-    "@material/ripple": "^13.0.0",
+    "@quasar/extras": "^1.12.0",
     "@tauri-apps/api": "^1.0.0-beta.8",
     "core-js": "^3.19.1",
+    "quasar": "^2.3.1",
     "vue": "^3.2.21",
+    "vue-i18n": "^9.2.0-beta.17",
     "vue-router": "^3.5.3"
   },
   "devDependencies": {
