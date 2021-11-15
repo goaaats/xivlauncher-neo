@@ -38,3 +38,5 @@ target/
 *.pdb
 
 /gui/src-tauri/log/
+
+/src/dalamud/testing/
