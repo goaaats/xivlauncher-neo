@@ -1,5 +1,5 @@
-use serde::Serialize;
 use std::fmt::{Display, Formatter};
+use serde::Serialize;
 
 pub mod oauth;
 pub mod status;
@@ -14,7 +14,8 @@ mod request;
 #[derive(Copy, Clone, Serialize)]
 pub enum ClientLanguage {
     Japanese,
-    English,
+    EnglishGB,
+    EnglishUS,
     German,
     French,
 }
@@ -23,7 +24,8 @@ impl ClientLanguage {
     fn langcode(&self) -> &str {
         match self {
             ClientLanguage::Japanese => "ja",
-            ClientLanguage::English => "en-gb", // TODO: Handle NA
+            ClientLanguage::EnglishGB => "en-gb",
+            ClientLanguage::EnglishUS => "en-us",
             ClientLanguage::German => "de",
             ClientLanguage::French => "fr",
         }
@@ -32,7 +34,8 @@ impl ClientLanguage {
     fn langcode_short(&self) -> &str {
         match self {
             ClientLanguage::Japanese => "ja",
-            ClientLanguage::English => "en", // TODO: Handle NA
+            ClientLanguage::EnglishGB => "en",
+            ClientLanguage::EnglishUS => "en",
             ClientLanguage::German => "de",
             ClientLanguage::French => "fr",
         }
@@ -41,7 +44,8 @@ impl ClientLanguage {
     fn langcode_underscore(&self) -> &str {
         match self {
             ClientLanguage::Japanese => "ja",
-            ClientLanguage::English => "en_gb", // TODO: Handle NA
+            ClientLanguage::EnglishGB => "en_gb",
+            ClientLanguage::EnglishUS => "en_us",
             ClientLanguage::German => "de",
             ClientLanguage::French => "fr",
         }

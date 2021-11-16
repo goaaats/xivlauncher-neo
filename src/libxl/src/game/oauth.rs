@@ -64,7 +64,7 @@ pub async fn login(
         .header("Accept", "image/gif, image/jpeg, image/pjpeg, application/x-ms-application, application/xaml+xml, application/x-ms-xbap, */*")
         .header("Accept-Encoding", "gzip, deflate")
         .header("Accept-Language", "en-US,en;q=0.9")
-        .header("Referer", oauth_referer(ClientLanguage::English, region, steam_service))
+        .header("Referer", oauth_referer(ClientLanguage::EnglishUS, region, steam_service))
         .header("Content-Type", "application/x-www-form-urlencoded")
         .header("Connection", "Keep-Alive")
         .header("Cookie", "_rsid=\"\"")
@@ -101,7 +101,7 @@ async fn stored(steam_service: bool, region: AccountRegion) -> Result<String, Lo
     println!("{}", url);
 
     let resp = request::launcher_get(url)
-        .header("Referer", request::launcher_referer(ClientLanguage::English))
+        .header("Referer", request::launcher_referer(ClientLanguage::EnglishUS))
         .header("Accept", "image/gif, image/jpeg, image/pjpeg, application/x-ms-application, application/xaml+xml, application/x-ms-xbap, */*")
         .header("Accept-Encoding", "gzip, deflate")
         .header("Accept-Language", "en-US")
