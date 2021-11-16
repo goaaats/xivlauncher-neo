@@ -21,18 +21,21 @@ import {QBtn, QCard, QIcon} from "quasar"
 import {useI18n} from "vue-i18n"
 
 function clickMaintenance() {
+  console.log("clickMaintenance")
 }
 
 function clickWorldStatus() {
+  console.log("clickWorldStatus")
 }
 
 function clickSettings() {
+  console.log("clickSettings")
 }
 
 export default defineComponent({
   name: "main-controls",
   components: {
-    QBtn, QCard, QIcon
+    QBtn, QCard, QIcon,
   },
   setup() {
     const {t} = useI18n()
@@ -41,7 +44,7 @@ export default defineComponent({
       t,
       clickMaintenance, clickWorldStatus, clickSettings,
     }
-  }
+  },
 })
 </script>
 

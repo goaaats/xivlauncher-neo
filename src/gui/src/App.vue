@@ -1,29 +1,26 @@
 <template>
-  <div class="content">
-    <MainWindow/>
+  <div class="window-width window-height overflow-hidden">
+    <router-view></router-view>
   </div>
 </template>
 
 <script lang="ts">
-import {defineComponent} from "vue";
+import {defineComponent} from "vue"
 import {useQuasar} from "quasar"
-import MainWindow from "@/views/main/Main.vue"
 
 export default defineComponent({
-  name: 'App',
-  components: {
-    MainWindow,
-  },
+  name: "app",
+  components: {},
   setup() {
-    const $q = useQuasar()
-    $q.dark.set(true)
-  }
-});
+    const q = useQuasar()
+    q.dark.set(true)
+
+    //launcherConfig.initialize().then()
+    //dalamudConfig.initialize().then()
+  },
+})
 </script>
 
 <style lang="sass">
-
-body
-  margin: 0
 
 </style>

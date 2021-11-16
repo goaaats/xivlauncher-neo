@@ -2,7 +2,7 @@
 name = "app"
 version = "0.0.1"
 description = "xivlauncher-neo"
-authors = ["you"]
+authors = ["Team Goat Place"]
 license = "GPLv3"
 repository = "https://github.com/goaaats/xivlauncher-neo"
 default-run = "app"
@@ -21,6 +21,7 @@ log4rs = { version = "1.0.0", features = ["console_appender", "file_appender", "
 parselnk = { version = "0.1" }
 serde_json = { version = "1.0" }
 serde = { version = "1.0", features = ["derive"] }
+sys-locale = { version = "0.1.0" }
 tauri = { version = "1.0.0-beta.8", features = ["api-all"] }
 tokio = { version = "1.12.0", features = ["full"] }
 libxl = { path = "../../libxl" }

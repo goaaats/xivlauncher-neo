@@ -13,9 +13,11 @@ import MainNews from "@/views/main/News.vue"
 import MainHeadlines from "@/views/main/Headlines.vue"
 import MainLogin from "@/views/main/Login.vue"
 import MainControls from "@/views/main/Controls.vue"
+//import {invoke} from "@tauri-apps/api/tauri";
+//import {Headline} from "@/views/main/headline";
 
 export default defineComponent({
-  name: 'main-view',
+  name: "main-view",
   props: {
     msg: String,
   },
@@ -24,6 +26,16 @@ export default defineComponent({
     MainLogin,
     MainHeadlines,
     MainNews,
+  },
+  setup() {
+    //invoke("get_headline", {langcode: "en"})
+    //    .then(result => {
+    //      let r = result as Headline
+    //      console.log(`HEADLINE: ${r.news[0].title}`)
+    //    })
+    //      .catch((e) => {
+    //      console.error(e)
+    //    })
   },
 })
 </script>

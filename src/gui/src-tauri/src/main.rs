@@ -18,6 +18,7 @@ async fn main() {
 
   tauri::Builder::default()
     .invoke_handler(tauri::generate_handler![
+      setup::get_system_locale,
       setup::find_advanced_combat_tracker,
       game::get_headline,
     ])

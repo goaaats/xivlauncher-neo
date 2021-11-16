@@ -30,7 +30,7 @@
 
 <script>
 import {defineComponent, ref} from "vue"
-import {QCard, QBtn, QCheckbox, QInput} from "quasar";
+import {QCard, QBtn, QCheckbox, QInput} from "quasar"
 
 const username = ref("")
 const password = ref("")
@@ -39,11 +39,12 @@ const useOtp = ref(true)
 const useSteam = ref(true)
 const startingGame = ref(false)
 
-function clickLogin() {
+async function clickLogin() {
   startingGame.value = true
 }
 
-function clickAccountSwitcher() {
+async function clickAccountSwitcher() {
+  console.log("clickAccountSwitcher")
 }
 
 export default defineComponent({
@@ -58,7 +59,7 @@ export default defineComponent({
       startingGame,
       clickLogin, clickAccountSwitcher,
     }
-  }
+  },
 })
 </script>
 

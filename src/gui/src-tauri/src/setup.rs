@@ -1,5 +1,6 @@
 extern crate dunce;
 extern crate log;
+extern crate sys_locale;
 extern crate windows;
 
 use log::{debug, error, warn};
@@ -7,6 +8,14 @@ use std::convert::TryFrom;
 use std::os::windows::ffi::OsStringExt;
 use std::path::PathBuf;
 use windows::Win32;
+
+/// Get the current system locale
+#[tauri::command]
+pub fn get_system_locale() -> String {
+  let locale = sys_locale::get_locale().unwrap_or_else(|| String::from("en-us")).to_lowercase();
+  debug!("Detected system locale as {:?}", locale);
+  return locale;
+}
 
 /// Get the path to the Advanced Combat Tracker, if it exists.
 #[tauri::command]

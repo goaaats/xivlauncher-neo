@@ -14,7 +14,7 @@
     "quasar": "^2.3.1",
     "vue": "^3.2.21",
     "vue-i18n": "^9.2.0-beta.17",
-    "vue-router": "^3.5.3"
+    "vue-router": "^4.0.12"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",
@@ -43,6 +43,7 @@
       "node": true
     },
     "extends": [
+      "plugin:@typescript-eslint/recommended",
       "plugin:vue/vue3-essential",
       "eslint:recommended",
       "@vue/typescript"
@@ -50,7 +51,27 @@
     "parserOptions": {
       "parser": "@typescript-eslint/parser"
     },
-    "rules": {}
+    "rules": {
+      "comma-dangle": [
+        "error",
+        "always-multiline"
+      ],
+      "jsx-quotes": [
+        "error",
+        "prefer-double"
+      ],
+      "quotes": [
+        "error",
+        "double",
+        {
+          "avoidEscape": true
+        }
+      ],
+      "semi": [
+        "error",
+        "never"
+      ]
+    }
   },
   "browserslist": [
     "> 1%",

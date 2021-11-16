@@ -46,16 +46,16 @@
 
 <script>
 import {defineComponent} from "vue"
-import {QCard} from "quasar";
+import {QCard} from "quasar"
 
 export default defineComponent({
   name: "main-headlines",
   components: {
-    QCard
+    QCard,
   },
   setup() {
     return {}
-  }
+  },
 })
 </script>
 

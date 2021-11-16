@@ -1,4 +1,61 @@
 {
+  "SetupChooseLauncherLanguage": {
+    "message": "Please select which language you want to use the launcher with.",
+    "description": "First time setup (Setup.vue)"
+  },
+  "SetupChooseGameLanguage": {
+    "message": "Please select which language you want to load the game with.",
+    "description": "First time setup (Setup.vue)"
+  },
+  "SetupLauncherLanguage":{
+    "message": "Launcher Language",
+    "description": "First time setup (Setup.vue)"
+  },
+  "SetupGameLanguage":{
+    "message": "Game Language",
+    "description": "First time setup (Setup.vue)"
+  },
+  "SetupChooseGamePath": {
+    "message": "Please select the folder your game is installed in.\r\nIt should contain the folders \"game\" and \"boot\".",
+    "description": "First time setup (Setup.vue)"
+  },
+  "SetupGameDirectory": {
+    "message": "Game Directory",
+    "description": "First time setup (Setup.vue)"
+  },
+  "SetupSteamNotice": {
+    "message": "Please check this box if you are usually launching the game using Steam.",
+    "description": "First time setup (Setup.vue)"
+  },
+  "SetupSteamCheckBox": {
+    "message": "Enable Steam integration",
+    "description": "First time setup (Setup.vue)"
+  },
+  "SetupActDetected": {
+    "message": "Advanced Combat Tracker is installed on your computer.\r\nDo you want to launch it automatically when launching the game?",
+    "description": "First time setup (Setup.vue)"
+  },
+  "SetupActLaunchCheckBox": {
+    "message": "Enable ACT Auto-Launch",
+    "description": "First time setup (Setup.vue)"
+  },
+  "SetupActPathNotice" : {
+    "message": "Please verify that this path is correct.",
+    "description": "First time setup (Setup.vue)"
+  },
+  "SetupActPath": {
+    "message": "Advanced Combat Tracker Path",
+    "description": "First time setup (Setup.vue)"
+  },
+  "SetupDalamudNotice": {
+    "message": "Do you want to enable the Dalamud plugin system?\r\nThis will add extra functionality to your game, such as RMT chat filtering and Discord notifications for chat messages or Duty Finder pops.\r\n\r\nTo configure these settings, please use the XIVLauncher settings menu and switch to the in-game tab.\r\nEnabling this however could cause a false positive on your antivirus software, please check its settings and add any needed exclusions if you run into problems.",
+    "description": "First time setup (Setup.vue)"
+  },
+  "SetupDalamudCheckBox": {
+    "message": "Enable In-Game features",
+    "description": "First time setup (Setup.vue)"
+  },
+
   "updatefailureerror": {
     "message": "XIVLauncher failed to check for updates. This may be caused by connectivity issues to GitHub. Wait a few minutes and try again.\nDisable your VPN, if you have one.\nIf it continues to fail after several minutes, please join the discord linked on GitHub for support.",
     "description": "<Run>d__0.MoveNext"
@@ -223,50 +280,9 @@
     "message": "Report error",
     "description": "ErrorWindowViewModel.SetupLoc"
   },
-  "ChooseGamePathFTS": {
-    "message": "Please select the folder your game is installed in.\r\nIt should contain the folders \"game\" and \"boot\".",
-    "description": "FirstTimeSetupViewModel.SetupLoc"
-  },
-  "FirstTimeSteamNotice": {
-    "message": "Please check this box if you are usually launching the game using Steam.",
-    "description": "FirstTimeSetupViewModel.SetupLoc"
-  },
-  "FirstTimeSteamCheckBox": {
-    "message": "Enable Steam integration",
-    "description": "FirstTimeSetupViewModel.SetupLoc"
-  },
-  "ChooseDirectXFTS": {
-    "message": "Please select which DirectX version you want to use.",
-    "description": "FirstTimeSetupViewModel.SetupLoc"
-  },
-  "DirectX9NoticeFTS": {
-    "message": "DirectX 9 mode is not supported anymore. It will still start, but you will not get support from SE for any technical issues any additional XIVLauncher features such as Rich Presence and the In-Game addon will not work.",
-    "description": "FirstTimeSetupViewModel.SetupLoc"
-  },
-  "ChooseLanguageFTS": {
-    "message": "Please select which language you want to load the game with.",
-    "description": "FirstTimeSetupViewModel.SetupLoc"
-  },
-  "FirstTimeActLaunch": {
-    "message": "Advanced Combat Tracker is installed on your computer.\r\nDo you want to launch it automatically when launching the game?",
-    "description": "FirstTimeSetupViewModel.SetupLoc"
-  },
-  "FirstTimeActLaunchCheckBox": {
-    "message": "Enable ACT Auto-Launch",
-    "description": "FirstTimeSetupViewModel.SetupLoc"
-  },
-  "Next": {
-    "message": "Next",
-    "description": "FirstTimeSetupViewModel.SetupLoc"
-  },
-  "FirstTimeDalamudNotice": {
-    "message": "Do you want to enable the XIVLauncher in-game features?\r\nThis will add some extra functionality to your game, such as RMT chat filtering and Discord notifications for chat messages or Duty Finder pops.\r\n\r\nTo configure these settings, please use the XIVLauncher settings menu and switch to the in-game tab.\r\nEnabling this however could cause a false positive on your antivirus software, please check its settings and add any needed exclusions if you run into problems.",
-    "description": "FirstTimeSetupViewModel.SetupLoc"
-  },
-  "FirstTimeDalamudCheckBox": {
-    "message": "Enable In-Game features",
-    "description": "FirstTimeSetupViewModel.SetupLoc"
-  },
+
+
+
   "GenericAddonSetupTitle": {
     "message": "Configure Auto-Start",
     "description": "GenericAddonSetupWindowViewModel.SetupLoc"

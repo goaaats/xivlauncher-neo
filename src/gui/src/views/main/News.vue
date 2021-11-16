@@ -8,15 +8,16 @@
 
 <script>
 import {defineComponent} from "vue"
-import {QCard} from "quasar";
+import {QCard} from "quasar"
 
 function clickNews() {
+  console.log("clickNews")
 }
 
 export default defineComponent({
   name: "main-news",
   components: {
-    QCard
+    QCard,
   },
   setup() {
     const placeholder_src = "/static/placeholder-news.png"
@@ -26,7 +27,7 @@ export default defineComponent({
       placeholder_src, placeholder_alt,
       clickNews,
     }
-  }
+  },
 })
 </script>
 

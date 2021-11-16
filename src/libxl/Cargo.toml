@@ -1,6 +1,10 @@
 [package]
 name = "libxl"
 version = "0.0.1"
+description = "xivlauncher-neo"
+authors = ["Team Goat Place"]
+license = "GPLv3"
+repository = "https://github.com/goaaats/xivlauncher-neo"
 edition = "2018"
 
 [dependencies]

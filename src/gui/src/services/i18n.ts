@@ -1,34 +1,41 @@
 import {createI18n, I18n, Locale} from "vue-i18n"
+import {Ref, ref} from "vue"
 
 /**
- * Default pre-loaded language
+ * I18n instance.
+ */
+const i18n: Ref<I18n | null> = ref(null)
+
+/**
+ * Default pre-loaded language.
  */
 export const defaultLocale = "en"
 
 /**
- * Supported languages
+ * Supported languages.
  */
 export const supportedLocales = [
     "de", "en", "es", "fr", "it",
     "ja", "ko", "no", "pt", "ru",
-    "si", "tw", "zh"
+    "si", "tw", "zh",
 ]
 
 /**
- * Tracks which languages have been loaded from file
+ * Tracks which languages have been loaded from file.
  */
 const loadedLanguages = [defaultLocale]
 
 /**
- * Setup an i18n instance
- * @return i18n - instance
+ * Setup an i18n instance.
+ * @return i18n - instance.
  */
-export function setupI18n(): I18n {
+export async function setupI18n(): Promise<I18n> {
+    const localeMessages = await loadLanguage(defaultLocale)
     const messages = {
-        [defaultLocale]: loadLanguage(defaultLocale)
+        [defaultLocale]: localeMessages,
     }
 
-    return createI18n({
+    return i18n.value = createI18n({
         locale: defaultLocale,  // TODO: load default locale from settings
         fallbackLocale: defaultLocale,
         messages: messages,
@@ -36,39 +43,40 @@ export function setupI18n(): I18n {
 }
 
 /**
- * Change the locale, loading if necessary
- * @param i18n - I18n instance
- * @param lang - Two character language code
+ * Change the locale, loading if necessary.
+ * @param lang - Two character language code.
  */
-export async function setLanguage(i18n: I18n, lang: Locale): Promise<void> {
+export async function setLanguage(lang: Locale): Promise<void> {
+    if (i18n.value === null)
+        throw "I18n has not been setup yet"
+
     if (!supportedLocales.find(sl => sl == lang))
         throw "Unsupported locale"
 
-    if (i18n.global.locale === lang)
+    if (i18n.value.global.locale === lang)
         return
 
     // If the language was already loaded
     if (!loadedLanguages.includes(lang)) {
         const messages = await loadLanguage(lang)
-        i18n.global.setLocaleMessage(lang, messages)
+        i18n.value.global.setLocaleMessage(lang, messages)
         loadedLanguages.push(lang)
     }
 
-    i18n.global.locale = lang
-    document.querySelector("html")!
-        .setAttribute("lang", lang)
+    i18n.value.global.locale = lang
+    document.querySelector("html")
+        ?.setAttribute("lang", lang)
 }
 
 /**
  * Load a language
- * @param lang - Two character language code
- * @return messages - Language messages
+ * @param lang - Two character language code.
+ * @return messages - Language messages.
  */
-function loadLanguage(lang: Locale): Record<string, string> {
-    const locJson = require(`@/assets/loc/xl_${lang}.json`)
-
+async function loadLanguage(lang: Locale) {
+    const resp = await fetch(`/static/loc/xl_${lang}.json`)
+    const json: { [k: string]: { [k: string]: [v: string] } } = await resp.json()
     return Object.fromEntries(
-        Object.entries(locJson).map(
-            ([key, value]) =>
-                ([key, locJson[key]["message"]])))
+        Object.entries(json)
+            .map(([key, val]) => ([key, val.message])))
 }
