@@ -2,5 +2,6 @@
 members = [
     "gui/src-tauri",
     "libxl",
-    "libxl-test"
+    "libxl-test",
+    "dalamud"
 ]
