@@ -1,19 +1,17 @@
 [package]
 name = "libxl"
-version = "0.1.0"
+version = "0.0.1"
 edition = "2018"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
-reqwest = { version = "0.11.4", features = ["json"] }
-serde = { version = "1.0.130", features = ["derive"] }
-serde_json = "1.0"
-sysinfo = "0.20.4"
 chrono = { version = "0.4", features = ["serde"] }
-lazy_static = "1.4"
-regex = "1"
-num-traits = "0.2.14"
-ring = "0.16"
-data-encoding = "2.3"
-linked-hash-map = { version  = "0.5", features = ["serde_impl"] }
+data-encoding = { version = "2.3" }
+lazy_static = { version = "1.4" }
+linked-hash-map = { version = "0.5", features = ["serde_impl"] }
+num-traits = { version = "0.2.14" }
+regex = { version = "1" }
+reqwest = { version = "0.11.4", features = ["json"] }
+ring = { version = "0.16" }
+serde = { version = "1.0.130", features = ["derive"] }
+serde_json = { version = "1.0" }
+sysinfo = { version = "0.20.4" }
