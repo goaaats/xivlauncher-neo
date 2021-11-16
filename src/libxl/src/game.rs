@@ -50,6 +50,18 @@ impl ClientLanguage {
             ClientLanguage::French => "fr",
         }
     }
+
+    pub fn from_langcode(langcode: &str) -> ClientLanguage {
+        match langcode {
+            "ja" => ClientLanguage::Japanese,
+            "en" => ClientLanguage::EnglishGB,
+            "en-gb" => ClientLanguage::EnglishGB,
+            "en-us" => ClientLanguage::EnglishUS,
+            "de" => ClientLanguage::German,
+            "fr" => ClientLanguage::French,
+            &_ => ClientLanguage::EnglishGB,
+        }
+    }
 }
 
 impl Display for ClientLanguage {
