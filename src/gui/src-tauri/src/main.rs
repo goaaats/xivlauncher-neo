@@ -3,6 +3,8 @@
   windows_subsystem = "windows"
 )]
 
+mod setup;
+
 use log::LevelFilter;
 use log4rs::append::console::ConsoleAppender;
 use log4rs::append::file::FileAppender;
@@ -15,8 +17,12 @@ async fn main() {
   setup_log();
 
   tauri::Builder::default()
+    .invoke_handler(tauri::generate_handler![
+      setup::find_advanced_combat_tracker,
+      game::get_headline,
+    ])
     .run(tauri::generate_context!())
-    .expect("error while running tauri application")
+    .expect("Error while running tauri application")
 }
 
 fn setup_log() {
