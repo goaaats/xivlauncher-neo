@@ -3,6 +3,7 @@ extern crate log;
 extern crate sys_locale;
 extern crate windows;
 
+use libxl::util::path::get_common_start_menu_path;
 use log::{debug, error, warn};
 use std::convert::TryFrom;
 use std::os::windows::ffi::OsStringExt;
@@ -12,7 +13,10 @@ use windows::Win32;
 /// Get the current system locale
 #[tauri::command]
 pub fn get_system_locale() -> String {
-  let locale = sys_locale::get_locale().unwrap_or_else(|| String::from("en-us")).to_lowercase();
+  let locale = sys_locale::get_locale()
+    .unwrap_or_else(|| String::from("en-us"))
+    .to_lowercase();
+
   debug!("Detected system locale as {:?}", locale);
   return locale;
 }
@@ -29,7 +33,7 @@ pub fn find_advanced_combat_tracker() -> String {
 
 #[cfg(target_os = "windows")]
 fn find_advanced_combat_tracker_windows() -> String {
-  let path = match get_folderid_path(&Win32::UI::Shell::FOLDERID_CommonStartMenu, 0) {
+  let path = match get_common_start_menu_path() {
     Ok(path) => path,
     Err(e) => {
       error!("Could not get CommonStartMenu folder: {:?}", e);
@@ -51,10 +55,7 @@ fn find_advanced_combat_tracker_windows() -> String {
   let lnk = match parselnk::Lnk::try_from(shortcut_path) {
     Ok(lnk) => lnk,
     Err(e) => {
-      error!(
-        "Could not parse ACT shortcut file: {:?}, {:?}",
-        shortcut_path, e
-      );
+      error!("Could not parse ACT shortcut file: {:?}, {:?}", shortcut_path, e);
       return empty_string();
     }
   };
@@ -87,10 +88,7 @@ fn find_advanced_combat_tracker_windows() -> String {
   // Change directory to canonicalize the shortcut
   match std::env::set_current_dir(shortcut_dir_path) {
     Err(e) => {
-      error!(
-        "Could not chdir for canonicalize: {:?}, {:?}",
-        shortcut_dir_path, e
-      );
+      error!("Could not chdir for canonicalize: {:?}, {:?}", shortcut_dir_path, e);
       return empty_string();
     }
     _ => {}
@@ -100,10 +98,7 @@ fn find_advanced_combat_tracker_windows() -> String {
   let abs_pathbuf = match dunce::canonicalize(rel_path) {
     Ok(path) => path,
     Err(e) => {
-      error!(
-        "Could not canonicalize ACT shortcut path: {:?}, {:?}",
-        rel_path, e
-      );
+      error!("Could not canonicalize ACT shortcut path: {:?}, {:?}", rel_path, e);
       return empty_string();
     }
   };
@@ -111,10 +106,7 @@ fn find_advanced_combat_tracker_windows() -> String {
   // Revert to the previous cwd
   match std::env::set_current_dir(cwd_path) {
     Err(e) => {
-      error!(
-        "Could not revert chdir for canonicalize: {:?}, {:?}",
-        cwd_path, e
-      );
+      error!("Could not revert chdir for canonicalize: {:?}, {:?}", cwd_path, e);
       return empty_string();
     }
     _ => {}
@@ -137,32 +129,6 @@ fn find_advanced_combat_tracker_windows() -> String {
   let result_string = result_str.to_string();
   debug!("Found ACT installed at {:?}", result_string);
   return result_string;
-}
-
-#[cfg(target_os = "windows")]
-fn get_folderid_path(
-  guid: &windows::core::GUID,
-  flags: u32,
-) -> Result<PathBuf, windows::core::Error> {
-  let result = unsafe {
-    Win32::UI::Shell::SHGetKnownFolderPath(
-      guid,
-      flags,
-      windows::Win32::Foundation::HANDLE::default(),
-    )
-  };
-
-  let wide_path = match result {
-    Ok(result) => result,
-    Err(e) => return Err(e),
-  };
-
-  let len = unsafe { windows::Win32::Globalization::lstrlenW(wide_path) } as usize;
-
-  let path_str =
-    std::ffi::OsString::from_wide(unsafe { std::slice::from_raw_parts(wide_path.0, len) });
-
-  return Ok(PathBuf::from(path_str));
 }
 
 fn empty_string() -> String {
