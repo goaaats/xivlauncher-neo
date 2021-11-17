@@ -2,13 +2,13 @@
 
 mod setup;
 
+use libxl::either;
 use log::LevelFilter;
 use log4rs::append::console::ConsoleAppender;
 use log4rs::append::file::FileAppender;
 use log4rs::config::{Appender, Logger, Root};
 use log4rs::encode::pattern::PatternEncoder;
 use log4rs::Config;
-use libxl::either;
 
 #[tokio::main]
 async fn main() {
@@ -30,7 +30,7 @@ fn setup_log() {
   let is_debug = cfg!(debug_assertions);
   let backend_level_filter = either!(is_debug => LevelFilter::Debug; LevelFilter::Info);
   let requests_level_filter = either!(is_debug => LevelFilter::Debug; LevelFilter::Info);
-  let stdout_level_filter = either!( is_debug => LevelFilter::Debug; LevelFilter::Warn);
+  let stdout_level_filter = either!(is_debug => LevelFilter::Debug; LevelFilter::Warn);
 
   let requests = FileAppender::builder()
     .encoder(Box::new(PatternEncoder::new("{d} - {m}{n}")))
