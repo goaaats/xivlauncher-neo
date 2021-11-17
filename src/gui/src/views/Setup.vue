@@ -102,7 +102,6 @@ import {getAdvancedCombatTrackerPath, getSystemLocale} from "@/services/backend"
 const slide = ref(1)
 const launcherLanguage = ref("English")
 const gameLanguage = ref("English")
-const systemLocale = ref("en-us")
 const gameDir = ref("")
 const useSteam = ref(false)
 const actPath = ref("")
@@ -162,16 +161,6 @@ async function onLauncherLanguageChange(newLang: string) {
 
 async function onCompleteSetup() {
   let gameLang = getKeyByValue(gameLanguageChoices, gameLanguage.value)
-  if (gameLang === "en") {
-    if (systemLocale.value.endsWith("-us") ||
-        systemLocale.value.endsWith("-ca") ||
-        systemLocale.value.endsWith("-mx")) {
-      gameLang = "en-us"
-    } else {
-      gameLang = "en-gb"
-    }
-  }
-
   const launcherLang = getKeyByValue(launcherLanguageChoices, launcherLanguage.value)
   console.log(`DONE game=${gameLang} launcher=${launcherLang}`)
 
@@ -194,15 +183,16 @@ export default {
   setup() {
     const t = useI18n()
 
-    getSystemLocale().then(async (sysLoc) => {
-      systemLocale.value = sysLoc
-      const loc = sysLoc.split("-")[0]
+    getSystemLocale().then(async (systemLocale) => {
+      const loc = systemLocale.split("-")[0]
 
+      // Default to English
       if (loc in launcherLanguageChoices) {
         launcherLanguage.value = launcherLanguageChoices[loc]
         await setLanguage(loc)
       }
 
+      // Default to English
       if (loc in gameLanguageChoices) {
         gameLanguage.value = gameLanguageChoices[loc]
       }
