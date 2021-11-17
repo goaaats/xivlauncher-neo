@@ -8,6 +8,7 @@ use log4rs::append::file::FileAppender;
 use log4rs::config::{Appender, Logger, Root};
 use log4rs::encode::pattern::PatternEncoder;
 use log4rs::Config;
+use libxl::either;
 
 #[tokio::main]
 async fn main() {
@@ -26,6 +27,11 @@ async fn main() {
 fn setup_log() {
   let stdout = ConsoleAppender::builder().build();
 
+  let is_debug = cfg!(debug_assertions);
+  let backend_level_filter = either!(is_debug => LevelFilter::Debug; LevelFilter::Info);
+  let requests_level_filter = either!(is_debug => LevelFilter::Debug; LevelFilter::Info);
+  let stdout_level_filter = either!( is_debug => LevelFilter::Debug; LevelFilter::Warn);
+
   let requests = FileAppender::builder()
     .encoder(Box::new(PatternEncoder::new("{d} - {m}{n}")))
     .build("log/requests.log")
@@ -34,14 +40,14 @@ fn setup_log() {
   let config = Config::builder()
     .appender(Appender::builder().build("stdout", Box::new(stdout)))
     .appender(Appender::builder().build("requests", Box::new(requests)))
-    .logger(Logger::builder().build("app::backend::db", LevelFilter::Info))
+    .logger(Logger::builder().build("app::backend::db", backend_level_filter))
     .logger(
       Logger::builder()
         .appender("requests")
         .additive(false)
-        .build("app::requests", LevelFilter::Info),
+        .build("app::requests", requests_level_filter),
     )
-    .build(Root::builder().appender("stdout").build(LevelFilter::Warn))
+    .build(Root::builder().appender("stdout").build(stdout_level_filter))
     .unwrap();
 
   log4rs::init_config(config).unwrap();
