@@ -1,4 +1,4 @@
-use crate::game::client_language::ClientLanguage;
+use crate::game::language::ClientLanguage;
 use crate::game::platform::Platform;
 use lazy_static::lazy_static;
 use reqwest::{Client, IntoUrl, RequestBuilder};

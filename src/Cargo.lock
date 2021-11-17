@@ -42,6 +42,7 @@ checksum = "ee10e43ae4a853c0a3591d4e2ada1719e553be18199d9da9d4a83f5927c2f5c7"
 name = "app"
 version = "0.0.1"
 dependencies = [
+ "anyhow",
  "dunce",
  "libxl",
  "log",
@@ -49,7 +50,6 @@ dependencies = [
  "parselnk",
  "serde",
  "serde_json",
- "sys-locale",
  "tauri",
  "tauri-build",
  "tokio",
@@ -1601,6 +1601,7 @@ checksum = "fbe5e23404da5b4f555ef85ebed98fb4083e55a00c317800bc2a50ede9f3d219"
 name = "libxl"
 version = "0.0.1"
 dependencies = [
+ "anyhow",
  "chrono",
  "data-encoding",
  "lazy_static",
@@ -1611,6 +1612,7 @@ dependencies = [
  "ring",
  "serde",
  "serde_json",
+ "sys-locale",
  "sysinfo",
  "windows 0.27.0",
 ]

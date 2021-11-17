@@ -1,7 +1,7 @@
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 
-use crate::game::client_language::ClientLanguage;
+use crate::game::language::ClientLanguage;
 use crate::game::request;
 use crate::util::time;
 

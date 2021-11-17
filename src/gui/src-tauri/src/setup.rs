@@ -1,22 +1,16 @@
 extern crate dunce;
 extern crate log;
-extern crate sys_locale;
 extern crate windows;
 
+use libxl;
 use libxl::util::path::get_common_start_menu_path;
 use log::{debug, error, warn};
 use std::convert::TryFrom;
-use std::os::windows::ffi::OsStringExt;
-use std::path::PathBuf;
-use windows::Win32;
 
 /// Get the current system locale
 #[tauri::command]
 pub fn get_system_locale() -> String {
-  let locale = sys_locale::get_locale()
-    .unwrap_or_else(|| String::from("en-us"))
-    .to_lowercase();
-
+  let locale = libxl::locale::get_system_locale();
   debug!("Detected system locale as {:?}", locale);
   return locale;
 }

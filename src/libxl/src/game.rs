@@ -1,7 +1,6 @@
-pub mod client_language;
 mod constants;
+pub mod language;
 pub mod launcher;
-pub mod launcher_language;
 pub mod oauth;
 pub mod platform;
 pub mod repository;
