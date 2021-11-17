@@ -9,7 +9,7 @@ struct StartInfo {
     #[serde(rename = "WorkingDirectory")]
     working_directory: String,
     #[serde(rename = "ConfigurationPath")]
-    configuration_directory: String,
+    configuration_path: String,
     #[serde(rename = "PluginDirectory")]
     plugin_directory: String,
     #[serde(rename = "DefaultPluginDirectory")]
@@ -71,10 +71,23 @@ pub(crate) async fn launch(
         .into_string()
         .expect("TODO");
 
-    // TODO (Chiv) canonicalize chokes if config json does not exist
-    if !config.exists() {
+    // TODO (Chiv) canonicalize chokes if config json does not exist, dalamud chokes if its empty
+    let config = if !config.exists() {
         std::fs::write(&config, "")?;
-    }
+        let t = config
+            .canonicalize()?
+            .into_os_string()
+            .into_string()
+            .expect("TODO");
+        std::fs::remove_file(config);
+        t
+    } else {
+        config
+            .canonicalize()?
+            .into_os_string()
+            .into_string()
+            .expect("TODO")
+    };
 
     // TODO BIG (Chiv) Paths are butchered and not how Dalamud wants them.
     // TODO (CHIV) Canonicalize does not seem to do what I expect it to
@@ -83,30 +96,28 @@ pub(crate) async fn launch(
         working_directory: injector
             .parent()
             .unwrap()
-            //.canonicalize()?
-            .as_os_str()
-            .to_os_string()
-            .into_string()
-            .expect("TODO"),
-        configuration_directory: config
-            //.canonicalize()?
+            .canonicalize()?
+            //.as_os_str()
+            //.to_os_string()
             .into_os_string()
             .into_string()
             .expect("TODO"),
+        configuration_path: config,
         plugin_directory: plugins
-            //.canonicalize()?
+            .canonicalize()?
             .into_os_string()
             .into_string()
             .expect("TODO"),
         dev_plugin_directory: dev_plugins
-            //.canonicalize()?
+            .canonicalize()?
             .into_os_string()
             .into_string()
             .expect("TODO"),
         asset_directory: assets
-            //.canonicalize()?
-            .as_os_str()
-            .to_os_string()
+            .canonicalize()?
+            //.as_os_str()
+            //.to_os_string()
+            .into_os_string()
             .into_string()
             .expect("TODO"),
         language: 1, // TODO ENUM number serliaztion
@@ -114,22 +125,49 @@ pub(crate) async fn launch(
         opt_out_mb_collection,
     };
 
-    let start_info = serde_json::to_string(&start_info)?;
-    tracing::debug!("STARTINFO {:?}", &start_info);
-    let start_info = base64::encode(start_info);
+    // TODO TO CHECK IF THAT _IS_ THE PROBLEM
+    let start_info = StartInfo {
+        working_directory: start_info.working_directory.replace("\\\\?\\", ""),
+        configuration_path: start_info.configuration_path.replace("\\\\?\\", ""),
+        plugin_directory: start_info.plugin_directory.replace("\\\\?\\", ""),
+        dev_plugin_directory: start_info.dev_plugin_directory.replace("\\\\?\\", ""),
+        asset_directory: start_info.asset_directory.replace("\\\\?\\", ""),
+        ..start_info
+    };
 
+    let start_info = serde_json::to_string(&start_info)?;
+    tracing::debug!("STARTINFO {}", &start_info);
+    let start_info = base64::encode(start_info);
+    tracing::debug!("STARTINFO BASE64 {}", &start_info);
+
+    //TODO
     tracing::debug!("SPAWNING {:?}", &injector);
-    eprintln!("SPAWNING");
     // TODO (Chiv) Tokyo async process::Command?
     let child = if cfg!(windows) {
         const CREATE_NO_WINDOW: u32 = 0x08000000;
         const DETACHED_PROCESS: u32 = 0x00000008;
-        std::process::Command::new(injector)
-            .current_dir(injector.parent().unwrap().canonicalize()?) // TODO duplicate
-            .arg(game_process_id.to_string())
-            .arg(start_info)
-            .creation_flags(CREATE_NO_WINDOW | DETACHED_PROCESS)
-            .spawn()?
+        std::process::Command::new(
+            injector
+                .canonicalize()?
+                .into_os_string()
+                .into_string()
+                .expect("TODO")
+                .replace("\\\\?\\", ""),
+        )
+        .current_dir(
+            injector
+                .parent()
+                .unwrap()
+                .canonicalize()?
+                .into_os_string()
+                .into_string()
+                .expect("TODO")
+                .replace("\\\\?\\", ""),
+        ) // TODO duplicate
+        .arg(game_process_id.to_string())
+        .arg(start_info)
+        .creation_flags(CREATE_NO_WINDOW | DETACHED_PROCESS)
+        .spawn()?
     } else {
         std::process::Command::new(injector)
             .current_dir(injector.parent().unwrap().canonicalize()?) // TODO duplicate

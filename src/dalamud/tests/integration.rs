@@ -6,7 +6,7 @@ use tracing_subscriber::util::SubscriberInitExt;
 #[tokio::test]
 async fn dalamud_starts() {
     tracing_subscriber::fmt::fmt()
-        .with_max_level(Level::TRACE)
+        .with_max_level(Level::DEBUG)
         .init();
     let dalamud_root = std::path::Path::new("./testing/dalamud_root");
     // let _ = std::fs::remove_dir_all(dalamud_root);
