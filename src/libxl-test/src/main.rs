@@ -53,7 +53,7 @@ async fn main() {
 
     */
 
-    let headline = libxl::game::launcher::headline::Headline::get(libxl::game::ClientLanguage::English).await;
+    let headline = libxl::game::launcher::headline::Headline::get(libxl::game::client_language::ClientLanguage::EnglishGB).await;
     match headline {
         Ok(res) => println!("{}", res.news[0].title),
         Err(err) => println!("Could not oauth: {:?}", err),
