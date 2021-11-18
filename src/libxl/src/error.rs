@@ -1,8 +1,6 @@
-use anyhow;
 use serde::Serialize;
 use std::error::Error;
 use std::fmt;
-use std::fmt::Write;
 
 #[derive(Serialize, Debug)]
 pub struct XlError {

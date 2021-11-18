@@ -16,35 +16,42 @@ use windows::Win32::UI::Shell::{FOLDERID_CommonStartMenu, FOLDERID_RoamingAppDat
 /// This should be AppData\Roaming\XIVLauncher
 #[cfg(target_os = "windows")]
 pub fn get_config_data_path() -> Result<PathBuf, WinError> {
-  return get_roaming_appdata_path().and_then(|path: PathBuf| Ok(path.join("XIVLauncher")));
+  return get_roaming_appdata_path().and_then(|path| Ok(path.join("XIVLauncher")));
 }
 
 /// Gets the path to the Dalamud configuration file
 /// This should be AppData\Roaming\XIVLauncher\dalamudConfig.json
 #[cfg(target_os = "windows")]
 pub fn get_dalamud_config_path() -> Result<PathBuf, WinError> {
-  return get_config_data_path().and_then(|path: PathBuf| Ok(path.join("dalamudConfig.json")));
+  return get_config_data_path().and_then(|path| Ok(path.join("dalamudConfig.json")));
+}
+
+/// Gets the path to the launcher configuration file
+/// This should be AppData\Roaming\XIVLauncher\launcherConfigV4.json
+#[cfg(target_os = "windows")]
+pub fn get_launcher_config_path() -> Result<PathBuf, WinError> {
+  return get_config_data_path().and_then(|path| Ok(path.join("launcherConfigV4.json")));
 }
 
 /// Gets the path to the launcher configuration file
 /// This should be AppData\Roaming\XIVLauncher\launcherConfigV3.json
 #[cfg(target_os = "windows")]
-pub fn get_launcher_config_path() -> Result<PathBuf, WinError> {
-  return get_config_data_path().and_then(|path: PathBuf| Ok(path.join("launcherConfigV3.json")));
+pub fn get_launcher_old_config_path() -> Result<PathBuf, WinError> {
+  return get_config_data_path().and_then(|path| Ok(path.join("launcherConfigV3.json")));
 }
 
-/// Gets the path to the accounts list file
+/// Gets the path to the launcher configuration file
 /// This should be AppData\Roaming\XIVLauncher\accountsList.json
 #[cfg(target_os = "windows")]
-pub fn get_accounts_list_path() -> Result<PathBuf, WinError> {
-  return get_config_data_path().and_then(|path: PathBuf| Ok(path.join("accountsList.json")));
+pub fn get_launcher_old_accounts_path() -> Result<PathBuf, WinError> {
+  return get_config_data_path().and_then(|path| Ok(path.join("accountsList.json")));
 }
 
-/// Gets the path to the UID cache file
+/// Gets the path to the launcher configuration file
 /// This should be AppData\Roaming\XIVLauncher\uidCache.json
 #[cfg(target_os = "windows")]
-pub fn get_uid_cache_path() -> Result<PathBuf, WinError> {
-  return get_config_data_path().and_then(|path: PathBuf| Ok(path.join("uidCache.json")));
+pub fn get_launcher_old_uid_cache_path() -> Result<PathBuf, WinError> {
+  return get_config_data_path().and_then(|path| Ok(path.join("uidCache.json")));
 }
 
 /// Gets the path to the special dir FOLDERID_CommonStartMenu
