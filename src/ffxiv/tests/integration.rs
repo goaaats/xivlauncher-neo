@@ -1,34 +1,13 @@
-use dalamud;
+use ffxiv;
 use sysinfo::{ProcessExt, SystemExt};
 use tracing::Level;
 use tracing_subscriber::util::SubscriberInitExt;
 
-#[tokio::test]
-async fn dalamud_starts() {
+#[test]
+fn dev_ffxiv_starts() {
     tracing_subscriber::fmt::fmt()
         .with_max_level(Level::DEBUG)
         .init();
-    let dalamud_root = std::path::Path::new("./testing/dalamud_root");
-    // let _ = std::fs::remove_dir_all(dalamud_root);
-    // assert!(!dalamud_root.exists());
-    std::fs::create_dir_all(dalamud_root).unwrap();
-    let settings = dalamud::Settings::default();
-    // TODO (Chiv) Split tests and such and make this portable
-    let game = std::path::Path::new(r"C:\Games\SquareEnix\FINAL FANTASY XIV - A Realm Reborn\");
-    let ffxiv = start_dev_ffxiv().unwrap();
-    dalamud::download_and_start(
-        dalamud::RootPath(dalamud_root),
-        dalamud::GamePath(game),
-        libxl::game::language::ClientLanguage::English,
-        settings,
-        ffxiv.id() as usize,
-    )
-    .await
-    .unwrap();
-    //let _ = std::fs::remove_dir_all(dalamud_root);
-}
-
-fn start_dev_ffxiv() -> Result<ffxiv::native::Process, Box<dyn std::error::Error>> {
     let mut s = sysinfo::System::new();
     s.refresh_processes();
     let ffxiv = s
@@ -52,4 +31,5 @@ fn start_dev_ffxiv() -> Result<ffxiv::native::Process, Box<dyn std::error::Error
         ffxiv::EncryptArguments::No,
         ffxiv::FfxivVersion(""),
     )
+    .unwrap();
 }

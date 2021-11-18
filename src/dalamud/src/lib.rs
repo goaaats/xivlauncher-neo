@@ -43,7 +43,7 @@ pub struct GamePath<'a>(pub &'a std::path::Path);
 pub async fn download_and_start(
     root: RootPath<'_>,
     game: GamePath<'_>,
-    language: libxl::game::ClientLanguage,
+    language: libxl::game::language::ClientLanguage,
     settings: Settings,
     game_process_id: usize,
 ) -> Result<(), Box<dyn Error>> {

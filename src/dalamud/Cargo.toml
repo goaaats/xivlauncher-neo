@@ -27,6 +27,7 @@ features = [
 ]
 
 [dev-dependencies]
-tokio = { version = "1.13.0", features = ["rt", "macros"] }
+tokio = { version = "1.14.0", features = ["rt", "macros"] }
 sysinfo = "0.20.4"
 tracing-subscriber = "0.3.1"
+ffxiv = { path = "../ffxiv" }

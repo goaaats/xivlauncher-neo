@@ -32,7 +32,7 @@ pub(crate) async fn launch(
     injector: &std::path::Path, // TODO newtypes for the paths
     assets: &std::path::Path,
     supported_version: String,
-    language: libxl::game::ClientLanguage,
+    language: libxl::game::language::ClientLanguage,
     opt_out_mb_collection: OptOutMbCollection,
     game_process_id: usize,
 ) -> Result<std::process::Child, Box<dyn Error>> {
@@ -55,6 +55,7 @@ pub(crate) async fn launch(
     // TODO (Chiv) C#XL recheck the version by reading the json, we can just pass it in, cant we?
 
     // TODO (chiv) second thing we need from libXL, that alongside types to its own crate?
+    // TODO (chiv) invariant for this check/convert to arg?
     let actual_version = libxl::game::repository::Repository::FFXIV.get_version(game);
     if actual_version != supported_version {
         tracing::error!(
