@@ -5,6 +5,7 @@ use anyhow::{Error, Result};
 use serde::{Deserialize, Serialize};
 use std::fmt::{Display, Formatter};
 use std::fs;
+use std::path::PathBuf;
 use crate::config::{AccountEntry, AddonEntry, LauncherConfigV4, LauncherSettings};
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -33,7 +34,7 @@ impl OldLauncherConfig {
     let addons = serde_json::from_str(addon_json.as_str()).expect("Panic (Addons)");
 
     // Accounts
-    let path =get_launcher_old_accounts_path()?;
+    let path = get_launcher_old_accounts_path()?;
     let content = fs::read_to_string(path)?;
     let accounts: Vec<OldAccountEntry> = serde_json::from_str(content.as_str()).expect("Panic (Accounts)");
 
@@ -106,10 +107,29 @@ impl OldLauncherConfig {
     // Invalidate the cache
 
     config.save()?;
-    // fs::remove_file(get_launcher_old_config_path()?);
-    // fs::remove_file(get_launcher_old_accounts_path()?);
-    // fs::remove_file(get_launcher_old_uid_cache_path()?);
+
+    // TODO: Re-enable these when we're ready
+    // let path = get_launcher_old_config_path()?;
+    // if path.exists() { Self::backup_file(path)? }
+
+    // let path = get_launcher_old_accounts_path()?;
+    // if path.exists() { Self::backup_file(path)? }
+
+    // let path = get_launcher_old_uid_cache_path()?;
+    // if path.exists() { Self::backup_file(path)? }
+
     Ok(config)
+  }
+
+  fn backup_file(path: PathBuf) -> Result<()> {
+    let filename = path.file_name().expect("Panic")
+      .to_os_string().into_string().expect("Panic");
+    let filename = filename + ".backup";
+    let new_path = path.clone();
+    let new_path = new_path.with_file_name(filename);
+    fs::rename(path, new_path)?;
+
+    Ok(())
   }
 }
 
