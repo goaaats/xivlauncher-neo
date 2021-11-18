@@ -1,12 +1,14 @@
+use crate::config::{AccountEntry, AddonEntry, LauncherConfig, LauncherSettings};
 use crate::game::language::ClientLanguage;
 use crate::language::LauncherLanguage;
-use crate::util::path::{get_config_data_path, get_launcher_old_accounts_path, get_launcher_old_config_path, get_launcher_old_uid_cache_path};
-use anyhow::{Error, Result};
+use crate::util::path::{
+  get_launcher_old_accounts_path, get_launcher_old_config_path, get_launcher_old_uid_cache_path,
+};
+use anyhow::{Context, Error, Result};
 use serde::{Deserialize, Serialize};
 use std::fmt::{Display, Formatter};
 use std::fs;
 use std::path::PathBuf;
-use crate::config::{AccountEntry, AddonEntry, LauncherConfigV4, LauncherSettings};
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct OldLauncherConfig {
@@ -26,50 +28,102 @@ impl OldLauncherConfig {
   pub fn load() -> Result<OldLauncherConfig, Error> {
     // Settings
     let path = get_launcher_old_config_path()?;
-    let content = fs::read_to_string(path)?;
-    let settings: OldLauncherSettings = serde_json::from_str(content.as_str()).expect("Panic (Settings)");
+    let path = path.as_path();
+    if !path.exists() {
+      return Err(Error::msg(format!("File not found: {:?}", path)));
+    }
+
+    let content = fs::read_to_string(path).with_context(|| format!("Could not read {:?}", path))?;
+
+    let settings: OldLauncherSettings =
+      serde_json::from_str(content.as_str()).with_context(|| format!("Could not deserialize {:?}", path))?;
 
     // Addons
     let addon_json = settings.addons_json.clone().unwrap_or_else(|| String::from("[]"));
-    let addons = serde_json::from_str(addon_json.as_str()).expect("Panic (Addons)");
+    let addons = serde_json::from_str(addon_json.as_str()).with_context(|| format!("Could not deserialize addons"))?;
 
     // Accounts
     let path = get_launcher_old_accounts_path()?;
-    let content = fs::read_to_string(path)?;
-    let accounts: Vec<OldAccountEntry> = serde_json::from_str(content.as_str()).expect("Panic (Accounts)");
+    let path = path.as_path();
+    let content = fs::read_to_string(path).with_context(|| format!("Could not read {:?}", path))?;
 
-    let config = OldLauncherConfig { settings, addons, accounts };
-    return Ok(config);
+    let accounts: Vec<OldAccountEntry> =
+      serde_json::from_str(content.as_str()).with_context(|| format!("Could not deserialize {:?}", path))?;
+
+    let config = OldLauncherConfig {
+      settings,
+      addons,
+      accounts,
+    };
+    Ok(config)
   }
 
-  pub fn upgrade(&self) -> Result<LauncherConfigV4, Error> {
+  pub fn upgrade(&self) -> Result<LauncherConfig, Error> {
     // Settings
     let default_settings = LauncherSettings::default();
     let settings = LauncherSettings {
       game_path: conv_str(self.settings.game_path.clone(), default_settings.game_path),
       use_dx11: conv_bool(self.settings.use_dx11.clone(), default_settings.use_dx11),
       use_autologin: conv_bool(self.settings.use_autologin.clone(), default_settings.use_autologin),
-      enable_uid_cache: conv_bool(self.settings.enable_uid_cache.clone(), default_settings.enable_uid_cache),
+      enable_uid_cache: conv_bool(
+        self.settings.enable_uid_cache.clone(),
+        default_settings.enable_uid_cache,
+      ),
       extra_game_args: conv_str(self.settings.extra_game_args.clone(), default_settings.extra_game_args),
       enable_dalamud: conv_bool(self.settings.enable_dalamud.clone(), default_settings.enable_dalamud),
-      enable_otp_server: conv_bool(self.settings.enable_otp_server.clone(), default_settings.enable_otp_server),
-      enable_steam_integration: conv_bool(self.settings.enable_steam_integration.clone(), default_settings.enable_steam_integration),
-      client_language: self.settings.client_language.clone().unwrap_or_else(|| ClientLanguage::English),
-      launcher_language: self.settings.launcher_language.clone().unwrap_or_else(|| LauncherLanguage::English),
-      current_account_id: conv_str(self.settings.current_account_id.clone(), default_settings.current_account_id),
+      enable_otp_server: conv_bool(
+        self.settings.enable_otp_server.clone(),
+        default_settings.enable_otp_server,
+      ),
+      enable_steam_integration: conv_bool(
+        self.settings.enable_steam_integration.clone(),
+        default_settings.enable_steam_integration,
+      ),
+      client_language: self
+        .settings
+        .client_language
+        .clone()
+        .unwrap_or_else(|| ClientLanguage::English),
+      launcher_language: self
+        .settings
+        .launcher_language
+        .clone()
+        .unwrap_or_else(|| LauncherLanguage::English),
+      current_account_id: conv_str(
+        self.settings.current_account_id.clone(),
+        default_settings.current_account_id,
+      ),
       encrypt_args: conv_bool(self.settings.encrypt_args.clone(), default_settings.encrypt_args),
       patch_path: conv_str(self.settings.patch_path.clone(), default_settings.patch_path),
-      ask_before_patching: conv_bool(self.settings.ask_before_patching.clone(), default_settings.ask_before_patching),
-      download_speed_limit_bytes: conv_t(self.settings.download_speed_limit_bytes.clone(), default_settings.download_speed_limit_bytes),
-      dalamud_injection_delay_ms: conv_t(self.settings.dalamud_injection_delay_ms.clone(), default_settings.dalamud_injection_delay_ms),
+      ask_before_patching: conv_bool(
+        self.settings.ask_before_patching.clone(),
+        default_settings.ask_before_patching,
+      ),
+      download_speed_limit_bytes: conv_t(
+        self.settings.download_speed_limit_bytes.clone(),
+        default_settings.download_speed_limit_bytes,
+      ),
+      dalamud_injection_delay_ms: conv_t(
+        self.settings.dalamud_injection_delay_ms.clone(),
+        default_settings.dalamud_injection_delay_ms,
+      ),
       keep_patches: conv_bool(self.settings.keep_patches.clone(), default_settings.keep_patches),
-      opt_out_mb_collection: conv_bool(self.settings.opt_out_mb_collection.clone(), default_settings.opt_out_mb_collection),
-      has_admin_complaints: conv_bool(self.settings.has_admin_complaints.clone(), default_settings.has_admin_complaints),
+      opt_out_mb_collection: conv_bool(
+        self.settings.opt_out_mb_collection.clone(),
+        default_settings.opt_out_mb_collection,
+      ),
+      has_admin_complaints: conv_bool(
+        self.settings.has_admin_complaints.clone(),
+        default_settings.has_admin_complaints,
+      ),
       last_version: conv_str(self.settings.last_version.clone(), default_settings.last_version),
-      has_shown_auto_launch_warning: conv_bool(self.settings.has_shown_auto_launch_warning.clone(), default_settings.has_shown_auto_launch_warning),
+      has_shown_auto_launch_warning: conv_bool(
+        self.settings.has_shown_auto_launch_warning.clone(),
+        default_settings.has_shown_auto_launch_warning,
+      ),
     };
 
-    let mut config = LauncherConfigV4 {
+    let mut config = LauncherConfig {
       settings,
       addons: vec![],
       accounts: vec![],
@@ -77,9 +131,7 @@ impl OldLauncherConfig {
     };
 
     // Addons
-    let addons_json = self.settings.addons_json.clone().unwrap_or_else(|| String::from("[]"));
-    let addons: Vec<OldAddonEntry> = serde_json::from_str(addons_json.as_str())?;
-    for addon in addons {
+    for addon in self.addons.iter() {
       config.addons.push(AddonEntry {
         is_enabled: addon.is_enabled.clone(),
         path: addon.details.path.clone(),
@@ -108,32 +160,48 @@ impl OldLauncherConfig {
 
     config.save()?;
 
-    // TODO: Re-enable these when we're ready
-    // let path = get_launcher_old_config_path()?;
-    // if path.exists() { Self::backup_file(path)? }
+    let path = get_launcher_old_config_path()?;
+    if path.exists() {
+      Self::backup_file(path)?
+    }
 
-    // let path = get_launcher_old_accounts_path()?;
-    // if path.exists() { Self::backup_file(path)? }
+    let path = get_launcher_old_accounts_path()?;
+    if path.exists() {
+      Self::backup_file(path)?
+    }
 
-    // let path = get_launcher_old_uid_cache_path()?;
-    // if path.exists() { Self::backup_file(path)? }
+    let path = get_launcher_old_uid_cache_path()?;
+    if path.exists() {
+      Self::backup_file(path)?
+    }
 
     Ok(config)
   }
 
+  #[allow(unused_variables)]
   fn backup_file(path: PathBuf) -> Result<()> {
-    let filename = path.file_name().expect("Panic")
-      .to_os_string().into_string().expect("Panic");
+    let path = path.as_path();
+
+    let filename = path
+      .file_name()
+      .with_context(|| format!("Failed to get filename of {:?}", path))?
+      .to_os_string()
+      .into_string()
+      .map_err(|_| Error::msg(format!("Failed string conversion of {:?}", path)))?;
+
     let filename = filename + ".backup";
     let new_path = path.clone();
     let new_path = new_path.with_file_name(filename);
-    fs::rename(path, new_path)?;
+
+    // TODO: Re-enable file backup on release
+    // fs::rename(path, new_path)
+    //   .with_context(|| format!("Failed backup renaming of {:?}", path))?;
 
     Ok(())
   }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Default)]
 pub struct OldLauncherSettings {
   #[serde(rename = "GamePath")]
   pub game_path: Option<String>,
@@ -230,11 +298,19 @@ fn conv_str(str: Option<String>, default: String) -> String {
 }
 
 fn conv_bool(str: Option<String>, default: bool) -> bool {
-  str.unwrap_or_else(|| default.to_string()).to_lowercase()
-    .parse().unwrap_or_else(|_| default)
+  str
+    .unwrap_or_else(|| default.to_string())
+    .to_lowercase()
+    .parse()
+    .unwrap_or_else(|_| default)
 }
 
-fn conv_t<T>(str: Option<String>, default: T) -> T where T: std::str::FromStr + std::string::ToString {
-  str.unwrap_or_else(|| default.to_string())
-    .parse().unwrap_or_else(|_| default)
+fn conv_t<T>(str: Option<String>, default: T) -> T
+where
+  T: std::str::FromStr + std::string::ToString,
+{
+  str
+    .unwrap_or_else(|| default.to_string())
+    .parse()
+    .unwrap_or_else(|_| default)
 }

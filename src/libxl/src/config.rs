@@ -1,35 +1,47 @@
 use crate::game::language::ClientLanguage;
 use crate::language::LauncherLanguage;
 use crate::util::path::get_launcher_config_path;
-use anyhow::Result;
+use anyhow::{Context, Error, Result};
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use std::fmt::{Display, Formatter};
 use std::fs;
 
 #[derive(Serialize, Deserialize, Debug)]
-pub struct LauncherConfigV4 {
+pub struct LauncherConfig {
   pub settings: LauncherSettings,
   pub addons: Vec<AddonEntry>,
   pub accounts: Vec<AccountEntry>,
   pub uid_cache: Vec<UidCacheEntry>,
 }
 
-impl Display for LauncherConfigV4 {
+impl Display for LauncherConfig {
   fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
     let repr = serde_json::to_string(self).expect("Panic");
     f.write_str(repr.as_str())
   }
 }
 
-impl LauncherConfigV4 {
-  pub fn load() -> Result<LauncherConfigV4> {
+impl LauncherConfig {
+  pub fn exists() -> Result<bool> {
+    let path = get_launcher_config_path()?;
+    let result = path.exists();
+    Ok(result)
+  }
+
+  pub fn load() -> Result<LauncherConfig> {
     let path = get_launcher_config_path()?;
     let path = path.as_path();
-    let content = fs::read_to_string(path)?;
-    let config: LauncherConfigV4 = serde_json::from_str(content.as_str())?;
+    if !path.exists() {
+      return Err(Error::msg(format!("Config not found at {:?}", path)));
+    }
 
-    return Ok(config);
+    let content = fs::read_to_string(path).with_context(|| format!("Could not read {:?}", path))?;
+
+    let config: LauncherConfig =
+      serde_json::from_str(content.as_str()).with_context(|| format!("Could not deserialize {:?}", path))?;
+
+    Ok(config)
   }
 
   pub fn save(&self) -> Result<()> {
@@ -37,18 +49,22 @@ impl LauncherConfigV4 {
     let path = path.as_path();
 
     if !path.exists() {
-      let path_dir = path.parent().expect("Panic");
-      fs::create_dir_all(path_dir)?;
+      let path_dir = path
+        .parent()
+        .with_context(|| format!("Could not get parent directory of {:?}", path))?;
+
+      fs::create_dir_all(path_dir).with_context(|| format!("Failed creating directory tree of {:?}", path))?;
     }
 
-    let content = serde_json::to_string_pretty(self)?;
-    fs::write(path, content)?;
+    let content = serde_json::to_string_pretty(self).with_context(|| "Failed to serialize configuration")?;
 
-    return Ok(());
+    fs::write(path, content).with_context(|| format!("Failed to write configuration to {:?}", path))?;
+
+    Ok(())
   }
 
-  pub fn default() -> LauncherConfigV4 {
-    LauncherConfigV4 {
+  pub fn default() -> LauncherConfig {
+    LauncherConfig {
       settings: LauncherSettings::default(),
       addons: vec![],
       accounts: vec![],

@@ -2,6 +2,7 @@
 
 mod game;
 mod setup;
+mod config;
 
 use libxl::either;
 use log::LevelFilter;

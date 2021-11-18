@@ -17,6 +17,7 @@ tauri-build = { version = "1.0.0-beta.4" }
 [dependencies]
 anyhow = { version = "1.0.45" }
 dunce = { version = "1.0.2" }
+lazy_static = { version = "1.4" }
 log = { version = "0.4.14" }
 log4rs = { version = "1.0.0", features = ["console_appender", "file_appender", "pattern_encoder"] }
 parselnk = { version = "0.1" }

@@ -1,5 +1,3 @@
-use std::any::Any;
-
 pub struct PatchList {
   pub patches: Vec<PatchEntry>,
 }
@@ -31,7 +29,7 @@ impl From<String> for PatchList {
       }
     }
 
-    PatchList { patches: patches }
+    PatchList { patches }
   }
 }
 
