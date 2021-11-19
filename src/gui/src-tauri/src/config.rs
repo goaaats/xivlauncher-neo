@@ -93,6 +93,7 @@ pub fn update_settings(settings: LauncherSettings) {
 
   debug!("Updating settings");
   config.settings = settings;
+  config.save();
 }
 
 /// Update the addon list with new values
@@ -106,6 +107,7 @@ pub fn update_addons(addons: Vec<AddonEntry>) {
 
   debug!("Updating addons");
   config.addons = addons;
+  config.save();
 }
 
 /// Update the account list with new values
@@ -119,6 +121,7 @@ pub fn update_accounts(accounts: Vec<AccountEntry>) {
 
   debug!("Updating accounts");
   config.accounts = accounts;
+  config.save();
 }
 
 /// Update the UID cache list with new values
@@ -132,4 +135,5 @@ pub fn update_uid_cache(uid_cache: Vec<UidCacheEntry>) {
 
   debug!("Updating UID cache");
   config.uid_cache = uid_cache;
+  config.save();
 }
