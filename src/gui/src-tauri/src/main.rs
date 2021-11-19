@@ -1,8 +1,8 @@
 #![cfg_attr(all(not(debug_assertions), target_os = "windows"), windows_subsystem = "windows")]
 
+mod config;
 mod game;
 mod setup;
-mod config;
 
 use libxl::either;
 use log::LevelFilter;
@@ -20,6 +20,14 @@ async fn main() {
     .invoke_handler(tauri::generate_handler![
       setup::get_system_locale,
       setup::find_advanced_combat_tracker,
+      config::get_settings,
+      config::get_addons,
+      config::get_accounts,
+      config::get_uid_cache,
+      config::update_settings,
+      config::update_addons,
+      config::update_accounts,
+      config::update_uid_cache,
       // game::get_headline,
     ])
     .run(tauri::generate_context!())

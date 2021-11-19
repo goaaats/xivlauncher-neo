@@ -1,6 +1,6 @@
 use crate::game::language::ClientLanguage;
 use crate::language::LauncherLanguage;
-use crate::util::path::get_launcher_config_path;
+use crate::util::path::{get_dalamud_config_path, get_launcher_config_path};
 use anyhow::{Context, Error, Result};
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
@@ -23,12 +23,6 @@ impl Display for LauncherConfig {
 }
 
 impl LauncherConfig {
-  pub fn exists() -> Result<bool> {
-    let path = get_launcher_config_path()?;
-    let result = path.exists();
-    Ok(result)
-  }
-
   pub fn load() -> Result<LauncherConfig> {
     let path = get_launcher_config_path()?;
     let path = path.as_path();
@@ -73,7 +67,7 @@ impl LauncherConfig {
   }
 }
 
-#[derive(Deserialize, Serialize, Debug)]
+#[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct LauncherSettings {
   pub game_path: String,
   pub use_dx11: bool,
@@ -126,7 +120,7 @@ impl LauncherSettings {
   }
 }
 
-#[derive(Deserialize, Serialize, Debug)]
+#[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct AddonEntry {
   pub is_enabled: bool,
   pub path: String,
@@ -149,7 +143,7 @@ impl AddonEntry {
   }
 }
 
-#[derive(Deserialize, Serialize, Debug)]
+#[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct AccountEntry {
   pub character_name: String,
   pub character_world: String,
@@ -174,7 +168,7 @@ impl AccountEntry {
   }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct UidCacheEntry {
   pub username: String,
   pub unique_id: String,
@@ -198,5 +192,26 @@ impl UidCacheEntry {
 #[derive(Deserialize, Debug)]
 pub struct DalamudConfig {
   #[serde(rename = "DoDalamudTest")]
-  pub dalamud_test: bool,
+  pub testing_enabled: bool,
+}
+
+impl DalamudConfig {
+  pub fn load() -> Result<DalamudConfig> {
+    let path = get_dalamud_config_path()?;
+    let path = path.as_path();
+    if !path.exists() {
+      return Err(Error::msg(format!("Config not found at {:?}", path)));
+    }
+
+    let content = fs::read_to_string(path).with_context(|| format!("Could not read {:?}", path))?;
+
+    let config: DalamudConfig =
+      serde_json::from_str(content.as_str()).with_context(|| format!("Could not deserialize {:?}", path))?;
+
+    Ok(config)
+  }
+
+  pub fn default() -> DalamudConfig {
+    DalamudConfig { testing_enabled: true }
+  }
 }
