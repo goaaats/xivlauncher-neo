@@ -1,7 +1,7 @@
 use lazy_static::lazy_static;
 use libxl::config::{AccountEntry, AddonEntry, LauncherConfig, LauncherSettings, UidCacheEntry};
 use libxl::config_old::OldLauncherConfig;
-use log::debug;
+use log::{debug, error};
 use std::sync::RwLock;
 
 lazy_static! {
@@ -93,7 +93,10 @@ pub fn update_settings(settings: LauncherSettings) {
 
   debug!("Updating settings");
   config.settings = settings;
-  config.save();
+  config.save().unwrap_or_else(|e| {
+    error!("Could not save config: {:?}", e);
+    ()
+  });
 }
 
 /// Update the addon list with new values
@@ -107,7 +110,10 @@ pub fn update_addons(addons: Vec<AddonEntry>) {
 
   debug!("Updating addons");
   config.addons = addons;
-  config.save();
+  config.save().unwrap_or_else(|e| {
+    error!("Could not save config: {:?}", e);
+    ()
+  });
 }
 
 /// Update the account list with new values
@@ -121,7 +127,10 @@ pub fn update_accounts(accounts: Vec<AccountEntry>) {
 
   debug!("Updating accounts");
   config.accounts = accounts;
-  config.save();
+  config.save().unwrap_or_else(|e| {
+    error!("Could not save config: {:?}", e);
+    ()
+  });
 }
 
 /// Update the UID cache list with new values
@@ -135,5 +144,8 @@ pub fn update_uid_cache(uid_cache: Vec<UidCacheEntry>) {
 
   debug!("Updating UID cache");
   config.uid_cache = uid_cache;
-  config.save();
+  config.save().unwrap_or_else(|e| {
+    error!("Could not save config: {:?}", e);
+    ()
+  });
 }
