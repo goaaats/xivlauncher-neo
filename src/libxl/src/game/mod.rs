@@ -11,3 +11,4 @@ pub mod repository;
 mod request;
 pub mod status;
 pub mod version;
+pub mod integrity;

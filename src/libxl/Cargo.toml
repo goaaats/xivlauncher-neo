@@ -21,6 +21,11 @@ serde = { version = "1.0.130", features = ["derive"] }
 serde_json = { version = "1.0" }
 sysinfo = { version = "0.20.4" }
 sys-locale = { version = "0.1.0" }
+walkdir = { version = "2.3.2" }
+rayon = { version = "1.5.1" }
+
+[dev-dependencies]
+tokio-test = "0.4.2"
 
 [dependencies.windows]
 version = "0.27.0"
