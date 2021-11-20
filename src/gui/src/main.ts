@@ -1,5 +1,5 @@
 import * as Vue from "vue"
-import {Quasar} from "quasar"
+import {Quasar, Notify} from "quasar"
 
 import App from "./App.vue"
 import {setupI18n} from "@/services/i18n"
@@ -10,10 +10,18 @@ import "@quasar/extras/material-icons/material-icons.css"
 import "@/global.sass"
 
 (async () => {
-    Vue.createApp(App)
-        .use(await setupI18n())
-        .use(setupRouter())
-        .use(Quasar, {config: {}})
-        .mount("#app")
+    const router = setupRouter()
+    const i18n = await setupI18n()
+
+    const app = Vue.createApp(App)
+        .use(i18n)
+        .use(router)
+        .use(Quasar, {
+            plugins: {Notify},
+            config: {notify: {}},
+        })
+
+    app.provide("app", app)
+    app.mount("#app")
 })()
 

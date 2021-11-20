@@ -15,7 +15,7 @@
   </q-card>
 </template>
 
-<script>
+<script lang="ts">
 import {defineComponent} from "vue"
 import {QBtn, QCard, QIcon} from "quasar"
 import {useI18n} from "vue-i18n"

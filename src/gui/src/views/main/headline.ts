@@ -6,8 +6,8 @@ export interface Headline {
 }
 
 export interface BannerEntry {
-    lsb_banner: String
-    link: String
+    lsb_banner: string
+    link: string
 }
 
 export interface HeadlineEntry {

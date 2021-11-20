@@ -1,5 +1,5 @@
 <template>
-  <div id="main-view">
+  <div id="content" class="fit">
     <main-news/>
     <main-login/>
     <main-headlines/>
@@ -13,8 +13,6 @@ import MainNews from "@/views/main/News.vue"
 import MainHeadlines from "@/views/main/Headlines.vue"
 import MainLogin from "@/views/main/Login.vue"
 import MainControls from "@/views/main/Controls.vue"
-//import {invoke} from "@tauri-apps/api/tauri";
-//import {Headline} from "@/views/main/headline";
 
 export default defineComponent({
   name: "main-view",
@@ -51,7 +49,7 @@ $rightCol: $width - $leftCol - $tableGap - ($windowPadding * 2)
 $topRow: 213px
 $bottomRow: $height - $topRow - $tableGap - ($windowPadding * 2)
 
-#main-view
+#content
   padding: $windowPadding
   display: grid
   grid-template-columns: $leftCol $rightCol

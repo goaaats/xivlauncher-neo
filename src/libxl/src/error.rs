@@ -13,10 +13,17 @@ impl XlError {
   /// # Arguments:
   /// * `message` - The error message
   #[must_use]
-  pub fn new(message: &str) -> Self {
+  pub fn from(message: &str) -> Self {
     return Self {
       message: message.to_string(),
     };
+  }
+
+  /// Create a new error.
+  /// # Arguments:
+  /// * `message` - The error message
+  pub fn new(message: String) -> Self {
+    return Self { message };
   }
 }
 
@@ -26,12 +33,4 @@ impl fmt::Display for XlError {
   fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
     f.write_str(self.message.as_str())
   }
-}
-
-/// Create a new XlError with the given message
-#[macro_export]
-macro_rules! xl_error {
-  ($msg:expr) => {
-    XlError::new($msg)
-  };
 }

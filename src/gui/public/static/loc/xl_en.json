@@ -7,11 +7,11 @@
     "message": "Please select which language you want to load the game with.",
     "description": "First time setup (Setup.vue)"
   },
-  "SetupLauncherLanguage":{
+  "SetupLauncherLanguage": {
     "message": "Launcher Language",
     "description": "First time setup (Setup.vue)"
   },
-  "SetupGameLanguage":{
+  "SetupGameLanguage": {
     "message": "Game Language",
     "description": "First time setup (Setup.vue)"
   },
@@ -22,6 +22,14 @@
   "SetupGameDirectory": {
     "message": "Game Directory",
     "description": "First time setup (Setup.vue)"
+  },
+  "SetupGameDirectoryCorrect": {
+    "message": "Game installation found",
+    "description": "First time setup (Setup.vue)"
+  },
+  "SetupGameDirectoryWarning": {
+    "message": "Game not found, it will be installed on login",
+    "description": "Firs time setup (Setup.vue)"
   },
   "SetupSteamNotice": {
     "message": "Please check this box if you are usually launching the game using Steam.",
@@ -39,7 +47,7 @@
     "message": "Enable ACT Auto-Launch",
     "description": "First time setup (Setup.vue)"
   },
-  "SetupActPathNotice" : {
+  "SetupActPathNotice": {
     "message": "Please verify that this path is correct.",
     "description": "First time setup (Setup.vue)"
   },
@@ -54,6 +62,14 @@
   "SetupDalamudCheckBox": {
     "message": "Enable In-Game features",
     "description": "First time setup (Setup.vue)"
+  },
+  "ErrorWarning": {
+    "message": "An error has occurred, please notify the dev team.",
+    "description": "Error handler (App.vue)"
+  },
+  "ErrorDismiss": {
+    "message": "Dismiss",
+    "description": "Error handler (App.vue)"
   },
 
   "updatefailureerror": {
@@ -280,9 +296,6 @@
     "message": "Report error",
     "description": "ErrorWindowViewModel.SetupLoc"
   },
-
-
-
   "GenericAddonSetupTitle": {
     "message": "Configure Auto-Start",
     "description": "GenericAddonSetupWindowViewModel.SetupLoc"
