@@ -6,6 +6,7 @@ use boolean_enums::_gen_boolean_enum_gen_enum;
 use boolean_enums::_gen_boolean_enum_serde;
 use boolean_enums::gen_boolean_enum;
 
+mod blowfish;
 mod arguments;
 #[cfg(not(windows))]
 pub mod unix;
