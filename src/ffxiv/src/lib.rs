@@ -95,8 +95,9 @@ pub fn launch(
     let working_directory = executable.parent().unwrap();
 
     let arguments = if encrypt.into() {
-        // TODO (Chiv) Encrypt args
-        todo!()
+        unsafe {
+            arguments.build_encrypted()
+        }
     } else {
         arguments.build()
     };
@@ -141,10 +142,20 @@ fn uninitialise_steam(integration: SteamIntegration) -> Result<(), Box<dyn std::
 
 #[cfg(test)]
 mod test {
+    use std::path::PathBuf;
+
     use super::*;
 
     #[test]
     fn dummy() {
         eprintln!("{:?}", SteamIntegration::Yes);
+    }
+
+    #[test]
+    fn start_game() {
+        let game_path = dbg!(env!("XL_TESTS_GAMEPATH"));
+
+        launch(SessionId("1"), Region(1), ExpansionLevel(2), SteamIntegration::Yes, SteamServiceAccount::Yes, None,
+         &PathBuf::from(game_path), DX11::Yes, libxl::game::language::ClientLanguage::Japanese, EncryptArguments::Yes, FfxivVersion("0.0.0.0")).unwrap();
     }
 }
