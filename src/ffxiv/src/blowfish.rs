@@ -1,12 +1,17 @@
 use byteorder::{ByteOrder, LE};
 
-const P_ARY: [u32; 18] = [
+const P_NUM: usize = 18;
+
+const S_NUM_BOXES: usize = 4;
+const S_NUM: usize = 256;
+
+const P_ARY: [u32; P_NUM] = [
     0x243f6a88, 0x85a308d3, 0x13198a2e, 0x03707344, 0xa4093822, 0x299f31d0, 0x082efa98, 0xec4e6c89,
     0x452821e6, 0x38d01377, 0xbe5466cf, 0x34e90c6c, 0xc0ac29b7, 0xc97c50dd, 0x3f84d5b5, 0xb5470917,
     0x9216d5d9, 0x8979fb1b,
 ];
 
-const S_BOXES: [[u32; 256]; 4] = [
+const S_BOXES: [[u32; S_NUM]; S_NUM_BOXES] = [
     [
         0xd1310ba6, 0x98dfb5ac, 0x2ffd72db, 0xd01adfb7, 0xb8e1afed, 0x6a267e96, 0xba7c9045,
         0xf12c7f99, 0x24a19947, 0xb3916cf7, 0x0801f2e2, 0x858efc16, 0x636920d8, 0x71574e69,
@@ -187,13 +192,13 @@ fn u32_from_slice(buf: &[u8], offset: &mut usize) -> u32 {
 
 impl Blowfish {
     pub fn new(key: &Vec<u8>) -> Self {
-        let mut fish = Self {
+        let mut instance = Self {
             s: S_BOXES,
             p: P_ARY,
         };
 
-        fish.set_key(key);
-        fish
+        instance.set_key(key);
+        instance
     }
 
     pub fn encrypt_vec(&self, data: &Vec<u8>) -> Vec<u8> {
@@ -224,13 +229,13 @@ impl Blowfish {
 
     fn set_key(&mut self, key: &Vec<u8>) {
         let mut key_pos = 0;
-        for i in 0..18 {
+        for i in 0..P_NUM {
             self.p[i] ^= u32_from_slice(key, &mut key_pos);
         }
 
         let mut l: u32 = 0;
         let mut r: u32 = 0;
-        for i in (0..self.p.len()).step_by(2) {
+        for i in (0..P_NUM).step_by(2) {
             let (nl, nr) = self.encrypt_pair(l, r);
             l = nl;
             r = nr;
@@ -238,8 +243,8 @@ impl Blowfish {
             self.p[i + 1] = r;
         }
 
-        for i in 0..self.s.len() {
-            for j in (0..self.s[i].len()).step_by(2) {
+        for i in 0..S_NUM_BOXES {
+            for j in (0..S_NUM).step_by(2) {
                 let (nl, nr) = self.encrypt_pair(l, r);
                 l = nl;
                 r = nr;
