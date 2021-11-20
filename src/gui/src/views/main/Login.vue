@@ -28,7 +28,7 @@
   </q-card>
 </template>
 
-<script>
+<script lang="ts">
 import {defineComponent, ref} from "vue"
 import {QCard, QBtn, QCheckbox, QInput} from "quasar"
 

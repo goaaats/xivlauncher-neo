@@ -1,10 +1,10 @@
 import * as VueRouter from "vue-router"
-import RootView from "@/views/Root.vue"
-import MainView from "@/views/main/Main.vue"
+import LoadingView from "@/views/Loading.vue"
+import MainView from "@/views/Main.vue"
 import SetupView from "@/views/Setup.vue"
 
 const routes = [
-    {path: "/", component: RootView},
+    {path: "/", component: LoadingView},
     {path: "/main", component: MainView},
     {path: "/setup", component: SetupView},
 ]

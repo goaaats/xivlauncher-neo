@@ -74,7 +74,7 @@ export async function setUidCache(uidCache: UidCacheEntry[]) {
     return await invoke("update_uid_cache", {uid_cache: uidCache})
 }
 
-type LauncherSettings = {
+export type LauncherSettings = {
     game_path: string,
     use_dx11: boolean,
     use_autologin: boolean,
@@ -98,7 +98,7 @@ type LauncherSettings = {
     has_shown_auto_launch_warning: boolean,
 }
 
-type AddonEntry = {
+export type AddonEntry = {
     is_enabled: boolean,
     path: string,
     command_line: string,
@@ -107,7 +107,7 @@ type AddonEntry = {
     kill_after_close: boolean,
 }
 
-type AccountEntry = {
+export type AccountEntry = {
     character_name: string,
     character_world: string,
     thumbnail_url: string,
@@ -117,7 +117,7 @@ type AccountEntry = {
     use_otp: boolean,
 }
 
-type UidCacheEntry = {
+export type UidCacheEntry = {
     username: string,
     unique_id: string,
     region: number,

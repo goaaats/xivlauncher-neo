@@ -13,8 +13,6 @@ import MainNews from "@/views/main/News.vue"
 import MainHeadlines from "@/views/main/Headlines.vue"
 import MainLogin from "@/views/main/Login.vue"
 import MainControls from "@/views/main/Controls.vue"
-//import {invoke} from "@tauri-apps/api/tauri";
-//import {Headline} from "@/views/main/headline";
 
 export default defineComponent({
   name: "main-view",
