@@ -6,6 +6,8 @@ edition = "2021"
 [dependencies]
 tracing = "0.1"
 boolean-enums = { version = "0.3.4", features = ["serde"] }
+byteorder = "1.4"
+base64 = "0.13"
 libxl = { path = "../libxl" }
 
 [target.'cfg(windows)'.dependencies.windows]
@@ -16,6 +18,7 @@ features = [
     , "Win32_System_WindowsProgramming"
     , "Win32_Security_Authorization"
     , "Win32_System_Threading"
+    , "Win32_System_SystemInformation"
     , "Win32_UI_WindowsAndMessaging"
 ]
 

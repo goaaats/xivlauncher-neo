@@ -855,7 +855,9 @@ dependencies = [
 name = "ffxiv"
 version = "0.0.1"
 dependencies = [
+ "base64",
  "boolean-enums",
+ "byteorder",
  "libxl",
  "sysinfo",
  "tracing",
