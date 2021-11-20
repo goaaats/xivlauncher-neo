@@ -1,6 +1,7 @@
-pub mod hex_slice;
-pub mod path;
-pub mod time;
+pub(crate) mod hex_slice;
+pub(crate) mod path;
+pub(crate) mod time;
+pub(crate) mod hash;
 
 #[macro_export]
 macro_rules! either {
@@ -12,3 +13,4 @@ macro_rules! either {
     }
   };
 }
+

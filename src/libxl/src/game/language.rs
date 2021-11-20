@@ -40,7 +40,7 @@ impl ClientLanguage {
   }
 
   pub fn from_langcode(langcode: &str) -> Self {
-    let first = langcode.split("-").next().unwrap();
+    let first = langcode.split('-').next().unwrap();
     match first {
       "ja" => Self::Japanese,
       "en" => Self::English,

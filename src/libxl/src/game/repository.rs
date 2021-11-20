@@ -27,7 +27,7 @@ fn get_ex_path(game_path: &Path, idx: u8) -> PathBuf {
 }
 
 fn read_ver(path: &Path) -> String {
-  fs::read_to_string(path).unwrap_or(DEFAULT_VERSION.to_string())
+  fs::read_to_string(path).unwrap_or_else(|_| DEFAULT_VERSION.to_string())
 }
 
 impl Repository {

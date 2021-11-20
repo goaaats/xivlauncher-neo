@@ -45,7 +45,7 @@ pub fn close_process(process_name: &str) {
 
 /// Returns true if the specified process is running.
 pub fn is_process_running(process_name: &str) -> bool {
-  for (_, process) in SYS.processes() {
+  for process in SYS.processes().values() {
     if process.name() == process_name {
       return true;
     }

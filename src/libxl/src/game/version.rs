@@ -24,7 +24,7 @@ pub enum VersionError {
 }
 
 pub fn get_version_report(game_path: &Path, ex_level: u8) -> Result<String, VersionError> {
-  let mut version_report = String::from(get_patch_gamever_hash(game_path)?);
+  let mut version_report = get_patch_gamever_hash(game_path)?;
 
   for n in 1..ex_level + 1 {
     let ex_ver = get_ex_ver(game_path, n);
@@ -63,7 +63,7 @@ fn get_patch_gamever_hash(game_path: &Path) -> Result<String, VersionError> {
     output.push_str(&hash);
 
     if n != num_hashes - 1 {
-      output.push_str(",");
+      output.push(',');
     }
   }
 
