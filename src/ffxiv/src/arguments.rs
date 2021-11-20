@@ -1,3 +1,12 @@
+use crate::blowfish::Blowfish;
+
+const CHECKSUM_TBL: &[char; 16] = &[
+    'f', 'X', '1', 'p', 'G', 't', 'd', 'S',
+    '5', 'C', 'A', 'P', '4', '_', 'V', 'L',
+];
+
+const ENC_VERSION: u32 = 0x3;
+
 #[derive(Default)]
 pub(crate) struct Builder<'a> {
     //TODO (Chiv) Second tuple type cow?
@@ -28,6 +37,41 @@ impl<'a> Builder<'a> {
             .map(|(key, value)| format!(" {}={}", key, value))
             .collect()
     }
+
+    pub(crate) unsafe fn build_encrypted(mut self) -> String {
+        let key = Builder::derive_key();
+        self.build_with_key(key)
+    } 
+
+    pub(crate) fn build_with_key(mut self, key: u32) -> String {
+        let checksum = Builder::derive_checksum(key);
+
+        // Clone the vector, so we don't add the key to the original list of arguments
+        let mut args = self.arguments.to_vec();
+        args.insert(0, ("T", key.to_string().into()));
+
+        // The format for encrypted arguments differs
+        let arg_string: String = args.into_iter()
+            .map(|(key, value)| format!(" /{} ={}", key, value))
+            .collect();
+
+        let fish = Blowfish::new(&format!("{:08x}", key).as_bytes().to_vec());
+        let data = fish.encrypt_vec(&arg_string.as_bytes().to_vec());
+        let b64 = base64::encode(data)
+            .replace("+", "-")
+            .replace("/", "_");
+
+        format!("//**sqex{:04}{}{}**//", ENC_VERSION, b64, checksum)
+    }
+
+    fn derive_checksum(key: u32) -> char {
+        let key_index = (key & 0x000F_0000) >> 16;
+        if key_index > CHECKSUM_TBL.len().try_into().unwrap() {
+            panic!("key_index out of range");
+        }
+    
+        CHECKSUM_TBL[key_index as usize]
+    }
 }
 
 impl<'a, T> From<T> for Builder<'a>
@@ -55,3 +99,19 @@ fn build_correct_arg_string() {
 
     assert_eq!(a.build(), " DEV.DataPathType=1 DEV.MaxEntitledExpansionID=3 DEV.TestSID=a DEV.UseSqPack=1 SYS.Region=0 language=1 ver=2021.08.15.00004");
 }
+
+#[cfg(test)]
+#[test]
+fn build_encrypted_same_as_csharp() {
+    let a = Builder::default()
+        .append("DEV.DataPathType", "1".into())
+        .append("DEV.MaxEntitledExpansionID", "3".into())
+        .append("DEV.TestSID", "a".into())
+        .append("DEV.UseSqPack", "1".into())
+        .append("SYS.Region", "0".into())
+        .append("language", "1".into())
+        .append("ver", "2021.08.15.00004".into());
+
+    assert_eq!(a.build_with_key(0), "//**sqex0003dDvxpwp6Q4Cu1Mf6pIYrV_IN8zx1PxJfur658Tc90lHJJo6rx_wuyU8AGCr0spP-VLNHUog9SIR83lWdtCRTJBru9B6cFiAr26cf1Rx1c1bnEA6-LZz2O3bAlm0xLPQdONA58sub7a6Ue0qxQHLDQNdDsHI47BAA5UWs7Zl7uAEhdueyckXusSaagpyuT0lYf**//");
+}
+
