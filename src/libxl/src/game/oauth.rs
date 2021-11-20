@@ -2,7 +2,6 @@ use core::fmt;
 use lazy_static::lazy_static;
 use linked_hash_map::LinkedHashMap;
 use regex::Regex;
-use std::collections::HashMap;
 
 use crate::game::constants;
 use crate::game::language::ClientLanguage;
@@ -54,6 +53,8 @@ pub async fn login(
   steam_service: bool,
   region: AccountRegion,
 ) -> Result<LoginResult, LoginError> {
+  // TODO (goat): add support for platform/Mac
+
   let stored = stored(steam_service, region).await?;
 
   let mut form = LinkedHashMap::new();
