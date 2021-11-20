@@ -1,5 +1,5 @@
 <template>
-  <div id="content" class="flex window-height window-width justify-center items-center">
+  <div id="content" class="flex fit justify-center items-center">
 
     <div>
       <q-inner-loading>

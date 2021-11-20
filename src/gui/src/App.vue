@@ -1,5 +1,5 @@
 <template>
-  <div class="window-width window-height overflow-hidden">
+  <div class="fullscreen overflow-hidden">
     <router-view></router-view>
   </div>
 </template>
@@ -72,10 +72,9 @@ export default defineComponent({
       app.provide("uidCache", await getUidCache())
 
       if (settings.game_path) {
-        await router.push("/setup")
-        //await router.push("main")
+        await router.push("/main")
       } else {
-        //await router.push("setup")
+        await router.push("/setup")
       }
     })()
 

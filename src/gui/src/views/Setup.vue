@@ -153,7 +153,6 @@ export default {
     QCarousel, QCarouselControl, QCarouselSlide,
     QCheckbox, QIcon, QInput, QSelect,
   },
-  methods: {},
   setup() {
     const t = useI18n()
     const router = useRouter()
