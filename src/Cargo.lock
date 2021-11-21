@@ -1643,14 +1643,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "libxl-test"
-version = "0.1.0"
-dependencies = [
- "libxl",
- "tokio",
-]
-
-[[package]]
 name = "linked-hash-map"
 version = "0.5.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4239,6 +4231,14 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "244c3741f4240ef46274860397c7c74e50eb23624996930e484c16679633a54c"
 dependencies = [
  "libc",
+]
+
+[[package]]
+name = "xlcmd"
+version = "0.1.0"
+dependencies = [
+ "libxl",
+ "tokio",
 ]
 
 [[package]]
