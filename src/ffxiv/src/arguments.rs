@@ -43,15 +43,13 @@ impl<'a> Builder<'a> {
         self.build_with_key(key)
     } 
 
-    pub(crate) fn build_with_key(self, key: u32) -> String {
+    pub(crate) fn build_with_key(mut self, key: u32) -> String {
         let checksum = Builder::derive_checksum(key);
 
-        // Clone the vector, so we don't add the key to the original list of arguments
-        let mut args = self.arguments.to_vec();
-        args.insert(0, ("T", key.to_string().into()));
+        self.arguments.insert(0, ("T", key.to_string().into()));
 
         // The format for encrypted arguments differs
-        let arg_string: String = args.into_iter()
+        let arg_string: String = self.arguments.into_iter()
             .map(|(key, value)| format!(" /{} ={}", key, value))
             .collect();
 
