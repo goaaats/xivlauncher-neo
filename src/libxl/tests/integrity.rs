@@ -46,7 +46,7 @@ fn check_integrity() {
 
   let (tx, rx) = mpsc::channel();
 
-  let thread_progress = progress.clone();
+  let thread_progress = Arc::clone(&progress);
 
   thread::spawn(move || loop {
     let prog = thread_progress.load(std::sync::atomic::Ordering::Relaxed);
