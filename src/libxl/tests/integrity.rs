@@ -1,14 +1,5 @@
 use libxl::game::{integrity::{Integrity, IntegrityCheckModel}, repository::Repository};
-use std::{
-  path::{Path, PathBuf},
-  sync::{
-    atomic::AtomicU32,
-    mpsc::{self, TryRecvError},
-    Arc,
-  },
-  thread,
-  time::Duration,
-};
+use std::{path::{Path, PathBuf}, sync::{Arc, atomic::{AtomicBool, AtomicU32}, mpsc::{self, TryRecvError}}, thread, time::Duration};
 
 fn get_game_path() -> PathBuf {
   let game_path = dbg!(env!("XL_TESTS_GAMEPATH"));
@@ -43,33 +34,26 @@ fn check_integrity() {
   let num_hashes = reference.hashes.len();
 
   let progress = Arc::new(AtomicU32::default());
-
-  let (tx, rx) = mpsc::channel();
-
   let thread_progress = Arc::clone(&progress);
+  
+  let do_progress = Arc::new(AtomicBool::new(true));
+  let thread_do_progress = Arc::clone(&do_progress);
 
-  thread::spawn(move || loop {
+  thread::spawn(move || while thread_do_progress.load(std::sync::atomic::Ordering::SeqCst) {
     let prog = thread_progress.load(std::sync::atomic::Ordering::Relaxed);
     println!(
       "{:08}/{:08} ({:.2}%)",
       prog,
       num_hashes,
       prog as f32 / num_hashes as f32 * 100.0
-    );
+    );  
 
     thread::sleep(Duration::from_millis(500));
-    match rx.try_recv() {
-      Ok(_) | Err(TryRecvError::Disconnected) => {
-        println!("Terminating.");
-        break;
-      }
-      Err(TryRecvError::Empty) => {}
-    }
   });
 
   let report = reference.check(&game_path, progress);
 
-  let _ = tx.send(());
+  do_progress.store(false, std::sync::atomic::Ordering::SeqCst);
 
   let elapsed = start.elapsed();
   println!("Hashes calculated in: {:.2?}", elapsed);

@@ -1,8 +1,4 @@
-use std::{fmt, fs, path::Path, slice::SliceIndex, sync::{
-        atomic::AtomicU32,
-        mpsc::{self, TryRecvError},
-        Arc,
-    }, thread, time::{Duration, Instant}};
+use std::{fmt, fs, path::Path, slice::SliceIndex, sync::{Arc, atomic::{AtomicBool, AtomicU32}, mpsc::{self, TryRecvError}}, thread, time::{Duration, Instant}};
 
 use indicatif::{HumanDuration, ProgressBar, ProgressStyle};
 use libxl::game::oauth::AccountRegion;
@@ -41,33 +37,28 @@ async fn main() {
         pb.enable_steady_tick(50);
         pb.set_message("Hashing file...");
 
+        let thread_pb = pb.clone();
+
         let version = libxl::game::repository::Repository::FFXIV.get_version(&game_path);
 
         let progress = Arc::new(AtomicU32::default());
-
-        let (tx, rx) = mpsc::channel();
-
         let thread_progress: Arc<AtomicU32> = Arc::clone(&progress);
 
-        let thread_pb = pb.clone();
-
-        thread::spawn(move || loop {
+        let do_progress = Arc::new(AtomicBool::new(true));
+        let thread_do_progress = Arc::clone(&do_progress);
+      
+        thread::spawn(move || while thread_do_progress.load(std::sync::atomic::Ordering::SeqCst) {
             let prog = thread_progress.load(std::sync::atomic::Ordering::Relaxed);
             thread_pb.set_prefix(format!("[{}/?]", prog));
 
             thread::sleep(Duration::from_millis(500));
-            match rx.try_recv() {
-                Ok(_) | Err(TryRecvError::Disconnected) => {
-                    break;
-                }
-                Err(TryRecvError::Empty) => {}
-            }
         });
 
         let report = libxl::game::integrity::IntegrityCheckModel::generate(
             &version, &game_path, progress, None,
         );
-        let _ = tx.send(());
+
+        do_progress.store(false, std::sync::atomic::Ordering::SeqCst);
 
         pb.finish_with_message(format!("{} Done in {}", SPARKLE, HumanDuration(started.elapsed())));
 
