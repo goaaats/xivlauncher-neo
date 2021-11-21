@@ -191,7 +191,7 @@ fn u32_from_slice(buf: &[u8], offset: &mut usize) -> u32 {
 }
 
 impl Blowfish {
-    pub fn new(key: &Vec<u8>) -> Self {
+    pub fn new(key: &[u8]) -> Self {
         let mut instance = Self {
             s: S_BOXES,
             p: P_ARY,
@@ -201,7 +201,7 @@ impl Blowfish {
         instance
     }
 
-    pub fn encrypt_vec(&self, data: &Vec<u8>) -> Vec<u8> {
+    pub fn encrypt(&self, data: &[u8]) -> Vec<u8> {
         let padded_len = if (data.len() % 8) == 0 {
             data.len()
         } else {
@@ -227,7 +227,7 @@ impl Blowfish {
         out
     }
 
-    fn set_key(&mut self, key: &Vec<u8>) {
+    fn set_key(&mut self, key: &[u8]) {
         let mut key_pos = 0;
         for i in 0..P_NUM {
             self.p[i] ^= u32_from_slice(key, &mut key_pos);

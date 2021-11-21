@@ -38,12 +38,12 @@ impl<'a> Builder<'a> {
             .collect()
     }
 
-    pub(crate) unsafe fn build_encrypted(mut self) -> String {
+    pub(crate) unsafe fn build_encrypted(self) -> String {
         let key = Builder::derive_key();
         self.build_with_key(key)
     } 
 
-    pub(crate) fn build_with_key(mut self, key: u32) -> String {
+    pub(crate) fn build_with_key(self, key: u32) -> String {
         let checksum = Builder::derive_checksum(key);
 
         // Clone the vector, so we don't add the key to the original list of arguments
@@ -55,8 +55,8 @@ impl<'a> Builder<'a> {
             .map(|(key, value)| format!(" /{} ={}", key, value))
             .collect();
 
-        let fish = Blowfish::new(&format!("{:08x}", key).as_bytes().to_vec());
-        let data = fish.encrypt_vec(&arg_string.as_bytes().to_vec());
+        let fish = Blowfish::new(&format!("{:08x}", key).as_bytes());
+        let data = fish.encrypt(&arg_string.as_bytes());
         let b64 = base64::encode(data)
             .replace("+", "-")
             .replace("/", "_");
