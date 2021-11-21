@@ -11,7 +11,7 @@ use crate::patch::patchlist::PatchList;
 use super::{
   constants,
   platform::Platform,
-  repository::{get_ex_ver, Repository},
+  repository::Repository,
   request,
 };
 
@@ -27,7 +27,7 @@ pub fn get_version_report(game_path: &Path, ex_level: u8) -> Result<String, Vers
   let mut version_report = get_patch_gamever_hash(game_path)?;
 
   for n in 1..ex_level + 1 {
-    let ex_ver = get_ex_ver(game_path, n);
+    let ex_ver = Repository::get_ex_version(game_path, n);
     version_report.push_str(&format!("\nex{}\t{}", n, ex_ver));
   }
 

@@ -14,10 +14,6 @@ pub enum Repository {
   Ex4,
 }
 
-pub fn get_ex_ver(game_path: &Path, idx: u8) -> String {
-  read_ver(&get_ex_path(game_path, idx))
-}
-
 fn get_ex_path(game_path: &Path, idx: u8) -> PathBuf {
   game_path
     .join("game")
@@ -44,5 +40,9 @@ impl Repository {
 
   pub fn get_version(&self, game_path: &Path) -> String {
     read_ver(&self.get_path(game_path))
+  }
+
+  pub fn get_ex_version(game_path: &Path, idx: u8) -> String {
+    read_ver(&get_ex_path(game_path, idx))
   }
 }
