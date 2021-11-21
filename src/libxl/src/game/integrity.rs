@@ -55,6 +55,8 @@ impl IntegrityCheckModel {
   }
 
   pub fn generate(version: &str, game_path: &Path, progress: Arc<AtomicU32>, reference: Option<&IntegrityCheckModel>) -> IntegrityCheckModel {
+    let path_len = game_path.to_path_buf().to_str().unwrap().len();
+
     let paths: Vec<PathBuf> = WalkDir::new(game_path)
       .into_iter()
       .filter_map(|v| v.ok())
@@ -62,7 +64,7 @@ impl IntegrityCheckModel {
       .filter(|v| v.path().is_file())
       // If we have a reference, we only want files that are in the reference
       .filter(|v| if let Some(reference) = reference {
-        reference.hashes.contains_key(v.path().to_str().unwrap())
+        reference.hashes.contains_key(&v.path().to_str().unwrap()[path_len..])
       } else {
         true
       })
@@ -73,7 +75,7 @@ impl IntegrityCheckModel {
       .par_iter()
       .map(|x| {
         let result = (
-          x.to_str().unwrap().to_string(),
+          x.to_str().unwrap()[path_len..].to_string(),
           IntegrityCheckModel::make_hash(x).expect("Could not generate hash."),
         );
 
