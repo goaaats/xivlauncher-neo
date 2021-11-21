@@ -1,4 +1,5 @@
 use core::fmt;
+use strum_macros::EnumString;
 use lazy_static::lazy_static;
 use linked_hash_map::LinkedHashMap;
 use regex::Regex;
@@ -24,7 +25,7 @@ impl fmt::Display for LoginError {
   }
 }
 
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, EnumString)]
 pub enum AccountRegion {
   Japan = 1,
   NorthAmerica = 2,
@@ -106,7 +107,6 @@ fn oauth_referer(language: ClientLanguage, region: AccountRegion, steam_service:
 
 async fn stored(steam_service: bool, region: AccountRegion) -> Result<String, LoginError> {
   let url = constants::oauth_top_url(region, false, steam_service);
-  println!("{}", url);
 
   let resp = request::launcher_get(url)
     .header("Referer", request::launcher_referer(ClientLanguage::English))
