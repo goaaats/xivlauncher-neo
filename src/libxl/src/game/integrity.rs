@@ -8,8 +8,7 @@ use std::{
   path::{Path, PathBuf},
   sync::{
     atomic::AtomicU32,
-    mpsc::{Receiver, Sender},
-    Arc, Mutex,
+    Arc,
   },
 };
 use walkdir::WalkDir;
