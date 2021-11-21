@@ -7,3 +7,10 @@ pub(crate) async fn launch_with_fix(
 ) -> Result<(), Box<dyn std::error::Error>> {
     todo!()
 }
+
+#[cfg(not(windows))]
+impl<'a> crate::arguments::Builder<'a> {
+    pub(super) unsafe fn derive_key() -> u32 {
+        todo!()
+    }
+}

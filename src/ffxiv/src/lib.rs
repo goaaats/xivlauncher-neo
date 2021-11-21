@@ -6,6 +6,7 @@ use boolean_enums::_gen_boolean_enum_gen_enum;
 use boolean_enums::_gen_boolean_enum_serde;
 use boolean_enums::gen_boolean_enum;
 
+mod blowfish;
 mod arguments;
 #[cfg(not(windows))]
 pub mod unix;
@@ -94,8 +95,7 @@ pub fn launch(
     let working_directory = executable.parent().unwrap();
 
     let arguments = if encrypt.into() {
-        // TODO (Chiv) Encrypt args
-        todo!()
+        arguments.build_encrypted()
     } else {
         arguments.build()
     };
@@ -140,6 +140,8 @@ fn uninitialise_steam(integration: SteamIntegration) -> Result<(), Box<dyn std::
 
 #[cfg(test)]
 mod test {
+    use std::path::PathBuf;
+
     use super::*;
 
     #[test]

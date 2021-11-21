@@ -16,7 +16,7 @@ fn dev_ffxiv_starts() {
         .find(|(pid, p)| p.name() == "ffxiv_dx11.exe");
     assert!(ffxiv.is_none());
     // TODO (Chiv) Split tests and such and make this portable
-    let game = std::path::Path::new(r"C:\Games\SquareEnix\FINAL FANTASY XIV - A Realm Reborn\");
+    let game = std::path::Path::new(dbg!(env!("XL_TESTS_GAMEPATH")));
     //TODO  DEV ARGS Start Args DEV.DataPathType=1 DEV.MaxEntitledExpansionID=3 DEV.TestSID=a DEV.UseSqPack=1 SYS.Region=0 language=1
     ffxiv::launch(
         ffxiv::SessionId("a"),
@@ -28,7 +28,7 @@ fn dev_ffxiv_starts() {
         game,
         ffxiv::DX11::Yes,
         libxl::game::language::ClientLanguage::English,
-        ffxiv::EncryptArguments::No,
+        ffxiv::EncryptArguments::Yes,
         ffxiv::FfxivVersion(""),
     )
     .unwrap();
