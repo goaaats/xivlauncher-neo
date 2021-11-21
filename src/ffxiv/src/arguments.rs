@@ -39,12 +39,12 @@ impl<'a> Builder<'a> {
     }
 
     pub(crate) fn build_encrypted(self) -> String {
-        let key = Builder::derive_key();
+        let key = Self::derive_key();
         self.build_with_key(key)
     } 
 
     pub(crate) fn build_with_key(mut self, key: u32) -> String {
-        let checksum = Builder::derive_checksum(key);
+        let checksum = Self::derive_checksum(key);
 
         self.arguments.insert(0, ("T", key.to_string().into()));
 
