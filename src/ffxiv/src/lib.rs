@@ -95,9 +95,7 @@ pub fn launch(
     let working_directory = executable.parent().unwrap();
 
     let arguments = if encrypt.into() {
-        unsafe {
-            arguments.build_encrypted()
-        }
+        arguments.build_encrypted()
     } else {
         arguments.build()
     };

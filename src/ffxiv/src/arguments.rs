@@ -38,7 +38,7 @@ impl<'a> Builder<'a> {
             .collect()
     }
 
-    pub(crate) unsafe fn build_encrypted(self) -> String {
+    pub(crate) fn build_encrypted(self) -> String {
         let key = Builder::derive_key();
         self.build_with_key(key)
     } 
@@ -55,8 +55,8 @@ impl<'a> Builder<'a> {
             .map(|(key, value)| format!(" /{} ={}", key, value))
             .collect();
 
-        let fish = Blowfish::new(&format!("{:08x}", key).as_bytes());
-        let data = fish.encrypt(&arg_string.as_bytes());
+        let fish = Blowfish::new(format!("{:08x}", key).as_bytes());
+        let data = fish.encrypt(arg_string.as_bytes());
         let b64 = base64::encode(data)
             .replace("+", "-")
             .replace("/", "_");
