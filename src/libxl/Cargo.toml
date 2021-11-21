@@ -25,6 +25,8 @@ sysinfo = { version = "0.20.4" }
 sys-locale = { version = "0.1.0" }
 walkdir = { version = "2.3.2" }
 rayon = { version = "1.5.1" }
+strum = "0.23.0"
+strum_macros = "0.23"
 
 [dev-dependencies]
 tokio-test = "0.4.2"
