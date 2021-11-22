@@ -27,6 +27,7 @@ impl fmt::Display for LoginError {
   }
 }
 
+#[derive(Debug)]
 pub struct OauthLogin {
   pub session_id: String,
   pub can_play: bool,
