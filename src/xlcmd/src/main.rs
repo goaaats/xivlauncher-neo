@@ -9,7 +9,7 @@ use std::{
     time::{Duration, Instant},
 };
 
-use dialoguer::{Input, Password, theme::ColorfulTheme};
+use dialoguer::{theme::ColorfulTheme, Input, Password};
 use indicatif::{HumanDuration, ProgressBar, ProgressStyle};
 
 use clap::Parser;
@@ -43,11 +43,12 @@ struct Opts {
 async fn main() {
     let opts: Opts = Opts::parse();
 
-    let provided_path = opts.game_path
+    let provided_path = opts
+        .game_path
         .or_else(|| std::env::var("XL_TESTS_GAMEPATH").ok())
         .expect("No game path specified in args or env!");
 
-    let game_path =  Path::new(&provided_path);
+    let game_path = Path::new(&provided_path);
 
     println!("=> Game at \"{}\"", game_path.display());
 
@@ -99,6 +100,23 @@ async fn main() {
         return;
     }
 
+    let pb = ProgressBar::new(1);
+    pb.set_style(spinner_style.clone());
+    pb.enable_steady_tick(50);
+    pb.set_message("Checking boot version...");
+
+    let boot_check =
+        libxl::game::version::check_boot_version(game_path, libxl::game::platform::Platform::Win32)
+            .await
+            .expect("Could not check boot version.");
+
+    if boot_check.is_some() {
+        pb.finish_with_message(format!("{} Boot patch required!", ERROR));
+        return;
+    }
+
+    pb.finish_with_message(format!("{} Boot up to date!", SPARKLE));
+
     let username: String = Input::with_theme(&ColorfulTheme::default())
         .with_prompt("Username")
         .validate_with({
@@ -139,7 +157,7 @@ async fn main() {
         .unwrap();
 
     let pb = ProgressBar::new(1);
-    pb.set_style(spinner_style);
+    pb.set_style(spinner_style.clone());
     pb.enable_steady_tick(50);
     pb.set_message(format!("Logging in as {}...", username));
 
@@ -156,11 +174,12 @@ async fn main() {
     match oauth {
         Ok(oauth) => {
             pb.finish_with_message(format!(
-                "{} Done in {}\n{:#?}",
+                "{} Done in {}",
                 SPARKLE,
-                HumanDuration(started.elapsed()),
-                oauth
+                HumanDuration(started.elapsed())
             ));
+
+            println!("{:#?}", oauth);
         }
         Err(err) => {
             pb.finish_with_message(format!(
@@ -169,6 +188,11 @@ async fn main() {
                 HumanDuration(started.elapsed()),
                 err
             ));
-        },
+        }
     }
+
+    let pb = ProgressBar::new(1);
+    pb.set_style(spinner_style.clone());
+    pb.enable_steady_tick(50);
+    pb.set_message("Registering session...");
 }
