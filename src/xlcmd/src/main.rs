@@ -9,7 +9,7 @@ use std::{
     time::{Duration, Instant},
 };
 
-use dialoguer::{theme::ColorfulTheme, Input};
+use dialoguer::{Input, Password, theme::ColorfulTheme};
 use indicatif::{HumanDuration, ProgressBar, ProgressStyle};
 
 use clap::Parser;
@@ -48,6 +48,8 @@ async fn main() {
         .expect("No game path specified in args or env!");
 
     let game_path =  Path::new(&provided_path);
+
+    println!("=> Game at \"{}\"", game_path.display());
 
     let started = Instant::now();
     let spinner_style = ProgressStyle::default_spinner()
@@ -113,9 +115,9 @@ async fn main() {
         .interact_text()
         .unwrap();
 
-    let password: String = Input::with_theme(&ColorfulTheme::default())
+    let password: String = Password::with_theme(&ColorfulTheme::default())
         .with_prompt("Password")
-        .interact_text()
+        .interact()
         .unwrap();
 
     let otp: String = Input::with_theme(&ColorfulTheme::default())
@@ -162,7 +164,7 @@ async fn main() {
         }
         Err(err) => {
             pb.finish_with_message(format!(
-                "{} Failed in {}, {}",
+                "{} Failed in {}\n{:?}",
                 ERROR,
                 HumanDuration(started.elapsed()),
                 err
