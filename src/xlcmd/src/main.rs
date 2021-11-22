@@ -156,10 +156,10 @@ async fn main() {
     match oauth {
         Ok(oauth) => {
             pb.finish_with_message(format!(
-                "{} Done in {}, sid: {}",
+                "{} Done in {}\n{:#?}",
                 SPARKLE,
                 HumanDuration(started.elapsed()),
-                oauth.session_id
+                oauth
             ));
         }
         Err(err) => {
