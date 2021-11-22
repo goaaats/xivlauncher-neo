@@ -34,7 +34,7 @@ pub fn get_version_report(game_path: &Path, ex_level: u8) -> Result<String, Vers
   Ok(version_report)
 }
 
-pub async fn check_boot_version(game_path: &Path, platform: Platform) -> Result<PatchList, VersionError> {
+pub async fn check_boot_version(game_path: &Path, platform: Platform) -> Result<Option<PatchList>, VersionError> {
   let ver = Repository::Boot.get_version(game_path);
   let url = constants::patch_bootver_url(ver);
   let resp = request::patch_get(platform)
@@ -44,7 +44,7 @@ pub async fn check_boot_version(game_path: &Path, platform: Platform) -> Result<
     .map_err(VersionError::Reqwest)?;
   let text = resp.text().await.map_err(VersionError::Reqwest)?;
 
-  Ok(PatchList::from(text))
+  Ok(if text.is_empty() { None } else { Some(PatchList::from(text)) })
 }
 
 pub fn get_patch_gamever_info(game_path: &Path) -> Result<String, VersionError> {
