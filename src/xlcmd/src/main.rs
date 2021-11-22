@@ -15,7 +15,7 @@ use indicatif::{HumanDuration, ProgressBar, ProgressStyle};
 use clap::Parser;
 
 use console::Emoji;
-use libxl::game::oauth::AccountRegion;
+use libxl::game::region::AccountRegion;
 static SPARKLE: Emoji<'_, '_> = Emoji("✨ ", ":)");
 static ERROR: Emoji<'_, '_> = Emoji("❌ ", ":(");
 
@@ -31,8 +31,8 @@ struct Opts {
     #[clap(long)]
     steam_service: bool,
 
-    /// Path the game is installed to
-    game_path: String,
+    /// Path the game is installed to, defaults to XL_TESTS_GAMEPATH
+    game_path: Option<String>,
 
     /// Region to use
     #[clap(long, default_value = "Europe")]
@@ -43,7 +43,11 @@ struct Opts {
 async fn main() {
     let opts: Opts = Opts::parse();
 
-    let game_path = Path::new("E:\\Games\\SquareEnix\\FINAL FANTASY XIV - A Realm Reborn");
+    let provided_path = opts.game_path
+        .or_else(|| std::env::var("XL_TESTS_GAMEPATH").ok())
+        .expect("No game path specified in args or env!");
+
+    let game_path =  Path::new(&provided_path);
 
     let started = Instant::now();
     let spinner_style = ProgressStyle::default_spinner()
@@ -137,7 +141,7 @@ async fn main() {
     pb.enable_steady_tick(50);
     pb.set_message(format!("Logging in as {}...", username));
 
-    let oauth = libxl::game::oauth::login(
+    let oauth = libxl::game::oauth::OauthLogin::login(
         &username,
         &password,
         &otp,
