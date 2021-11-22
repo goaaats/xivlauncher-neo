@@ -1,14 +1,16 @@
 use core::fmt;
-use strum_macros::EnumString;
 use lazy_static::lazy_static;
 use linked_hash_map::LinkedHashMap;
 use regex::Regex;
 use std::collections::HashMap;
+use strum_macros::EnumString;
 
 use crate::game::constants;
 use crate::game::language::ClientLanguage;
 use crate::game::platform::Platform;
 use crate::game::request;
+
+use super::region::AccountRegion;
 
 #[derive(Debug)]
 pub enum LoginError {
@@ -25,20 +27,7 @@ impl fmt::Display for LoginError {
   }
 }
 
-#[derive(Copy, Clone, EnumString)]
-pub enum AccountRegion {
-  Japan = 1,
-  NorthAmerica = 2,
-  Europe = 3,
-}
-
-impl AccountRegion {
-  pub fn as_u8(&self) -> u8 {
-    *self as u8
-  }
-}
-
-pub struct LoginResult {
+pub struct OauthLogin {
   pub session_id: String,
   pub can_play: bool,
   pub terms_accepted: bool,
@@ -46,24 +35,25 @@ pub struct LoginResult {
   pub region: AccountRegion,
 }
 
-/// Login to Square Enix oauth with the supplied credentials
-pub async fn login(
-  username: &str,
-  password: &str,
-  otp: &str,
-  platform: Platform,
-  steam_service: bool,
-  region: AccountRegion,
-) -> Result<LoginResult, LoginError> {
-  let stored = stored(steam_service, region).await?;
+impl OauthLogin {
+  /// Login to Square Enix oauth with the supplied credentials
+  pub async fn login(
+    username: &str,
+    password: &str,
+    otp: &str,
+    platform: Platform,
+    steam_service: bool,
+    region: AccountRegion,
+  ) -> Result<Self, LoginError> {
+    let stored = stored(steam_service, region).await?;
 
-  let mut form = LinkedHashMap::new();
-  form.insert("_STORED_", stored);
-  form.insert("sqexid", username.to_string());
-  form.insert("password", password.to_string());
-  form.insert("otppw", otp.to_string());
+    let mut form = LinkedHashMap::new();
+    form.insert("_STORED_", stored);
+    form.insert("sqexid", username.to_string());
+    form.insert("password", password.to_string());
+    form.insert("otppw", otp.to_string());
 
-  let req = request::launcher_post(constants::OAUTH_SEND_URL)
+    let req = request::launcher_post(constants::OAUTH_SEND_URL)
     .header("Cache-Control", "no-cache")
     .header(
       "Accept",
@@ -77,30 +67,40 @@ pub async fn login(
     .header("Cookie", "_rsid=\"\"")
     .form(&form);
 
-  let resp = req.send().await.map_err(LoginError::Reqwest)?;
-  let text = resp.text().await.map_err(LoginError::Reqwest)?;
+    let resp = req.send().await.map_err(LoginError::Reqwest)?;
+    let text = resp.text().await.map_err(LoginError::Reqwest)?;
 
-  lazy_static! {
-    static ref RE_LOGINRES: Regex = Regex::new(r#"window\.external\.user\("login=auth,ok,(.*)"\);"#).unwrap();
-    static ref RE_LOGINERR: Regex = Regex::new(r#"window\.external\.user\("login=auth,ng,err,(.*)"\);"#).unwrap();
+    lazy_static! {
+      static ref RE_LOGINRES: Regex = Regex::new(r#"window\.external\.user\("login=auth,ok,(.*)"\);"#).unwrap();
+      static ref RE_LOGINERR: Regex = Regex::new(r#"window\.external\.user\("login=auth,ng,err,(.*)"\);"#).unwrap();
+    }
+
+    if let Some(login_captures) = RE_LOGINRES.captures_iter(&text).next() {
+      let val = login_captures[1].to_string();
+      let parts: Vec<&str> = val.split(',').collect();
+
+      return Ok(Self {
+        session_id: parts[1].to_string(),
+        can_play: parts[9] != "0",
+        terms_accepted: parts[3] != "0",
+        entitled_expansion: parts[13].parse().unwrap(),
+        region: AccountRegion::from(parts[5].parse::<u8>().unwrap()),
+    });
+    }
+
+    if let Some(error_captures) = RE_LOGINERR.captures_iter(&text).next() {
+      return Err(LoginError::Account(error_captures[1].to_string()));
+    }
+
+    Err(LoginError::NoResultMatch)
   }
-
-  if let Some(login_captures) = RE_LOGINRES.captures_iter(&text).next() {
-    println!("{}", login_captures[1].to_string());
-  }
-
-  if let Some(error_captures) = RE_LOGINERR.captures_iter(&text).next() {
-    return Err(LoginError::Account(error_captures[1].to_string()));
-  }
-
-  Err(LoginError::NoResultMatch)
 }
 
 fn oauth_referer(language: ClientLanguage, region: AccountRegion, steam_service: bool) -> String {
   format!(
     "https://ffxiv-login.square-enix.com/oauth/ffxivarr/login/top?lng={}&rgn={}&isft=0&cssmode=1&isnew=1&issteam={}",
     language.langcode_short(),
-    region.as_u8(),
+    u8::from(region),
     if steam_service { "1" } else { "0" }
   )
 }

@@ -12,3 +12,4 @@ mod request;
 pub mod status;
 pub mod version;
 pub mod integrity;
+pub mod region;

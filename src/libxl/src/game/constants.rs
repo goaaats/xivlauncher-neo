@@ -1,5 +1,6 @@
-use crate::game::oauth::AccountRegion;
 use crate::util;
+
+use super::region::AccountRegion;
 
 pub fn frontier_gate_status_url() -> String {
   format!(
