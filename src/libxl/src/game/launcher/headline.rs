@@ -1,7 +1,7 @@
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 
-use crate::game::language::ClientLanguage;
+use crate::game::language::GameLanguage;
 use crate::game::request;
 use crate::util::time;
 
@@ -34,7 +34,7 @@ pub struct Headline {
 }
 
 impl Headline {
-  pub async fn get(language: ClientLanguage) -> Result<Self, HeadlineError> {
+  pub async fn get(language: GameLanguage) -> Result<Self, HeadlineError> {
     let url = format!(
       "https://frontier.ffxiv.com/news/headline.json?lang={}&media=pcapp&{}",
       language.langcode(),

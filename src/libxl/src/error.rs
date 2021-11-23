@@ -14,16 +14,14 @@ impl XlError {
   /// * `message` - The error message
   #[must_use]
   pub fn from(message: &str) -> Self {
-    return Self {
-      message: message.to_string(),
-    };
+    Self { message: message.to_string() }
   }
 
   /// Create a new error.
   /// # Arguments:
   /// * `message` - The error message
   pub fn new(message: String) -> Self {
-    return Self { message };
+    Self { message }
   }
 }
 
@@ -34,3 +32,5 @@ impl fmt::Display for XlError {
     f.write_str(self.message.as_str())
   }
 }
+
+pub type XlResult<T> = std::result::Result<T, XlError>;

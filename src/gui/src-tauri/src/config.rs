@@ -3,7 +3,7 @@ use libxl::config::{AccountEntry, AddonEntry, LauncherConfig, LauncherSettings, 
 use libxl::config_old::OldLauncherConfig;
 use log::{debug, error};
 use std::sync::{RwLock, RwLockWriteGuard};
-use libxl::error::XlError;
+use libxl::error::{XlError, XlResult};
 
 lazy_static! {
   static ref CONFIG: RwLock<LauncherConfig> = RwLock::new(load_config());
@@ -49,7 +49,7 @@ fn load_config() -> LauncherConfig {
 
 /// Get the launcher settings
 #[tauri::command]
-pub fn get_settings() -> Result<LauncherSettings, XlError> {
+pub fn get_settings() -> XlResult<LauncherSettings> {
   let config = CONFIG.read()
     .map_err(|e| XlError::new(format!("Config rwlock panic: {:?}", e)))?;
 
@@ -59,7 +59,7 @@ pub fn get_settings() -> Result<LauncherSettings, XlError> {
 
 /// Get the addon list
 #[tauri::command]
-pub fn get_addons() -> Result<Vec<AddonEntry>, XlError> {
+pub fn get_addons() -> XlResult<Vec<AddonEntry>> {
   let config = CONFIG.read()
     .map_err(|e| XlError::new(format!("Config rwlock panic: {:#?}", e)))?;
 
@@ -69,7 +69,7 @@ pub fn get_addons() -> Result<Vec<AddonEntry>, XlError> {
 
 /// Get the account list
 #[tauri::command]
-pub fn get_accounts() -> Result<Vec<AccountEntry>, XlError> {
+pub fn get_accounts() -> XlResult<Vec<AccountEntry>> {
   let config = CONFIG.read()
     .map_err(|e| XlError::new(format!("Config rwlock panic: {:#?}", e)))?;
 
@@ -79,11 +79,11 @@ pub fn get_accounts() -> Result<Vec<AccountEntry>, XlError> {
 
 /// Get the UID cache
 #[tauri::command]
-pub fn get_uid_cache() -> Result<Vec<UidCacheEntry>, XlError> {
+pub fn get_uid_cache() -> XlResult<Vec<UidCacheEntry>> {
   let config = CONFIG.read()
     .map_err(|e| XlError::new(format!("Config rwlock panic: {:#?}", e)))?;
 
-  debug!("Getting the UID cache");
+  debug!("Getting UID cache");
   Ok(config.uid_cache.clone())
 }
 
@@ -91,7 +91,7 @@ pub fn get_uid_cache() -> Result<Vec<UidCacheEntry>, XlError> {
 /// # Arguments
 /// * `settings` - Launcher settings
 #[tauri::command]
-pub fn update_settings(settings: LauncherSettings) -> Result<(), XlError> {
+pub fn update_settings(settings: LauncherSettings) -> XlResult<()> {
   let mut config = CONFIG.write()
     .map_err(|e| XlError::new(format!("Config rwlock panic: {:#?}", e)))?;
 
@@ -104,7 +104,7 @@ pub fn update_settings(settings: LauncherSettings) -> Result<(), XlError> {
 /// # Arguments
 /// * `addons` - Addons list
 #[tauri::command]
-pub fn update_addons(addons: Vec<AddonEntry>) -> Result<(), XlError> {
+pub fn update_addons(addons: Vec<AddonEntry>) -> XlResult<()> {
   let mut config = CONFIG
     .write()
     .map_err(|e| XlError::new(format!("Config rwlock panic: {:#?}", e)))?;
@@ -118,7 +118,7 @@ pub fn update_addons(addons: Vec<AddonEntry>) -> Result<(), XlError> {
 /// # Arguments
 /// * `accounts` - Accounts list
 #[tauri::command]
-pub fn update_accounts(accounts: Vec<AccountEntry>) -> Result<(), XlError> {
+pub fn update_accounts(accounts: Vec<AccountEntry>) -> XlResult<()> {
   let mut config = CONFIG
     .write()
     .map_err(|e| XlError::new(format!("Config rwlock panic: {:#?}", e)))?;
@@ -132,7 +132,7 @@ pub fn update_accounts(accounts: Vec<AccountEntry>) -> Result<(), XlError> {
 /// # Arguments
 /// * `uid_cache` - UID cache list
 #[tauri::command]
-pub fn update_uid_cache(uid_cache: Vec<UidCacheEntry>) -> Result<(), XlError> {
+pub fn update_uid_cache(uid_cache: Vec<UidCacheEntry>) -> XlResult<()> {
   let mut config = CONFIG
     .write()
     .map_err(|e| XlError::new(format!("Config rwlock panic: {:#?}", e)))?;
@@ -142,7 +142,7 @@ pub fn update_uid_cache(uid_cache: Vec<UidCacheEntry>) -> Result<(), XlError> {
   save_config(config)
 }
 
-fn save_config(config: RwLockWriteGuard<LauncherConfig>) -> Result<(), XlError> {
+fn save_config(config: RwLockWriteGuard<LauncherConfig>) -> XlResult<()> {
   match config.save() {
     Ok(()) => Ok(()),
     Err(e) => {

@@ -3,6 +3,7 @@
 mod config;
 mod game;
 mod setup;
+mod plugin;
 
 use libxl::either;
 use log::LevelFilter;
@@ -18,8 +19,6 @@ async fn main() {
 
   tauri::Builder::default()
     .invoke_handler(tauri::generate_handler![
-      setup::get_system_locale,
-      setup::find_advanced_combat_tracker,
       config::get_settings,
       config::get_addons,
       config::get_accounts,
@@ -28,6 +27,13 @@ async fn main() {
       config::update_addons,
       config::update_accounts,
       config::update_uid_cache,
+      game::start_backup_tool,
+      game::start_original_launcher,
+      plugin::get_plugins,
+      plugin::update_plugin,
+      plugin::remove_plugin,
+      setup::get_system_locale,
+      setup::find_advanced_combat_tracker,
       // game::get_headline,
     ])
     .run(tauri::generate_context!())

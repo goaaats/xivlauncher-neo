@@ -1,45 +1,45 @@
-import {invoke} from "@tauri-apps/api/tauri"
+import {invoke} from '@tauri-apps/api/tauri'
 
 /**
  * Get the path to ACT installation, if it exists
  */
 export async function getAdvancedCombatTrackerPath(): Promise<string> {
-    return await invoke<string>("find_advanced_combat_tracker")
+  return await invoke<string>('find_advanced_combat_tracker')
 }
 
 /**
  * Get the system locale
  */
 export async function getSystemLocale(): Promise<string> {
-    return await invoke<string>("get_system_locale")
+  return await invoke<string>('get_system_locale')
 }
 
 /**
  * Get the launcher settings
  */
 export async function getSettings(): Promise<LauncherSettings> {
-    return await invoke<LauncherSettings>("get_settings")
+  return await invoke<LauncherSettings>('get_settings')
 }
 
 /**
  * Get the addons list
  */
 export async function getAddons(): Promise<AddonEntry[]> {
-    return await invoke<AddonEntry[]>("get_addons")
+  return await invoke<AddonEntry[]>('get_addons')
 }
 
 /**
  * Get the accounts list
  */
 export async function getAccounts(): Promise<AccountEntry[]> {
-    return await invoke<AccountEntry[]>("get_accounts")
+  return await invoke<AccountEntry[]>('get_accounts')
 }
 
 /**
  * Get the UID cache
  */
 export async function getUidCache(): Promise<UidCacheEntry[]> {
-    return await invoke<UidCacheEntry[]>("get_uid_cache")
+  return await invoke<UidCacheEntry[]>('get_uid_cache')
 }
 
 /**
@@ -47,7 +47,7 @@ export async function getUidCache(): Promise<UidCacheEntry[]> {
  * @param settings: Launcher settings
  */
 export async function setSettings(settings: LauncherSettings) {
-    return await invoke("update_settings", {settings: settings})
+  return await invoke('update_settings', {settings: settings})
 }
 
 /**
@@ -55,7 +55,7 @@ export async function setSettings(settings: LauncherSettings) {
  * @param addons: Addons list
  */
 export async function setAddons(addons: AddonEntry[]) {
-    return await invoke("update_addons", {addons: addons})
+  return await invoke('update_addons', {addons: addons})
 }
 
 /**
@@ -63,7 +63,7 @@ export async function setAddons(addons: AddonEntry[]) {
  * @param accounts: Accounts list
  */
 export async function setAccounts(accounts: AccountEntry[]) {
-    return await invoke("update_accounts", {accounts: accounts})
+  return await invoke('update_accounts', {accounts: accounts})
 }
 
 /**
@@ -71,56 +71,100 @@ export async function setAccounts(accounts: AccountEntry[]) {
  * @param uidCache: UID cache list
  */
 export async function setUidCache(uidCache: UidCacheEntry[]) {
-    return await invoke("update_uid_cache", {uid_cache: uidCache})
+  return await invoke('update_uid_cache', {uid_cache: uidCache})
+}
+
+/**
+ * Start the backup tool
+ */
+export async function startBackupTool() {
+  return await invoke('start_backup_tool')
+}
+
+/**
+ * Start the original launcher
+ * @param useSteam: Use a steam account
+ */
+export async function startOriginalLauncher(useSteam: boolean) {
+  return await invoke('start_original_launcher', {use_steam: useSteam})
 }
 
 export type LauncherSettings = {
-    game_path: string,
-    use_dx11: boolean,
-    use_autologin: boolean,
-    enable_uid_cache: boolean,
-    extra_game_args: string,
-    enable_dalamud: boolean,
-    enable_otp_server: boolean,
-    enable_steam_integration: boolean,
-    client_language: string,
-    launcher_language: string,
-    current_account_id: string,
-    encrypt_args: boolean,
-    patch_path: string,
-    ask_before_patching: boolean,
-    download_speed_limit_bytes: number,
-    dalamud_injection_delay_ms: number,
-    keep_patches: boolean,
-    opt_out_mb_collection: boolean,
-    has_admin_complaints: boolean,
-    last_version: string,
-    has_shown_auto_launch_warning: boolean,
+  game_path: string,
+  use_dx11: boolean,
+  use_autologin: boolean,
+  enable_uid_cache: boolean,
+  extra_game_args: string,
+  enable_dalamud: boolean,
+  enable_otp_server: boolean,
+  enable_steam_integration: boolean,
+  game_language: string,
+  launcher_language: string,
+  current_account_id: string,
+  encrypt_args: boolean,
+  patch_path: string,
+  ask_before_patching: boolean,
+  download_speed_limit_bytes: number,
+  dalamud_injection_delay_ms: number,
+  keep_patches: boolean,
+  opt_out_mb_collection: boolean,
+  has_admin_complaints: boolean,
+  last_version: string,
+  has_shown_auto_launch_warning: boolean,
 }
 
 export type AddonEntry = {
-    is_enabled: boolean,
-    path: string,
-    command_line: string,
-    run_as_admin: boolean,
-    run_on_close: boolean,
-    kill_after_close: boolean,
+  is_enabled: boolean,
+  path: string,
+  command_line: string,
+  run_as_admin: boolean,
+  run_on_close: boolean,
+  kill_after_close: boolean,
 }
 
 export type AccountEntry = {
-    character_name: string,
-    character_world: string,
-    thumbnail_url: string,
-    username: string,
-    save_password: boolean,
-    use_steam: boolean,
-    use_otp: boolean,
+  character_name: string,
+  character_world: string,
+  thumbnail_url: string,
+  username: string,
+  save_password: boolean,
+  use_steam: boolean,
+  use_otp: boolean,
 }
 
 export type UidCacheEntry = {
-    username: string,
-    unique_id: string,
-    region: number,
-    expansion_level: number,
-    creation_date: string,
+  username: string,
+  unique_id: string,
+  region: number,
+  expansion_level: number,
+  creation_date: string,
+}
+
+/**
+ * Get a list of all installed plugins
+ */
+export async function getPlugins(): Promise<PluginEntry[]> {
+  return await invoke('get_plugins')
+}
+
+/**
+ * Update the manifest of a single plugin
+ * @param entry - Plugin entry
+ */
+export async function updatePlugin(entry: PluginEntry) {
+  return await invoke('update_plugin', {entry: entry})
+}
+
+/**
+ * Remove a single plugin
+ * @param entry - Plugin entry
+ */
+export async function removePlugin(entry: PluginEntry) {
+  return await invoke('remove_plugin', {entry: entry})
+}
+
+export type PluginEntry = {
+  name: string,
+  version: string,
+  manifest: string,
 }

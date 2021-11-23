@@ -1,5 +1,5 @@
 use crate::config::{AccountEntry, AddonEntry, LauncherConfig, LauncherSettings};
-use crate::game::language::ClientLanguage;
+use crate::game::language::GameLanguage;
 use crate::language::LauncherLanguage;
 use crate::util::path::{
   get_launcher_old_accounts_path, get_launcher_old_config_path, get_launcher_old_uid_cache_path,
@@ -40,7 +40,7 @@ impl OldLauncherConfig {
 
     // Addons
     let addon_json = settings.addons_json.clone().unwrap_or_else(|| String::from("[]"));
-    let addons = serde_json::from_str(addon_json.as_str()).with_context(|| format!("Could not deserialize addons"))?;
+    let addons = serde_json::from_str(addon_json.as_str()).with_context(|| format!("Could not deserialize addons in {:?}", path))?;
 
     // Accounts
     let path = get_launcher_old_accounts_path()?;
@@ -79,16 +79,14 @@ impl OldLauncherConfig {
         self.settings.enable_steam_integration.clone(),
         default_settings.enable_steam_integration,
       ),
-      client_language: self
+      game_language: self
         .settings
         .client_language
-        .clone()
-        .unwrap_or_else(|| ClientLanguage::English),
+        .unwrap_or(GameLanguage::English),
       launcher_language: self
         .settings
         .launcher_language
-        .clone()
-        .unwrap_or_else(|| LauncherLanguage::English),
+        .unwrap_or(LauncherLanguage::English),
       current_account_id: conv_str(
         self.settings.current_account_id.clone(),
         default_settings.current_account_id,
@@ -133,12 +131,12 @@ impl OldLauncherConfig {
     // Addons
     for addon in self.addons.iter() {
       config.addons.push(AddonEntry {
-        is_enabled: addon.is_enabled.clone(),
+        is_enabled: addon.is_enabled,
         path: addon.details.path.clone(),
         command_line: addon.details.command_line.clone(),
-        run_as_admin: addon.details.run_as_admin.clone(),
-        run_on_close: addon.details.run_on_close.clone(),
-        kill_after_close: addon.details.kill_after_close.clone(),
+        run_as_admin: addon.details.run_as_admin,
+        run_on_close: addon.details.run_on_close,
+        kill_after_close: addon.details.kill_after_close,
       });
     }
 
@@ -149,9 +147,9 @@ impl OldLauncherConfig {
         character_world: account.character_world.clone(),
         thumbnail_url: account.thumbnail_url.clone().unwrap_or_default(),
         username: account.username.clone(),
-        save_password: account.save_password.clone(),
-        use_steam: account.use_steam.clone(),
-        use_otp: account.use_otp.clone(),
+        save_password: account.save_password,
+        use_steam: account.use_steam,
+        use_otp: account.use_otp,
       });
     }
 
@@ -190,7 +188,7 @@ impl OldLauncherConfig {
       .map_err(|_| Error::msg(format!("Failed string conversion of {:?}", path)))?;
 
     let filename = filename + ".backup";
-    let new_path = path.clone();
+    let new_path = path.to_path_buf();
     let new_path = new_path.with_file_name(filename);
 
     // TODO: Re-enable file backup on release
@@ -222,7 +220,7 @@ pub struct OldLauncherSettings {
   #[serde(rename = "SteamIntegrationEnabled")]
   pub enable_steam_integration: Option<String>,
   #[serde(rename = "Language")]
-  pub client_language: Option<ClientLanguage>,
+  pub client_language: Option<GameLanguage>,
   #[serde(rename = "LauncherLanguage")]
   pub launcher_language: Option<LauncherLanguage>,
   #[serde(rename = "CurrentAccountId")]
@@ -294,7 +292,7 @@ pub struct OldAddonDetails {
 }
 
 fn conv_str(str: Option<String>, default: String) -> String {
-  str.unwrap_or_else(|| default)
+  str.unwrap_or(default)
 }
 
 fn conv_bool(str: Option<String>, default: bool) -> bool {
@@ -302,7 +300,7 @@ fn conv_bool(str: Option<String>, default: bool) -> bool {
     .unwrap_or_else(|| default.to_string())
     .to_lowercase()
     .parse()
-    .unwrap_or_else(|_| default)
+    .unwrap_or(default)
 }
 
 fn conv_t<T>(str: Option<String>, default: T) -> T
@@ -312,5 +310,5 @@ where
   str
     .unwrap_or_else(|| default.to_string())
     .parse()
-    .unwrap_or_else(|_| default)
+    .unwrap_or(default)
 }

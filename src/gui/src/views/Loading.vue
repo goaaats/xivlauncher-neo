@@ -1,5 +1,5 @@
 <template>
-  <div id="content" class="flex fit justify-center items-center">
+  <div id="content" class="flex fit justify-center items-center dalamud-bg">
 
     <div>
       <q-inner-loading>
@@ -11,10 +11,10 @@
 </template>
 
 <script lang="ts">
-import {QSpinnerOval} from "quasar"
+import {QSpinnerOval} from 'quasar'
 
 export default {
-  name: "loading-view",
+  name: 'LoadingView',
   components: {
     QSpinnerOval,
   },
@@ -22,8 +22,4 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-#content
-  //noinspection CssUnknownTarget
-  background: url("/static/logo.png") no-repeat fixed center
-  background-size: contain
 </style>

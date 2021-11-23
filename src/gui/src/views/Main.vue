@@ -8,17 +8,14 @@
 </template>
 
 <script lang="ts">
-import {defineComponent} from "vue"
-import MainNews from "@/views/main/News.vue"
-import MainHeadlines from "@/views/main/Headlines.vue"
-import MainLogin from "@/views/main/Login.vue"
-import MainControls from "@/views/main/Controls.vue"
+import {defineComponent} from 'vue'
+import MainNews from './main/News.vue'
+import MainHeadlines from './main/Headlines.vue'
+import MainLogin from './main/Login.vue'
+import MainControls from './main/Controls.vue'
 
 export default defineComponent({
-  name: "main-view",
-  props: {
-    msg: String,
-  },
+  name: 'MainView',
   components: {
     MainControls,
     MainLogin,

@@ -6,8 +6,8 @@
   "build": {
     "distDir": "../dist",
     "devPath": "http://localhost:8080",
-    "beforeDevCommand": "yarn serve",
-    "beforeBuildCommand": "yarn build"
+    "beforeDevCommand": "quasar dev",
+    "beforeBuildCommand": "quasar build"
   },
   "tauri": {
     "bundle": {
@@ -51,7 +51,7 @@
       {
         "title": "XIVLauncher v1.2.3.4",
         "width": 830,
-        "height": 340,
+        "height": 400,
         "resizable": false,
         "fullscreen": false,
         "decorations": true

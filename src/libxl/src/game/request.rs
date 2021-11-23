@@ -1,4 +1,4 @@
-use crate::game::language::ClientLanguage;
+use crate::game::language::GameLanguage;
 use crate::game::platform::Platform;
 use lazy_static::lazy_static;
 use reqwest::{Client, IntoUrl, RequestBuilder};
@@ -28,7 +28,7 @@ pub fn launcher_post<U: IntoUrl>(url: U) -> RequestBuilder {
   LAUNCHER_CLIENT.post(url)
 }
 
-pub fn launcher_referer(language: ClientLanguage) -> String {
+pub fn launcher_referer(language: GameLanguage) -> String {
   format!(
     "https://launcher.finalfantasyxiv.com/v550/index.html?rc_lang={}&time={}",
     language.langcode_underscore(),

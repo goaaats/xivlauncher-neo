@@ -55,5 +55,5 @@ fn find_advanced_combat_tracker_windows() -> Result<String> {
     .to_str()
     .with_context(|| format!("Could not stringify ACT shortcut path: {:?}", abs_path))?;
   let result_string = result_string.to_string();
-  return Ok(result_string);
+  Ok(result_string)
 }

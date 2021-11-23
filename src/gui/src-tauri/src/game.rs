@@ -1,4 +1,7 @@
+use libxl::error::XlResult;
+
 /*
+
 use libxl::error::XlError;
 use libxl::game::language::ClientLanguage;
 use libxl::game::launcher::headline::Headline;
@@ -15,3 +18,16 @@ pub async fn get_headline(langcode: &str) -> Result<Headline, XlError> {
   };
 }
 */
+
+
+#[tauri::command]
+pub async fn start_backup_tool() -> XlResult<()> {
+  // TODO Process.Start(Path.Combine(ViewModel.GamePath, "boot", "ffxivconfig.exe"));
+  Ok(())
+}
+
+#[tauri::command]
+pub async fn start_original_launcher(_use_steam: bool) -> XlResult<()> {
+  // TODO Process.Start(Path.Combine(gamePath.FullName, "boot", "ffxivboot.exe"), isSteam ? "-issteam" : string.Empty);
+  Ok(())
+}

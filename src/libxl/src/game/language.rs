@@ -4,14 +4,14 @@ use serde::{Deserialize, Serialize};
 use std::fmt::{Display, Formatter};
 
 #[derive(Copy, Clone, Debug, Deserialize, Serialize)]
-pub enum ClientLanguage {
+pub enum GameLanguage {
   Japanese,
   English,
   German,
   French,
 }
 
-impl ClientLanguage {
+impl GameLanguage {
   pub fn langcode(&self) -> &str {
     match self {
       Self::Japanese => "ja",
@@ -51,7 +51,7 @@ impl ClientLanguage {
   }
 }
 
-impl Display for ClientLanguage {
+impl Display for GameLanguage {
   fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
     write!(f, "{}", self.langcode())
   }

@@ -1,4 +1,4 @@
-use crate::game::language::ClientLanguage;
+use crate::game::language::GameLanguage;
 use crate::language::LauncherLanguage;
 use crate::util::path::{get_dalamud_config_path, get_launcher_config_path};
 use anyhow::{Context, Error, Result};
@@ -77,7 +77,7 @@ pub struct LauncherSettings {
   pub enable_dalamud: bool,
   pub enable_otp_server: bool,
   pub enable_steam_integration: bool,
-  pub client_language: ClientLanguage,
+  pub game_language: GameLanguage,
   pub launcher_language: LauncherLanguage,
   pub current_account_id: String,
   pub encrypt_args: bool,
@@ -103,7 +103,7 @@ impl LauncherSettings {
       enable_dalamud: false,
       enable_otp_server: false,
       enable_steam_integration: false,
-      client_language: ClientLanguage::English,
+      game_language: GameLanguage::English,
       launcher_language: LauncherLanguage::English,
       current_account_id: "".to_string(),
       encrypt_args: true,

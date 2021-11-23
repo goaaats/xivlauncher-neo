@@ -3,7 +3,7 @@
     <q-scroll-area class="full-height full-width">
       <q-list>
 
-        <q-item clickable v-ripple>
+        <q-item v-ripple clickable>
           <q-item-section avatar>
             <q-skeleton type="rect" animation="blink" width="24px"/>
           </q-item-section>
@@ -12,7 +12,7 @@
           </q-item-section>
         </q-item>
 
-        <q-item clickable v-ripple>
+        <q-item v-ripple clickable>
           <q-item-section avatar>
             <q-icon name="priority_high"/>
           </q-item-section>
@@ -21,7 +21,7 @@
           </q-item-section>
         </q-item>
 
-        <q-item clickable v-ripple>
+        <q-item v-ripple clickable>
           <q-item-section avatar>
             <q-icon name="error_outline"/>
           </q-item-section>
@@ -30,7 +30,7 @@
           </q-item-section>
         </q-item>
 
-        <q-item clickable v-ripple>
+        <q-item v-ripple clickable>
           <q-item-section avatar>
             <q-icon name="feed"/>
           </q-item-section>
@@ -45,11 +45,11 @@
 </template>
 
 <script lang="ts">
-import {defineComponent} from "vue"
-import {QCard} from "quasar"
+import {defineComponent} from 'vue'
+import {QCard} from 'quasar'
 
 export default defineComponent({
-  name: "main-headlines",
+  name: 'MainHeadlines',
   components: {
     QCard,
   },

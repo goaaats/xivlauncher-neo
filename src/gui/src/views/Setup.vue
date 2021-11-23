@@ -1,7 +1,6 @@
 <template>
-  <div id="content" class="flex fit justify-center row">
-    <q-carousel ref="carousel" v-model="slide" control-color="primary"
-                animated class="fit transparent"
+  <div id="content" class="flex fit justify-center row dalamud-bg">
+    <q-carousel ref="carousel" v-model="currentSlide" control-color="primary" animated class="fit transparent"
                 transition-prev="slide-right" transition-next="slide-left" transition-duration="500">
 
       <q-carousel-slide :name="1" class="flex justify-center row q-py-lg translucent">
@@ -9,16 +8,15 @@
           <q-card-section>
             <div>
               <p class="q-mb-xs ws-wrap">{{ $t("SetupChooseLauncherLanguage") }}</p>
-              <q-select filled options-dense
-                        @update:model-value="onLauncherLanguageChange"
-                        v-model="launcherLanguage" :options="launcherLanguageOptions"
-                        :label="$t('SetupLauncherLanguage')" behavior="dialog"/>
+              <q-select v-model="launcherLanguageChoice" filled options-dense
+                        :options="launcherLanguageOptions" :label="$t('SetupLauncherLanguage')"
+                        behavior="dialog" @update:model-value="onLauncherLanguageChange"/>
             </div>
             <br/>
             <div>
               <p class="q-mb-xs ws-wrap">{{ $t("SetupChooseGameLanguage") }}</p>
-              <q-select filled options-dense
-                        v-model="gameLanguage" :options="gameLanguageOptions"
+              <q-select v-model="gameLanguageChoice" filled options-dense
+                        :options="gameLanguageOptions"
                         :label="$t('SetupGameLanguage')" behavior="dialog"/>
             </div>
           </q-card-section>
@@ -30,13 +28,13 @@
           <q-card-section>
             <p class="q-mb-xs ws-wrap">{{ $t("SetupChooseGamePath") }}</p>
             <div class="row">
-              <q-input clearable bottom-slots :label="$t('SetupGameDirectory')" :spellcheck="false"
-                       v-model="gameDir" @update:modelValue="onGameDirUpdate"
-                       maxlength="1000" class="col-grow">
-                <template v-slot:append>
-                  <q-icon name="search" @click="clickGameDirSearch" v-if="!gameDir" class="cursor-pointer"/>
+              <q-input v-model="gameDir" clearable bottom-slots :label="$t('SetupGameDirectory')"
+                       :spellcheck="false" maxlength="1000"
+                       class="col-grow" @update:modelValue="onUpdateGameDir">
+                <template #append>
+                  <q-icon v-if="!gameDir" name="search" class="cursor-pointer" @click="onClickGameDirSearch"/>
                 </template>
-                <template v-slot:hint>
+                <template #hint>
                   <p v-if="gameDir && !gameSubDirsFound" class="text-warning">
                     {{ $t("SetupGameDirectoryWarning") }}
                   </p>
@@ -55,7 +53,7 @@
         </q-card>
       </q-carousel-slide>
 
-      <q-carousel-slide :name="3" class="flex justify-center row q-py-lg translucent" v-if="foundAct">
+      <q-carousel-slide v-if="foundAct" :name="3" class="flex justify-center row q-py-lg translucent">
         <q-card class="col-8">
           <q-card-section>
             <div>
@@ -66,9 +64,9 @@
             <div v-if="enableACT">
               <p class="q-mb-xs ws-wrap">{{ $t("SetupActPathNotice") }}</p>
               <div class="row">
-                <q-input clearable v-model="actPath" :label="$t('SetupActPath')" maxlength="1000" class="col-grow">
-                  <template v-slot:append>
-                    <q-icon name="search" @click="clickActPathSearch" v-if="!actPath" class="cursor-pointer"/>
+                <q-input v-model="actPath" clearable :label="$t('SetupActPath')" maxlength="1000" class="col-grow">
+                  <template #append>
+                    <q-icon v-if="!actPath" name="search" class="cursor-pointer" @click="onClickActPathSearch"/>
                   </template>
                 </q-input>
               </div>
@@ -86,15 +84,15 @@
         </q-card>
       </q-carousel-slide>
 
-      <template v-slot:control>
+      <template #control>
         <q-carousel-control position="bottom-right" class="q-gutter-xs">
-          <q-btn push round color="primary" icon="arrow_left"
-                 @click="$refs.carousel.previous()" v-if="slide !== 1"/>
-          <q-btn push round color="primary" icon="arrow_right"
-                 @click="$refs.carousel.next()" v-if="slide !== 4"
-                 :disabled="slide === 2 && !gameDir"/>
-          <q-btn push round color="positive" icon="done"
-                 @click="onCompleteSetup" v-if="slide === 4"/>
+          <q-btn v-if="currentSlide !== 1" push round color="primary"
+                 icon="arrow_left" @click="$refs.carousel.previous()"/>
+          <q-btn v-if="currentSlide !== 4" push round color="primary"
+                 icon="arrow_right" :disabled="currentSlide === 2 && !gameDir"
+                 @click="$refs.carousel.next()"/>
+          <q-btn v-if="currentSlide === 4" push round color="positive"
+                 icon="done" @click="onCompleteSetup"/>
         </q-carousel-control>
       </template>
 
@@ -103,108 +101,81 @@
 </template>
 
 <script lang="ts">
-import {ref} from "vue"
-import {useI18n} from "vue-i18n"
-import {QBtn, QCard, QCardSection, QCarousel, QCarouselControl, QCarouselSlide, QCheckbox, QIcon, QInput, QSelect} from "quasar"
-import {dialog, fs} from "@tauri-apps/api"
-import {setLanguage} from "@/services/i18n"
-import {getAddons, getAdvancedCombatTrackerPath, getSettings, getSystemLocale, setAddons, setSettings} from "@/services/backend"
-import {useRouter} from "vue-router"
-
-const slide = ref(1)
-const launcherLanguage = ref("English")
-const gameLanguage = ref("English")
-const gameDir = ref("")
-const gameSubDirsFound = ref(false)
-const useSteam = ref(false)
-const actPath = ref("")
-const foundAct = ref(false)
-const enableACT = ref(false)
-const enableDalamud = ref(false)
-
-const launcherLanguageChoices: { [k: string]: string } = {
-  "Japanese": "日本語",
-  "English": "English",
-  "German": "Deutsch",
-  "French": "Français",
-  "Italian": "Italiano",
-  "Spanish": "Español",
-  "Portuguese": "Português",
-  "Korean": "한국어",
-  "Norwegian": "Norsk",
-  "Russian": "русский",
-  "SimplifiedChinese": "简体中文",
-}
-const gameLanguageChoices: { [k: string]: string } = {
-  "Japanese": "日本語",
-  "English": "English",
-  "German": "Deutsch",
-  "French": "Français",
-}
-
-function getKeyByValue(object: { [key: string]: string }, value: string): string {
-  return Object.keys(object).find(key => object[key] === value) || "en"
-}
+import {inject, onMounted, Ref, ref} from 'vue'
+import {dialog, fs} from '@tauri-apps/api'
+import router from '@/router'
+import * as i18n from '@/services/i18n'
+import * as backend from '@/services/backend'
+import * as constants from '@/services/constants'
+import * as route from '@/router/route'
 
 export default {
-  name: "setup-view",
-  components: {
-    QBtn, QCard, QCardSection,
-    QCarousel, QCarouselControl, QCarouselSlide,
-    QCheckbox, QIcon, QInput, QSelect,
-  },
+  name: 'SetupView',
   setup() {
-    const t = useI18n()
-    const router = useRouter()
+    const settings = inject(constants.SETTINGS_KEY) as Ref<backend.LauncherSettings>
+    const addons = inject(constants.ADDONS_KEY) as Ref<backend.AddonEntry[]>
 
-    getSystemLocale().then(async (systemLocale) => {
-      const loc = systemLocale.split("-")[0]
+    // Current slide
+    const currentSlide = ref(1)
 
-      // Default to English
-      if (loc in launcherLanguageChoices) {
-        launcherLanguage.value = launcherLanguageChoices[loc]
-        await setLanguage(loc)
-      }
+    // Slide 1
+    const launcherLanguageChoice = ref(i18n.getDefaultLauncherLanguageOption())
+    const gameLanguageChoice = ref(i18n.getDefaultGameLanguageOption())
+    const launcherLanguageOptions = i18n.getLauncherLanguageOptions()
+    const gameLanguageOptions = i18n.getGameLanguageOptions()
 
-      // Default to English
-      if (loc in gameLanguageChoices) {
-        gameLanguage.value = gameLanguageChoices[loc]
-      }
-    })
-
-    const launcherLanguageOptions = Object.values(launcherLanguageChoices)
-    const gameLanguageOptions = Object.values(gameLanguageChoices)
-
-    getAdvancedCombatTrackerPath().then(path => {
-      if (path) {
-        foundAct.value = true
-        actPath.value = path
-      }
-    })
-
-    async function clickGameDirSearch() {
-      gameDir.value = await showFileDialog(true)
-      gameSubDirsFound.value = false
-      await onGameDirUpdate(gameDir.value)
+    async function onLauncherLanguageChange(lang: string) {
+      const locale = i18n.convertLauncherLanguage(lang)
+      await i18n.setLanguage(locale)
     }
 
-    async function onGameDirUpdate(path: string | null) {
+    // Slide 2
+    const gameDir = ref('')
+    const gameSubDirsFound = ref(false)
+    const useSteam = ref(false)
+
+    async function onClickGameDirSearch() {
+      gameDir.value = await showFileDialog(true)
+      gameSubDirsFound.value = false
+      await onUpdateGameDir(gameDir.value)
+    }
+
+    async function onUpdateGameDir(path: string | null) {
       if (!path) {
         gameSubDirsFound.value = false
         return
       }
 
       gameSubDirsFound.value = await fs.readDir(path).then((children) => {
-        const bootExists = children.some((child) => child.name === "boot")
-        const gameExists = children.some((child) => child.name === "game")
+        const bootExists = children.some((child) => child.name === 'boot')
+        const gameExists = children.some((child) => child.name === 'game')
         return bootExists && gameExists
       }).catch(() => false)
     }
 
-    async function clickActPathSearch() {
+    // Slide 3
+    const actPath = ref('')
+    const foundAct = ref(false)
+    const enableACT = ref(false)
+
+    onMounted(async () => await getActPath())
+
+    async function getActPath() {
+      const path = await backend.getAdvancedCombatTrackerPath()
+      if (path) {
+        foundAct.value = true
+        actPath.value = path
+      }
+    }
+
+    async function onClickActPathSearch() {
       actPath.value = await showFileDialog(false)
     }
 
+    // Slide 4
+    const enableDalamud = ref(false)
+
+    // Shared
     async function showFileDialog(dirOnly: boolean): Promise<string> {
       const result = await dialog.open({
         directory: dirOnly,
@@ -213,69 +184,47 @@ export default {
 
       // This should never happen with multiple: false
       if (Array.isArray(result))
-        throw "Invalid result"
+        throw 'Invalid result'
 
       return result
     }
 
-    async function onLauncherLanguageChange(newLang: string) {
-      const code = getKeyByValue(launcherLanguageChoices, newLang)
-      await setLanguage(code)
-    }
-
     async function onCompleteSetup() {
-      let gameLang = getKeyByValue(gameLanguageChoices, gameLanguage.value)
-      const launcherLang = getKeyByValue(launcherLanguageChoices, launcherLanguage.value)
-      console.log(`DONE game=${gameLang} launcher=${launcherLang}`)
-
-      const settings = await getSettings()
-      settings.launcher_language = launcherLanguage.value
-      settings.client_language = gameLanguage.value
-      settings.game_path = gameDir.value
-      settings.enable_steam_integration = useSteam.value
-      settings.enable_dalamud = enableDalamud.value
-      await setSettings(settings)
+      settings.value.launcher_language = i18n.convertLauncherLanguage(launcherLanguageChoice.value)
+      settings.value.game_language = i18n.convertGameLanguage(gameLanguageChoice.value)
+      settings.value.game_path = gameDir.value
+      settings.value.enable_steam_integration = useSteam.value
+      settings.value.enable_dalamud = enableDalamud.value
+      await backend.setSettings(settings.value)
 
       if (enableACT.value) {
-        const addons = await getAddons()
-        addons.push({
+        addons.value.push({
           is_enabled: true,
           path: actPath.value,
-          command_line: "",
+          command_line: '',
           run_as_admin: false,
           run_on_close: false,
           kill_after_close: false,
         })
-        await setAddons(addons)
+        await backend.setAddons(addons.value)
       }
 
-      await router.push("/main")
+      await router.push(route.MAIN_ROUTE)
     }
 
     return {
-      t, onLauncherLanguageChange,
-      clickGameDirSearch, onGameDirUpdate,
-      clickActPathSearch, onCompleteSetup,
-      slide, launcherLanguage, gameLanguage,
-      launcherLanguageOptions, gameLanguageOptions,
-      gameDir, gameSubDirsFound, useSteam,
-      actPath, foundAct, enableACT,
+      t: i18n.t, currentSlide,
+      launcherLanguageChoice, launcherLanguageOptions, onLauncherLanguageChange,
+      gameLanguageChoice, gameLanguageOptions,
+      gameDir, gameSubDirsFound, onClickGameDirSearch, onUpdateGameDir,
+      useSteam,
+      actPath, foundAct, enableACT, onClickActPathSearch,
       enableDalamud,
+      onCompleteSetup,
     }
   },
 }
 </script>
 
 <style lang="sass" scoped>
-#content
-  //noinspection CssUnknownTarget
-  background: url("/static/logo.png") no-repeat fixed center
-  background-size: contain
-
-.translucent
-  opacity: .9
-
-.ws-wrap
-  white-space: pre-wrap
-
 </style>

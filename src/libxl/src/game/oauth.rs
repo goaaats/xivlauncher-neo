@@ -6,7 +6,7 @@ use std::collections::HashMap;
 use strum_macros::EnumString;
 
 use crate::game::constants;
-use crate::game::language::ClientLanguage;
+use crate::game::language::GameLanguage;
 use crate::game::platform::Platform;
 use crate::game::request;
 
@@ -62,7 +62,7 @@ impl OauthLogin {
     )
     .header("Accept-Encoding", "gzip, deflate")
     .header("Accept-Language", "en-US,en;q=0.9")
-    .header("Referer", oauth_referer(ClientLanguage::English, region, steam_service))
+    .header("Referer", oauth_referer(GameLanguage::English, region, steam_service))
     .header("Content-Type", "application/x-www-form-urlencoded")
     .header("Connection", "Keep-Alive")
     .header("Cookie", "_rsid=\"\"")
@@ -97,7 +97,7 @@ impl OauthLogin {
   }
 }
 
-fn oauth_referer(language: ClientLanguage, region: AccountRegion, steam_service: bool) -> String {
+fn oauth_referer(language: GameLanguage, region: AccountRegion, steam_service: bool) -> String {
   format!(
     "https://ffxiv-login.square-enix.com/oauth/ffxivarr/login/top?lng={}&rgn={}&isft=0&cssmode=1&isnew=1&issteam={}",
     language.langcode_short(),
@@ -110,7 +110,7 @@ async fn stored(steam_service: bool, region: AccountRegion) -> Result<String, Lo
   let url = constants::oauth_top_url(region, false, steam_service);
 
   let resp = request::launcher_get(url)
-    .header("Referer", request::launcher_referer(ClientLanguage::English))
+    .header("Referer", request::launcher_referer(GameLanguage::English))
     .header(
       "Accept",
       "image/gif, image/jpeg, image/pjpeg, application/x-ms-application, application/xaml+xml, application/x-ms-xbap, */*",
