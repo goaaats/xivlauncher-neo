@@ -1,6 +1,7 @@
 import {createI18n, I18n} from 'vue-i18n'
 import {Ref, ref} from 'vue'
 import * as backend from '@/services/backend'
+import {log} from '@/services/logging'
 
 /**
  * I18n instance.
@@ -11,73 +12,50 @@ const i18n = ref(null) as Ref<I18n | null>
  * The default locale, as specified by the system locale, or
  * DEFAULT_LOCALE if not supported.
  */
-let DEFAULT_LOCALE: string
+let DEFAULT_CODE: string
 
-/**
- * The fallback language.
- */
-const FALLBACK_LOCALE = 'en'
+class Language {
+  /** Configuration key */
+  public key: string
 
-/**
- * Supported languages.
- */
-const SUPPORTED_LOCALES = [
-  'de', 'en', 'es', 'fr', 'it',
-  'ja', 'ko', 'no', 'pt', 'ru',
-  'tw', 'zh',
+  /** Translated display option */
+  public option: string
+
+  /** 2 character pseudo-locale */
+  public code: string
+
+  /** Is this a game language */
+  public isGame: boolean
+
+  /** // Has this been loaded */
+  public isLoaded: boolean
+
+  constructor(key: string, option: string, code: string, isGame = false) {
+    this.key = key
+    this.option = option
+    this.code = code
+    this.isGame = isGame
+    this.isLoaded = false
+  }
+}
+
+const SUPPORTED_LANGUAGES: Language[] = [
+  new Language('Japanese', '日本語', 'ja', true),
+  new Language('English', 'English', 'en', true),
+  new Language('German', 'Deutsch', 'de', true),
+  new Language('French', 'Français', 'fr', true),
+  new Language('Italian', 'Italiano', 'it'),
+  new Language('Spanish', 'Español', 'es'),
+  new Language('Portuguese', 'Português', 'pr'),
+  new Language('Korean', '한국어', 'ko'),
+  new Language('Norwegian', 'Norsk', 'no'),
+  new Language('Russian', 'русский', 'ru'),
+  new Language('TraditionalChinese', '繁體中文', 'tw'),
+  new Language('SimplifiedChinese', '简体中文', 'zh'),
 ]
 
-/**
- * A mapping of ISO 639-1 locale language codes to an available language in English.
- */
-export const LANGUAGE_LOCALE_MAP: { [k: string]: string } = {
-  'ja': 'Japanese',
-  'en': 'English',
-  'de': 'German',
-  'fr': 'French',
-  'it': 'Italian',
-  'es': 'Spanish',
-  'pt': 'Portuguese',
-  'ko': 'Korean',
-  'no': 'Norwegian',
-  'ru': 'Russian',
-  'si': 'Sinhala',
-  'tw': 'TraditionalChinese',
-  'zh': 'SimplifiedChinese',
-}
-
-/**
- * A mapping of available launcher languages to their translated display value.
- */
-const LAUNCHER_LANGUAGES: { [k: string]: string } = {
-  'Japanese': '日本語',
-  'English': 'English',
-  'German': 'Deutsch',
-  'French': 'Français',
-  'Italian': 'Italiano',
-  'Spanish': 'Español',
-  'Portuguese': 'Português',
-  'Korean': '한국어',
-  'Norwegian': 'Norsk',
-  'Russian': 'русский',
-  'TraditionalChinese': '繁體中文',
-  'SimplifiedChinese': '简体中文',
-}
-
-/**
- * A mapping of available game languages to their translated display value.
- */
-const GAME_LANGUAGES: { [k: string]: string } = {
-  'Japanese': '日本語',
-  'English': 'English',
-  'German': 'Deutsch',
-  'French': 'Français',
-}
-
-/**
- * Tracks which languages have been loaded from file.
- */
-const loadedLanguages: string[] = []
+const FALLBACK_LANGUAGE = SUPPORTED_LANGUAGES
+  .find((i) => i.code == 'en') as Language
 
 /**
  * Setup an i18n instance.
@@ -88,28 +66,25 @@ export async function setupI18n(): Promise<I18n> {
   // It will get set to the saved language later
   const systemLocale = await backend.getSystemLocale()
 
-  let locale = systemLocale.split('-')[0]
-  if (locale === 'zh') {
+  let code = systemLocale.split('-')[0]
+  if (code === 'zh') {
     // zh-cn is equivalent to our "zh"
     // So we only need to check for zh-tw
     if (systemLocale === 'zh-tw') {
-      locale = 'tw'
+      code = 'tw'
     }
   }
 
-  if (!(locale in SUPPORTED_LOCALES)) {
-    locale = FALLBACK_LOCALE
-  }
+  const supported = SUPPORTED_LANGUAGES.find((lang) => lang.code == code)
+  if (!supported)
+    code = FALLBACK_LANGUAGE.code
 
-  DEFAULT_LOCALE = locale
+  DEFAULT_CODE = code
 
-  const localeMessages = await loadLanguage(locale)
-  const messages = {
-    [locale]: localeMessages,
-  }
-
+  const localeMessages = await loadLanguage(code)
+  const messages = {[code]: localeMessages}
   const instance = createI18n({
-    locale, messages, fallbackLocale: FALLBACK_LOCALE,
+    locale: code, messages, fallbackLocale: FALLBACK_LANGUAGE.code,
   })
 
   return i18n.value = instance as I18n
@@ -117,42 +92,42 @@ export async function setupI18n(): Promise<I18n> {
 
 /**
  * Change the locale, loading if necessary.
- * @param language - Two character language code.
+ * @param langKey - Language key, the English native word
  */
-export async function setLanguage(language: string) {
-  if (i18n.value === null)
+export async function setLanguage(langKey: string) {
+  if (!i18n.value)
     throw 'I18n has not been setup yet'
 
-  const validLanguages = Object.values(LANGUAGE_LOCALE_MAP)
-  if (!validLanguages.includes(language))
-    throw `Invalid language: ${language}`
+  const lang = SUPPORTED_LANGUAGES.find((lang) => lang.key == langKey)
+  if (!lang)
+    throw `Invalid language: ${langKey}`
 
-  const locale = getKeyByValue(LANGUAGE_LOCALE_MAP, language)
-  if (!SUPPORTED_LOCALES.includes(locale))
-    throw `Unsupported locale: ${locale}`
-
-  if (i18n.value.global.locale === locale)
+  if (i18n.value.global.locale === lang.code)
+    // Already set
     return
 
   // If the language was already loaded
-  if (!loadedLanguages.includes(locale)) {
-    const messages = await loadLanguage(locale)
-    i18n.value.global.setLocaleMessage(locale, messages)
-    loadedLanguages.push(locale)
+  if (!lang.isLoaded) {
+    const messages = await loadLanguage(lang.code)
+    i18n.value.global.setLocaleMessage(lang.code, messages)
+    lang.isLoaded = true
   }
 
-  i18n.value.global.locale = locale
+  i18n.value.global.locale = lang.code
   document.querySelector('html')
-    ?.setAttribute('lang', locale)
+    ?.setAttribute('lang', lang.code)
 }
 
 /**
  * Load a language.
- * @param locale - Two character language code.
+ * @param code - Two character language code.
  * @return messages - Language messages.
  */
-async function loadLanguage(locale: string) {
-  const resp = await fetch(`/static/loc/xl_${locale}.json`)
+async function loadLanguage(code: string): Promise<{ [k: string]: string }> {
+  const file = `xl_${code}.json`
+  log.debug(`Loading localization ${file}`)
+
+  const resp = await fetch(`/static/loc/${file}`)
   const localization = await resp.json() as LocalizationFileFormat
 
   // map { key : val.message }
@@ -177,12 +152,13 @@ export function t(message: string): string {
  * needs to be shown.
  */
 export function getDefaultLauncherLanguageOption(): string {
-  let lang = LANGUAGE_LOCALE_MAP[DEFAULT_LOCALE]
-  if (!(lang in LAUNCHER_LANGUAGES)) {
-    lang = LANGUAGE_LOCALE_MAP[FALLBACK_LOCALE]
-  }
+  let defaultLang = SUPPORTED_LANGUAGES
+    .find((lang) => lang.code == DEFAULT_CODE)
 
-  return LAUNCHER_LANGUAGES[lang]
+  if (!defaultLang)
+    defaultLang = FALLBACK_LANGUAGE
+
+  return defaultLang.option
 }
 
 /**
@@ -190,26 +166,30 @@ export function getDefaultLauncherLanguageOption(): string {
  * to be shown.
  */
 export function getDefaultGameLanguageOption(): string {
-  let lang = LANGUAGE_LOCALE_MAP[DEFAULT_LOCALE]
-  if (!(lang in GAME_LANGUAGES)) {
-    lang = LANGUAGE_LOCALE_MAP[FALLBACK_LOCALE]
-  }
+  let defaultLang = SUPPORTED_LANGUAGES
+    .find((lang) => lang.isGame && lang.code == DEFAULT_CODE)
 
-  return GAME_LANGUAGES[lang]
+  if (!defaultLang)
+    defaultLang = FALLBACK_LANGUAGE
+
+  return defaultLang.option
 }
 
 /**
  * Get the display values for the launcher language.
  */
 export function getLauncherLanguageOptions(): string[] {
-  return Object.values(LAUNCHER_LANGUAGES)
+  return SUPPORTED_LANGUAGES
+    .map((lang) => lang.option)
 }
 
 /**
  * Get the display values for the game language.
  */
 export function getGameLanguageOptions(): string[] {
-  return Object.values(GAME_LANGUAGES)
+  return SUPPORTED_LANGUAGES
+    .filter((lang) => lang.isGame)
+    .map((lang) => lang.option)
 }
 
 /**
@@ -219,11 +199,13 @@ export function getGameLanguageOptions(): string[] {
  * @param value - Language value to convert.
  */
 export function convertLauncherLanguage(value: string): string {
-  if (Object.keys(LAUNCHER_LANGUAGES).includes(value))
-    return LAUNCHER_LANGUAGES[value]
+  const lang1 = SUPPORTED_LANGUAGES
+    .find((lang) => lang.option == value)
+  if (lang1) return lang1.key
 
-  if (Object.values(LAUNCHER_LANGUAGES).includes(value))
-    return getKeyByValue(LAUNCHER_LANGUAGES, value)
+  const lang2 = SUPPORTED_LANGUAGES
+    .find((lang) => lang.key == value)
+  if (lang2) return lang2.option
 
   throw `Invalid conversion value: ${value}`
 }
@@ -235,21 +217,29 @@ export function convertLauncherLanguage(value: string): string {
  * @param value - Language value to convert.
  */
 export function convertGameLanguage(value: string): string {
-  if (Object.keys(GAME_LANGUAGES).includes(value))
-    return GAME_LANGUAGES[value]
+  const lang1 = SUPPORTED_LANGUAGES
+    .filter((lang) => lang.isGame)
+    .find((lang) => lang.option == value)
+  if (lang1) return lang1.key
 
-  if (Object.values(GAME_LANGUAGES).includes(value))
-    return getKeyByValue(GAME_LANGUAGES, value)
+  const lang2 = SUPPORTED_LANGUAGES
+    .filter((lang) => lang.isGame)
+    .find((lang) => lang.key == value)
+  if (lang2) return lang2.option
 
   throw `Invalid conversion value: ${value}`
 }
 
-function getKeyByValue(mapping: { [key: string]: string }, value: string): string {
-  const result = Object.keys(mapping).find(key => mapping[key] === value)
-  if (!result)
-    throw `Invalid lookup value: ${value}`
+/**
+ * Get the two character lang code from the key value
+ * @param langKey: Language key
+ */
+export function getLangCode(langKey: string): string {
+  const lang = SUPPORTED_LANGUAGES.find((lang) => lang.key == langKey)
+  if (!lang)
+    throw `Invalid language: ${langKey}`
 
-  return result
+  return lang.code
 }
 
 type LocalizationFileFormat = {

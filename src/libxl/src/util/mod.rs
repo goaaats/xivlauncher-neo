@@ -1,5 +1,6 @@
 pub(crate) mod hex_slice;
-pub(crate) mod path;
+pub(crate) mod locale;
+#[allow(dead_code)]
 pub(crate) mod time;
 pub(crate) mod hash;
 

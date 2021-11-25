@@ -10,15 +10,7 @@
   </div>
 </template>
 
-<script lang="ts">
-import {QSpinnerOval} from 'quasar'
-
-export default {
-  name: 'LoadingView',
-  components: {
-    QSpinnerOval,
-  },
-}
+<script lang="ts" setup>
 </script>
 
 <style lang="sass" scoped>

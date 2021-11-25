@@ -4,7 +4,7 @@ use anyhow::{Error, Result};
 pub fn get_system_locale() -> Result<String> {
   match sys_locale::get_locale() {
     Some(loc) => Ok(loc.to_lowercase()),
-    None => Err(Error::msg("Could not determine locale")),
+    _ => Err(Error::msg("Could not determine locale")),
   }
 }
 

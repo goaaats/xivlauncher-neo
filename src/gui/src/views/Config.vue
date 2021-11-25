@@ -16,32 +16,104 @@
       <q-page class="flex row dalamud-bg">
 
         <q-tab-panels v-model="currentTab" animated class="flex-grow-1 translucent">
-          <q-tab-panel :name="1">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+
+          <!-- Game -->
+          <q-tab-panel :name="1" class="column">
+            <span class="ws-wrap">{{ $t("ConfigChooseGamePath") }}</span>
+            <div>
+              <q-input v-model="settings.game_path" clearable bottom-slots :label="$t('ConfigGameDirectory')"
+                       :spellcheck="false" maxlength="1000"
+                       class="col-grow" @update:modelValue="onUpdateGameDir">
+                <template #append>
+                  <q-icon v-if="!settings.game_path" name="mdi-search" class="cursor-pointer" @click="onClickGameDirSearch"/>
+                </template>
+                <template #hint>
+                  <p v-if="settings.game_path && !gameSubDirsFound" class="text-warning">
+                    {{ $t("ConfigGameDirectoryWarning") }}
+                  </p>
+                  <p v-if="settings.game_path && gameSubDirsFound" class="text-positive">
+                    {{ $t("ConfigGameDirectoryCorrect") }}
+                  </p>
+                </template>
+              </q-input>
+            </div>
+
+            <div class="row q-pb-sm">
+              <q-input v-model="settings.extra_game_args" clearable
+                       :label="$t('ConfigGameAdditionalArguments')"
+                       :spellcheck="false"
+                       maxlength="1000"
+                       class="col-grow">
+              </q-input>
+            </div>
+
+            <div class="row full-width no-wrap">
+              <div class="column col-md-8" style="flex: 1">
+                <q-checkbox v-model="settings.enable_steam_integration" dense
+                            class="q-pb-sm"
+                            :label="$t('ConfigGameSteam')"/>
+                <q-checkbox v-model="settings.enable_otp_server" dense
+                            class="q-pb-sm"
+                            :label="$t('ConfigGameOtpServer')"/>
+                <q-checkbox v-model="settings.encrypt_args" dense
+                            class="q-pb-sm"
+                            :label="$t('ConfigGameArgEncryption')"/>
+                <div class="q-pb-sm">
+                  <q-checkbox v-model="settings.enable_uid_cache" dense
+                              class="q-pr-sm"
+                              :label="$t('ConfigGameUidCache')"/>
+                  <q-btn icon="mdi-lock-reset" size="sm" :no-caps="true" dense
+                         :label="$t('ConfigGameUidCacheReset')">
+                    <q-tooltip :delay="500">{{ $t("ConfigGameUidCacheHint") }}</q-tooltip>
+                  </q-btn>
+                </div>
+
+                <div>
+                  <q-btn :no-caps="true" color="primary" :label="$t('ConfigGameIntegrityCheck')">
+                    <q-tooltip :delay="500">{{ $t('ConfigGameIntegrityCheckHint') }}</q-tooltip>
+                  </q-btn>
+                </div>
+              </div>
+              <div class="column col-md-4" style="flex: 1">
+                <span>{{ $t('ConfigGameDirectX') }}</span>
+                <q-option-group v-model="settings.use_dx11"
+                                :options="directXOptions"
+                                color="primary" inline dense/>
+                <p v-if="!settings.use_dx11" class="text-warning ">
+                  {{ $t('ConfigGameDirectX9Warning') }}
+                </p>
+              </div>
+            </div>
+            <div>
+
+            </div>
           </q-tab-panel>
 
-          <q-tab-panel :name="2">
-            <div>
-              <p class="q-mb-xs ws-wrap">{{ $t("ConfigChooseLauncherLanguage") }}</p>
-              <q-select v-model="launcherLanguageChoice" filled options-dense
-                        :options="launcherLanguageOptions" :label="$t('ConfigLauncherLanguage')"
-                        behavior="dialog" @update:model-value="onLauncherLanguageChange"/>
-            </div>
+          <!-- Language -->
+          <q-tab-panel :name="2" class="column">
+            <span>{{ $t("ConfigChooseLauncherLanguage") }}</span>
+            <q-select v-model="launcherLanguageChoice" filled options-dense
+                      :options="launcherLanguageOptions"
+                      :label="$t('ConfigLauncherLanguage')"
+                      behavior="dialog"
+                      @update:model-value="onLauncherLanguageChange"/>
             <br/>
-            <div>
-              <p class="q-mb-xs ws-wrap">{{ $t("ConfigChooseGameLanguage") }}</p>
-              <q-select v-model="gameLanguageChoice" filled options-dense
-                        :options="gameLanguageOptions"
-                        :label="$t('ConfigGameLanguage')" behavior="dialog"/>
-            </div>
-            <br/>
-            <div>
-              <a href="https://crowdin.com/project/ffxivquicklauncher" target="_blank" class="a-none">{{ $t('ConfigLocalizationHelp') }}</a>
-            </div>
 
+            <span>{{ $t("ConfigChooseGameLanguage") }}</span>
+            <q-select v-model="gameLanguageChoice" filled options-dense
+                      :options="gameLanguageOptions"
+                      :label="$t('ConfigGameLanguage')"
+                      behavior="dialog"
+                      @update:model-value="onGameLanguageChange"/>
+            <br/>
+
+            <a href="https://crowdin.com/project/ffxivquicklauncher" target="_blank" class="a-none">
+              {{ $t('ConfigLocalizationHelp') }}
+            </a>
           </q-tab-panel>
 
-          <q-tab-panel :name="3" class="flex column q-pb-sm">
+          <!-- Addons -->
+          <q-tab-panel :name="3" class="column q-pb-sm">
             <div class="q-pb-xs">
               {{ $t('ConfigAddonNotice') }}
             </div>
@@ -83,7 +155,7 @@
                            :label="$t('ConfigAddonApplicationPath')"
                            :spellcheck="false" maxlength="1000" class="col-grow">
                     <template #append>
-                      <q-icon v-if="!editAddonDialogItem.path" name="search" class="cursor-pointer"
+                      <q-icon v-if="!editAddonDialogItem.path" name="mdi-search" class="cursor-pointer"
                               @click="onClickAppPathSearch"/>
                     </template>
                   </q-input>
@@ -113,42 +185,45 @@
             </q-dialog>
           </q-tab-panel>
 
-          <q-tab-panel :name="4" class="flex column">
+          <!-- Dalamud -->
+          <q-tab-panel :name="4" class="column">
             <p>{{ $t("ConfigDalamudNotice") }}</p>
-            <q-checkbox v-model="enableDalamud" dense
-                        :label="$t('ConfigDalamudEnable')"/>
-            <div v-if="enableDalamud">
+            <div>
+              <q-checkbox v-model="settings.enable_dalamud" dense
+                          :label="$t('ConfigDalamudEnable')"/>
+            </div>
+
+            <div v-if="settings.enable_dalamud">
               <span>{{ $t("ConfigDalamudInGameHint") }}</span>
-              <q-input v-model.number="injectionDelay" type="number" style="max-width: 150px"
+              <q-input v-model.number="settings.dalamud_injection_delay_ms" type="number" style="max-width: 150px"
                        :label="$t('ConfigDalamudInjectionDelay') + ' (ms)'"
                        @wheel="onWheelInjectionDelay"/>
               <br/>
               <span>{{ $t("ConfigUniversalisHint") }}</span>
-              <q-checkbox v-model="optOutMb" dense
+              <q-checkbox v-model="settings.opt_out_mb_collection" dense
                           :label="$t('ConfigUniversalisOptOut')"/>
             </div>
-
           </q-tab-panel>
 
-          <q-tab-panel :name="5" class="flex column">
-            <div>{{ $t('ConfigPluginsDescription') }}</div>
-            <div>{{ $t("ConfigPluginsHint") }}</div>
-
+          <!-- Plugins -->
+          <q-tab-panel :name="5" class="column">
+            <span>{{ $t('ConfigPluginsDescription') }}</span>
+            <span>{{ $t("ConfigPluginsHint") }}</span>
             <q-card class="bg-grey-9 flex-grow-1">
               <q-scroll-area class="fit">
                 <q-list separator>
                   <q-item v-for="(item, index) in plugins"
                           :key="index" dense class="q-px-none">
                     <q-item-label>
-                      <q-toggle v-model="item.json.Disabled"
+                      <q-toggle v-model="item.manifest.Disabled"
                                 :true-value="false" :false-value="true"
                                 tabindex="-1" @update:model-value="updatePlugin(item)"/>
                     </q-item-label>
                     <q-item-section>
-                      <div v-if="!item.json.Disabled">
+                      <div v-if="!item.manifest.Disabled">
                         {{ item.plugin.name }} {{ item.plugin.version }}
                       </div>
-                      <div v-if="item.json.Disabled" style="text-decoration: line-through">
+                      <div v-if="item.manifest.Disabled" style="text-decoration: line-through">
                         {{ item.plugin.name }} {{ item.plugin.version }}
                       </div>
                     </q-item-section>
@@ -162,37 +237,55 @@
                 </q-list>
               </q-scroll-area>
             </q-card>
-
-
           </q-tab-panel>
 
-          <q-tab-panel :name="6">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          <!-- Patching -->
+          <q-tab-panel :name="6" class="column">
+            <div>
+              <q-checkbox v-model="settings.ask_before_patching" dense class="q-mb-sm"
+                          :label="$t('ConfigPatchAskBefore')"/>
+            </div>
+
+            <div>
+              <q-checkbox v-model="settings.keep_patches" dense
+                          :label="$t('ConfigPatchKeepAfter')"/>
+            </div>
+
+            <div class="row q-mb-sm">
+              <q-input v-model="settings.patch_path"
+                       clearable
+                       :label="$t('ConfigPatchPath')"
+                       :spellcheck="false" maxlength="1000"
+                       class="col-grow">
+                <template #append>
+                  <q-icon v-if="!settings.patch_path" name="mdi-search" class="cursor-pointer" @click="onClickPatchDirSearch"/>
+                </template>
+              </q-input>
+            </div>
+
+            <q-input v-model.number="downloadSpeedLimitMBs" type="number" style="max-width: 200px"
+                     :label="$t('ConfigPatchSpeedLimit') + ' (MB/s)'"
+                     @wheel="onWheelDownloadSpeedLimit"/>
           </q-tab-panel>
 
+          <!-- About -->
           <q-tab-panel :name="7" class="row">
             <div class="column col-8">
-              <p>
-            <span class="ws-wrap">
-            {{ $t("ConfigCredits") }}
-            </span>
-                <br/>
-                <a href="https://github.com/goaaats/xivlauncher-neo/blob/master/LICENSE" target="_blank" class="a-none">
-                  {{ $t("ConfigLicense") }}
-                </a>
-              </p>
+              <div class="ws-wrap">{{ $t("ConfigCredits") }}</div>
+              <a href="https://github.com/goaaats/xivlauncher-neo/blob/master/LICENSE"
+                 target="_blank" class="a-none"> {{ $t("ConfigLicense") }}</a>
             </div>
 
             <div class="column col-4">
               <q-btn flat align="left" class="row full-width" :no-caps="true" icon="mdi-discord"
-                     :label="$t('ConfigJoinDiscord')"
-                     type="a" target="_blank" href="https://discord.gg/3NMcUV5"/>
+                     :label="$t('ConfigJoinDiscord')" type="a" target="_blank"
+                     href="https://discord.gg/3NMcUV5"/>
               <q-btn flat align="left" class="row full-width" :no-caps="true" icon="mdi-github"
                      label="GitHub" type="a" target="_blank"
                      href="https://github.com/goaaats/FFXIVQuickLauncher"/>
               <q-btn flat align="left" class="row full-width" :no-caps="true" icon="mdi-information"
-                     :label="$t('ConfigOpenFaq')"
-                     type="a" target="_blank" href="https://goatcorp.github.io/faq/"/>
+                     :label="$t('ConfigOpenFaq')" type="a" target="_blank"
+                     href="https://goatcorp.github.io/faq/"/>
               <q-btn flat align="left" class="row full-width" :no-caps="true" icon="mdi-wrench"
                      :label="$t('ConfigStartBackupTool')"
                      @click="onClickStartBackupTool"/>
@@ -212,33 +305,15 @@
                          @click="onClickStartOriginalLauncher(false)"/>
                 </q-card-actions>
               </q-card>
-
-              <!--
-              <q-card style="width: 300px">
-                <q-card-section class="justify-center">
-                  <div class="text-h6 text-center">
-                    {{ $t('ConfigLaunchAsSteam') }}
-                  </div>
-                </q-card-section>
-
-                <q-card-actions align="right" class="justify-center">
-                  <q-btn v-close-popup class="bg-primary" :no-caps="true"
-                         :label="$t('ConfigLaunchAsSteamYes')"
-                         @click="onClickStartOriginalLauncher(true)"/>
-                  <q-btn v-close-popup class="bg-primary" :no-caps="true"
-                         :label="$t('ConfigLaunchAsSteamNo')"
-                         @click="onClickStartOriginalLauncher(false)"/>
-                </q-card-actions>
-              </q-card>
-              -->
             </q-dialog>
           </q-tab-panel>
+
         </q-tab-panels>
 
         <q-page-sticky position="bottom-right" :offset="[9,9]">
           <div class="q-gutter-sm">
             <q-btn push round color="primary" icon="mdi-folder-open"
-                   @click="onClickOpenPluginsFolder">
+                   @click="openDalamudPluginDir">
               <q-tooltip :delay="500">
                 {{ $t("ConfigOpenPluginsFolder") }}
               </q-tooltip>
@@ -254,203 +329,209 @@
           </div>
         </q-page-sticky>
 
-
       </q-page>
     </q-page-container>
   </q-layout>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import {inject, onMounted, Ref, ref} from 'vue'
-import {dialog} from '@tauri-apps/api'
-import * as constants from '@/services/constants'
-import * as backend from '@/services/backend'
-import * as i18n from '@/services/i18n'
 import {useQuasar} from 'quasar'
+import {MAIN_ROUTE} from '@/router/route'
+import {backend, constants, i18n} from '@/services/'
+import {isGamePathValid, showFileDialog} from '@/util'
+import {AddonEntry, LauncherSettings, PluginEntry} from '@/services/backend'
 
-export default {
-  name: 'ConfigView',
-  setup() {
-    const $q = useQuasar()
+const $q = useQuasar()
 
-    const settings = inject(constants.SETTINGS_KEY) as Ref<backend.LauncherSettings>
-    const addons = inject(constants.ADDONS_KEY) as Ref<backend.AddonEntry[]>
+const settings = inject(constants.SETTINGS_KEY) as Ref<LauncherSettings>
+const addons = inject(constants.ADDONS_KEY) as Ref<AddonEntry[]>
 
-    // TODO Set to 1
-    const currentTab = ref(5)
+const currentTab = ref(1)
 
-    // Tab 1
-    const gameDir = ref('')
+// region Game
+const directXOptions = [
+  {label: 'DirectX 11', value: true},
+  {label: 'DirectX 9', value: false},
+]
 
-    // Tab 2
-    const launcherLanguageChoice = ref(i18n.convertLauncherLanguage(settings.value.launcher_language))
-    const gameLanguageChoice = ref(i18n.convertGameLanguage(settings.value.game_language))
+const gameSubDirsFound = ref(false)
 
-    const launcherLanguageOptions = i18n.getLauncherLanguageOptions()
-    const gameLanguageOptions = i18n.getGameLanguageOptions()
+async function onUpdateGameDir(path: string | null) {
+  gameSubDirsFound.value = await isGamePathValid(path)
+}
 
-    async function onLauncherLanguageChange(lang: string) {
-      const locale = i18n.convertLauncherLanguage(lang)
-      await i18n.setLanguage(locale)
-    }
+async function onClickGameDirSearch() {
+  settings.value.game_path = await showFileDialog(true)
+  gameSubDirsFound.value = false
+  await onUpdateGameDir(settings.value.game_path)
+}
 
-    // Tab 3
-    const editAddonDialogItem = ref({}) as Ref<backend.AddonEntry>
-    const showEditAddonDialog = ref(false)
-    const showEditAddonDialogNew = ref(false)
+onMounted(() => onUpdateGameDir(settings.value.game_path))
 
-    function onClickAddAddon() {
-      showAddonDialog({
-        is_enabled: true,
-        path: '',
-        command_line: '',
-        run_as_admin: false,
-        run_on_close: false,
-        kill_after_close: false,
-      }, true)
-    }
+// endregion
 
-    function onClickEditAddon(entry: backend.AddonEntry) {
-      showAddonDialog(entry, false)
-    }
+// region Language
+const launcherLanguageOptions = i18n.getLauncherLanguageOptions()
+const launcherLanguageChoice = ref(i18n.convertLauncherLanguage(settings.value.launcher_language))
+const gameLanguageOptions = i18n.getGameLanguageOptions()
+const gameLanguageChoice = ref(i18n.convertGameLanguage(settings.value.game_language))
 
-    function showAddonDialog(entry: backend.AddonEntry, isNew: boolean) {
-      showEditAddonDialogNew.value = isNew
-      editAddonDialogItem.value = entry
-      showEditAddonDialog.value = true
-    }
+async function onLauncherLanguageChange(langValue: string) {
+  settings.value.launcher_language = i18n.convertLauncherLanguage(langValue)
+  await i18n.setLanguage(settings.value.launcher_language)
+}
 
-    async function onClickAppPathSearch() {
-      editAddonDialogItem.value.path = await showFileDialog(false)
-    }
+function onGameLanguageChange(langValue: string) {
+  settings.value.game_language = i18n.convertLauncherLanguage(langValue)
+}
 
-    function onClickEditAddonSave() {
-      const exists = addons.value.includes(editAddonDialogItem.value)
-      if (!exists) {
-        // Insert is it does not exist
-        addons.value.push(editAddonDialogItem.value)
-      }
-    }
+// endregion
 
-    function onClickEditAddonDelete() {
-      const exists = addons.value.includes(editAddonDialogItem.value)
-      if (exists) {
-        // Delete if it exists
-        addons.value = addons.value.filter((entry) => entry != editAddonDialogItem.value)
-      }
-    }
+// region Addons
+const editAddonDialogItem = ref({}) as Ref<AddonEntry>
+const showEditAddonDialog = ref(false)
+const showEditAddonDialogNew = ref(false)
 
-    // Tab 4
-    const enableDalamud = ref(settings.value.enable_dalamud)
-    const injectionDelay = ref(settings.value.dalamud_injection_delay_ms)
-    const optOutMb = ref(settings.value.opt_out_mb_collection)
+function onClickAddAddon() {
+  _showAddonDialog({
+    is_enabled: true,
+    path: '',
+    command_line: '',
+    run_as_admin: false,
+    run_on_close: false,
+    kill_after_close: false,
+  }, true)
+}
 
-    function onWheelInjectionDelay(e: WheelEvent) {
-      injectionDelay.value += (e.deltaY < 0 ? 100 : -100)
-    }
+function onClickEditAddon(entry: backend.AddonEntry) {
+  _showAddonDialog(entry, false)
+}
 
-    // Tab 5
-    type PluginJsonData = {
-      Disabled: boolean,
-      [k: string]: unknown,
-    }
+function _showAddonDialog(entry: backend.AddonEntry, isNew: boolean) {
+  showEditAddonDialogNew.value = isNew
+  editAddonDialogItem.value = entry
+  showEditAddonDialog.value = true
+}
 
-    type PluginData = {
-      plugin: backend.PluginEntry,
-      json: PluginJsonData,
-    }
+async function onClickAppPathSearch() {
+  editAddonDialogItem.value.path = await showFileDialog(false)
+}
 
-    const plugins = ref([]) as Ref<PluginData[]>
+function onClickEditAddonSave() {
+  const exists = addons.value.includes(editAddonDialogItem.value)
+  if (!exists) {
+    // Insert is it does not exist
+    addons.value.push(editAddonDialogItem.value)
+  }
+}
 
-    onMounted(async () => {
-      const values = await backend.getPlugins()
-      plugins.value = values.map((backendPlugin) => {
-        return {
-          plugin: backendPlugin,
-          json: JSON.parse(backendPlugin.manifest) as PluginJsonData,
-        }
-      })
-    })
+function onClickEditAddonDelete() {
+  const exists = addons.value.includes(editAddonDialogItem.value)
+  if (exists) {
+    // Delete if it exists
+    addons.value = addons.value.filter((entry) => entry != editAddonDialogItem.value)
+  }
+}
 
-    async function updatePlugin(item: PluginData) {
-      // Update our copy
-      item.plugin.manifest = JSON.stringify(item.json, null, 2)
-      // Send it to disk
-      await backend.updatePlugin(item.plugin)
-    }
+// endregion
 
-    async function removePlugin(item: PluginData) {
-      await backend.removePlugin(item.plugin)
-      plugins.value = plugins.value.filter((i) => i != item)
+// region Dalamud
+function onWheelInjectionDelay(e: WheelEvent) {
+  const delta = e.deltaY < 0 ? 100 : -100
 
-      // Notify the user
-      $q.notify({
-        type: 'message',
-        message: `${i18n.t('ConfigPluginDeleted')} ${item.plugin.name} v${item.plugin.version}`,
-      })
-    }
+  let value = settings.value.dalamud_injection_delay_ms + delta
+  if (value < 0)
+    value = 0
 
-    // Tab 6
-    // Tab 7
-    const showStartOriginalLauncherDialog = ref(false)
+  settings.value.dalamud_injection_delay_ms = value
+}
 
-    async function onClickStartBackupTool() {
-      await backend.startBackupTool()
-    }
+// endregion
 
-    async function onClickStartOriginalLauncher(useSteam: boolean) {
-      await backend.startOriginalLauncher(useSteam)
-    }
+// region Plugins
+type PluginManifest = {
+  Disabled: boolean,
+  [k: string]: unknown,
+}
 
-    // Shared
+type PluginData = {
+  plugin: PluginEntry,
+  manifest: PluginManifest,
+}
 
-    async function showFileDialog(dirOnly: boolean): Promise<string> {
-      const result = await dialog.open({
-        directory: dirOnly,
-        multiple: false,
-      })
+const plugins = ref([]) as Ref<PluginData[]>
 
-      // This should never happen with multiple: false
-      if (Array.isArray(result))
-        throw 'Invalid result'
+async function getPlugins() {
+  const values = await backend.getPlugins()
+  plugins.value = values.map((plugin) => {
+    const manifest = JSON.parse(plugin.manifest_json) as PluginManifest
+    return {plugin, manifest}
+  })
+}
 
-      return result
-    }
+async function updatePlugin(item: PluginData) {
+  // Update our copy
+  item.plugin.manifest_json = JSON.stringify(item.manifest, null, 2)
+  // Send it to disk
+  await backend.updatePlugin(item.plugin)
+}
 
-    function onClickOpenPluginsFolder() {
-      console.log(/* TODO */)
-    }
+async function removePlugin(item: PluginData) {
+  await backend.removePlugin(item.plugin)
+  plugins.value = plugins.value.filter((i) => i != item)
 
-    async function onCompleteConfig() {
-      settings.value.launcher_language = i18n.convertLauncherLanguage(launcherLanguageChoice.value)
-      settings.value.game_language = i18n.convertGameLanguage(gameLanguageChoice.value)
-      await backend.setSettings(settings.value)
-    }
+  // Notify the user
+  $q.notify({
+    type: 'message',
+    message: `${i18n.t('ConfigPluginDeleted')} ${item.plugin.name} v${item.plugin.version}`,
+  })
+}
 
-    return {
-      t: i18n.t, currentTab,
-      // 1
-      gameDir,
-      // 2
-      launcherLanguageChoice, launcherLanguageOptions, onLauncherLanguageChange,
-      gameLanguageChoice, gameLanguageOptions,
-      // 3
-      addons, showEditAddonDialog, showEditAddonDialogNew, editAddonDialogItem,
-      onClickAddAddon, onClickEditAddon, onClickAppPathSearch,
-      onClickEditAddonSave, onClickEditAddonDelete,
-      // 4
-      enableDalamud, injectionDelay, optOutMb,
-      onWheelInjectionDelay,
-      // 5
-      plugins, updatePlugin, removePlugin,
-      // 6
-      // 7
-      showStartOriginalLauncherDialog,
-      onClickStartBackupTool, onClickStartOriginalLauncher,
-      //
-      onClickOpenPluginsFolder, onCompleteConfig,
-    }
-  },
+onMounted(getPlugins)
+
+// endregion
+
+// region Patching
+const downloadSpeedLimitMBs = ref(settings.value.download_speed_limit_bytes / 1024 / 1024)
+
+async function onClickPatchDirSearch() {
+  settings.value.patch_path = await showFileDialog(true)
+}
+
+function onWheelDownloadSpeedLimit(e: WheelEvent) {
+  const delta = e.deltaY < 0 ? 1 : -1
+
+  let value = downloadSpeedLimitMBs.value + delta
+  if (value < 0)
+    value = 0
+
+  downloadSpeedLimitMBs.value = value
+  settings.value.download_speed_limit_bytes = value * 1024 * 1024
+}
+
+// endregion
+
+// region About
+const showStartOriginalLauncherDialog = ref(false)
+
+async function onClickStartBackupTool() {
+  await backend.startBackupTool()
+}
+
+async function onClickStartOriginalLauncher(useSteam: boolean) {
+  await backend.startOriginalLauncher(useSteam)
+}
+
+// endregion
+
+async function openDalamudPluginDir() {
+  await backend.openDalamudPluginDir()
+}
+
+async function onCompleteConfig() {
+  await backend.setSettings(settings.value)
+  await MAIN_ROUTE.push()
 }
 </script>
 

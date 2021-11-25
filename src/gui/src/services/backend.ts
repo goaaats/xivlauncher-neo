@@ -1,4 +1,42 @@
 import {invoke} from '@tauri-apps/api/tauri'
+import {i18n} from '@/services'
+
+/**
+ * Get the headlines for the given language
+ * @param langKey: Language key, see i18n module
+ */
+export async function getHeadline(langKey: string): Promise<Headline> {
+  const code = i18n.getLangCode(langKey)
+  return await invoke('get_headline', {langcode: code})
+}
+
+/**
+ * Get the base64 image data for a banner image
+ * @param url - Url to fetch
+ */
+export async function getBannerImageData(url: string): Promise<string> {
+  return await invoke('get_banner_image_data', {url: url})
+}
+
+export type Headline = {
+  news: HeadlineEntry[]
+  topics: HeadlineEntry[]
+  pinned: HeadlineEntry[]
+  banner: BannerEntry[]
+}
+
+export type BannerEntry = {
+  lsb_banner: string
+  link: string
+}
+
+export type HeadlineEntry = {
+  date: string,
+  title: string,
+  url: string,
+  id: string,
+  tag?: string,
+}
 
 /**
  * Get the path to ACT installation, if it exists
@@ -72,6 +110,13 @@ export async function setAccounts(accounts: AccountEntry[]) {
  */
 export async function setUidCache(uidCache: UidCacheEntry[]) {
   return await invoke('update_uid_cache', {uid_cache: uidCache})
+}
+
+/**
+ * Start the integrity tool
+ */
+export async function startIntegrityTool() {
+  return await invoke('start_integrity_tool')
 }
 
 /**
@@ -166,5 +211,12 @@ export async function removePlugin(entry: PluginEntry) {
 export type PluginEntry = {
   name: string,
   version: string,
-  manifest: string,
+  manifest_json: string,
+}
+
+/**
+ * Open the Dalamud plugin dir in the local file explorer
+ */
+export async function openDalamudPluginDir(): Promise<string> {
+  return await invoke('open_dalamud_plugin_dir')
 }

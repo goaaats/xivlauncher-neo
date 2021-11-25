@@ -1,10 +1,8 @@
-use crate::config::{AccountEntry, AddonEntry, LauncherConfig, LauncherSettings};
-use crate::game::language::GameLanguage;
-use crate::language::LauncherLanguage;
-use crate::util::path::{
-  get_launcher_old_accounts_path, get_launcher_old_config_path, get_launcher_old_uid_cache_path,
-};
+use crate::lib::config::{AccountEntry, AddonEntry, LauncherConfig, LauncherSettings};
+use crate::lib::language::LauncherLanguage;
+use crate::lib::path::{get_launcher_old_accounts_path, get_launcher_old_config_path, get_launcher_old_uid_cache_path};
 use anyhow::{Context, Error, Result};
+use libxl::game::language::GameLanguage;
 use serde::{Deserialize, Serialize};
 use std::fmt::{Display, Formatter};
 use std::fs;
@@ -40,7 +38,8 @@ impl OldLauncherConfig {
 
     // Addons
     let addon_json = settings.addons_json.clone().unwrap_or_else(|| String::from("[]"));
-    let addons = serde_json::from_str(addon_json.as_str()).with_context(|| format!("Could not deserialize addons in {:?}", path))?;
+    let addons = serde_json::from_str(addon_json.as_str())
+      .with_context(|| format!("Could not deserialize addons in {:?}", path))?;
 
     // Accounts
     let path = get_launcher_old_accounts_path()?;
@@ -79,14 +78,8 @@ impl OldLauncherConfig {
         self.settings.enable_steam_integration.clone(),
         default_settings.enable_steam_integration,
       ),
-      game_language: self
-        .settings
-        .client_language
-        .unwrap_or(GameLanguage::English),
-      launcher_language: self
-        .settings
-        .launcher_language
-        .unwrap_or(LauncherLanguage::English),
+      game_language: self.settings.client_language.unwrap_or(GameLanguage::English),
+      launcher_language: self.settings.launcher_language.unwrap_or(LauncherLanguage::English),
       current_account_id: conv_str(
         self.settings.current_account_id.clone(),
         default_settings.current_account_id,
@@ -307,8 +300,5 @@ fn conv_t<T>(str: Option<String>, default: T) -> T
 where
   T: std::str::FromStr + std::string::ToString,
 {
-  str
-    .unwrap_or_else(|| default.to_string())
-    .parse()
-    .unwrap_or(default)
+  str.unwrap_or_else(|| default.to_string()).parse().unwrap_or(default)
 }
