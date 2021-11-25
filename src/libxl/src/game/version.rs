@@ -1,23 +1,18 @@
 use data_encoding::HEXLOWER;
-use ring::digest::{Context, Digest, SHA1_FOR_LEGACY_USE_ONLY};
 use std::{
   fs::File,
-  io::{BufReader, Read},
+  io::BufReader,
   path::Path,
 };
 
-use crate::patch::patchlist::PatchList;
+use crate::{patch::patchlist::PatchList, util};
 
-use super::{
-  constants,
-  platform::Platform,
-  repository::Repository,
-  request,
-};
+use super::{constants, platform::Platform, repository::Repository, request};
 
 #[derive(Debug)]
 pub enum VersionError {
   PathConversion,
+  NoSession,
 
   IOError(std::io::Error),
   Reqwest(reqwest::Error),
@@ -36,7 +31,7 @@ pub fn get_version_report(game_path: &Path, ex_level: u8) -> Result<String, Vers
 
 pub async fn check_boot_version(game_path: &Path, platform: Platform) -> Result<Option<PatchList>, VersionError> {
   let ver = Repository::Boot.get_version(game_path);
-  let url = constants::patch_bootver_url(ver);
+  let url = constants::patch_bootver_url(&ver);
   let resp = request::patch_get(platform)
     .get(url)
     .send()
@@ -44,7 +39,54 @@ pub async fn check_boot_version(game_path: &Path, platform: Platform) -> Result<
     .map_err(VersionError::Reqwest)?;
   let text = resp.text().await.map_err(VersionError::Reqwest)?;
 
-  Ok(if text.is_empty() { None } else { Some(PatchList::from(text)) })
+  Ok(if text.is_empty() {
+    None
+  } else {
+    Some(PatchList::from(text))
+  })
+}
+
+#[derive(Debug)]
+pub struct SessionInfo {
+  pub unique_id: String,
+  pub patches: Option<PatchList>,
+}
+
+impl SessionInfo {
+  pub async fn register_session(sid: &str, game_path: &Path, platform: Platform) -> Result<SessionInfo, VersionError> {
+    let ver = get_patch_gamever_info(game_path)?;
+    let url = constants::patch_gamever_url(&ver, &sid);
+
+    let res = request::patch_get(platform)
+      .get(url)
+      .header("X-Hash-Check", "enabled")
+      .send()
+      .await
+      .map_err(VersionError::Reqwest)?;
+
+    if !res.status().is_success() {
+      return Err(VersionError::NoSession);
+    }
+
+    let uid = res
+      .headers()
+      .get("X-Patch-Unique-Id")
+      .ok_or(VersionError::NoSession)?
+      .to_str()
+      .unwrap()
+      .to_string();
+
+    let body = res.text().await.map_err(VersionError::Reqwest)?;
+
+    Ok(SessionInfo {
+      unique_id: uid,
+      patches: if body.is_empty() {
+        None
+      } else {
+        Some(PatchList::from(body))
+      },
+    })
+  }
 }
 
 pub fn get_patch_gamever_info(game_path: &Path) -> Result<String, VersionError> {
@@ -73,7 +115,7 @@ fn get_patch_gamever_hash(game_path: &Path) -> Result<String, VersionError> {
 fn get_file_hash(path: &Path) -> Result<String, VersionError> {
   let file = File::open(&path).map_err(VersionError::IOError)?;
   let file_length = file.metadata().unwrap().len();
-  let digest = sha1_digest(BufReader::new(file))?;
+  let digest = util::hash::sha1_digest(BufReader::new(file)).map_err(VersionError::IOError)?;
 
   let hex = HEXLOWER.encode(digest.as_ref());
 
@@ -83,19 +125,4 @@ fn get_file_hash(path: &Path) -> Result<String, VersionError> {
     .to_str()
     .ok_or(VersionError::PathConversion)?;
   Ok(format!("{}/{}/{}", file_name, file_length, hex))
-}
-
-fn sha1_digest<R: Read>(mut reader: R) -> Result<Digest, VersionError> {
-  let mut context = Context::new(&SHA1_FOR_LEGACY_USE_ONLY);
-  let mut buffer = [0; 1024];
-
-  loop {
-    let count = reader.read(&mut buffer).map_err(VersionError::IOError)?;
-    if count == 0 {
-      break;
-    }
-    context.update(&buffer[..count]);
-  }
-
-  Ok(context.finish())
 }

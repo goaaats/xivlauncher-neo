@@ -1,7 +1,9 @@
+#[derive(Debug)]
 pub struct PatchList {
   pub patches: Vec<PatchEntry>,
 }
 
+#[derive(Debug)]
 pub struct PatchEntry {
   length: u64,
   version_id: String,

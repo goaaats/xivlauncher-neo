@@ -16,11 +16,19 @@ pub fn frontier_login_status_url() -> String {
   )
 }
 
-pub fn patch_bootver_url(version: String) -> String {
+pub fn patch_bootver_url(version: &str) -> String {
   format!(
     "http://patch-bootver.ffxiv.com/http/win32/ffxivneo_release_boot/{}/?time={}",
     version,
     util::time::utc_now_launcher_formatted_long()
+  )
+}
+
+pub fn patch_gamever_url(version: &str, sid: &str) -> String {
+  format!(
+    "https://patch-gamever.ffxiv.com/http/win32/ffxivneo_release_game/{}/{}",
+    version,
+    sid
   )
 }
 
