@@ -179,7 +179,33 @@ async fn main() {
                 HumanDuration(started.elapsed())
             ));
 
-            println!("{:#?}", oauth);
+            if !oauth.can_play
+            {
+                println!("You can't play with this account.");
+                return;
+            }
+
+            if !oauth.terms_accepted
+            {
+                println!("You must accept the terms of service.");
+                return;
+            }
+
+            let pb = ProgressBar::new(1);
+            pb.set_style(spinner_style.clone());
+            pb.enable_steady_tick(50);
+            pb.set_message("Registering session...");
+            
+            let session = libxl::game::version::SessionInfo::register_session(&oauth.session_id, game_path, libxl::game::platform::Platform::Win32).await.unwrap();
+
+            pb.finish();
+
+            if session.patches.is_some() {
+                println!("You must patch the game.");
+                return;
+            }
+
+            println!("UID: {}", session.unique_id);
         }
         Err(err) => {
             pb.finish_with_message(format!(
@@ -191,8 +217,5 @@ async fn main() {
         }
     }
 
-    let pb = ProgressBar::new(1);
-    pb.set_style(spinner_style.clone());
-    pb.enable_steady_tick(50);
-    pb.set_message("Registering session...");
+    
 }
