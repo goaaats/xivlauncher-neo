@@ -1,5 +1,5 @@
 use crate::either;
-use crate::locale::is_north_america;
+use crate::util::locale::is_north_america;
 use serde::{Deserialize, Serialize};
 use std::fmt::{Display, Formatter};
 

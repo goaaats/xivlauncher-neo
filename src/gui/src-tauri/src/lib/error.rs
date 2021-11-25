@@ -14,7 +14,9 @@ impl XlError {
   /// * `message` - The error message
   #[must_use]
   pub fn from(message: &str) -> Self {
-    Self { message: message.to_string() }
+    Self {
+      message: message.to_string(),
+    }
   }
 
   /// Create a new error.
@@ -26,6 +28,12 @@ impl XlError {
 }
 
 impl Error for XlError {}
+
+impl From<anyhow::Error> for XlError {
+  fn from(e: anyhow::Error) -> Self {
+    XlError::new(format!("{:#?}", e))
+  }
+}
 
 impl fmt::Display for XlError {
   fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {

@@ -32,7 +32,7 @@
                        :spellcheck="false" maxlength="1000"
                        class="col-grow" @update:modelValue="onUpdateGameDir">
                 <template #append>
-                  <q-icon v-if="!gameDir" name="search" class="cursor-pointer" @click="onClickGameDirSearch"/>
+                  <q-icon v-if="!gameDir" name="mdi-search" class="cursor-pointer" @click="onClickGameDirSearch"/>
                 </template>
                 <template #hint>
                   <p v-if="gameDir && !gameSubDirsFound" class="text-warning">
@@ -66,7 +66,7 @@
               <div class="row">
                 <q-input v-model="actPath" clearable :label="$t('SetupActPath')" maxlength="1000" class="col-grow">
                   <template #append>
-                    <q-icon v-if="!actPath" name="search" class="cursor-pointer" @click="onClickActPathSearch"/>
+                    <q-icon v-if="!actPath" name="mdi-search" class="cursor-pointer" @click="onClickActPathSearch"/>
                   </template>
                 </q-input>
               </div>
@@ -87,12 +87,12 @@
       <template #control>
         <q-carousel-control position="bottom-right" class="q-gutter-xs">
           <q-btn v-if="currentSlide !== 1" push round color="primary"
-                 icon="arrow_left" @click="$refs.carousel.previous()"/>
+                 icon="mdi-arrow-left" @click="$refs.carousel.previous()"/>
           <q-btn v-if="currentSlide !== 4" push round color="primary"
-                 icon="arrow_right" :disabled="currentSlide === 2 && !gameDir"
+                 icon="mdi-arrow-right" :disabled="currentSlide === 2 && !gameDir"
                  @click="$refs.carousel.next()"/>
           <q-btn v-if="currentSlide === 4" push round color="positive"
-                 icon="done" @click="onCompleteSetup"/>
+                 icon="mdi-done" @click="onCompleteSetup"/>
         </q-carousel-control>
       </template>
 
@@ -100,129 +100,95 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import {inject, onMounted, Ref, ref} from 'vue'
-import {dialog, fs} from '@tauri-apps/api'
-import router from '@/router'
-import * as i18n from '@/services/i18n'
-import * as backend from '@/services/backend'
-import * as constants from '@/services/constants'
-import * as route from '@/router/route'
+import {MAIN_ROUTE} from '@/router/route'
+import {backend, constants, i18n} from '@/services/'
+import {LauncherSettings, AddonEntry} from '@/services/backend'
+import {isGamePathValid, showFileDialog} from '@/util'
 
-export default {
-  name: 'SetupView',
-  setup() {
-    const settings = inject(constants.SETTINGS_KEY) as Ref<backend.LauncherSettings>
-    const addons = inject(constants.ADDONS_KEY) as Ref<backend.AddonEntry[]>
+const settings = inject(constants.SETTINGS_KEY) as Ref<LauncherSettings>
+const addons = inject(constants.ADDONS_KEY) as Ref<AddonEntry[]>
 
-    // Current slide
-    const currentSlide = ref(1)
+const currentSlide = ref(1)
 
-    // Slide 1
-    const launcherLanguageChoice = ref(i18n.getDefaultLauncherLanguageOption())
-    const gameLanguageChoice = ref(i18n.getDefaultGameLanguageOption())
-    const launcherLanguageOptions = i18n.getLauncherLanguageOptions()
-    const gameLanguageOptions = i18n.getGameLanguageOptions()
+// region Slide 1
+const launcherLanguageChoice = ref(i18n.getDefaultLauncherLanguageOption())
+const gameLanguageChoice = ref(i18n.getDefaultGameLanguageOption())
+const launcherLanguageOptions = i18n.getLauncherLanguageOptions()
+const gameLanguageOptions = i18n.getGameLanguageOptions()
 
-    async function onLauncherLanguageChange(lang: string) {
-      const locale = i18n.convertLauncherLanguage(lang)
-      await i18n.setLanguage(locale)
-    }
+async function onLauncherLanguageChange(lang: string) {
+  const locale = i18n.convertLauncherLanguage(lang)
+  await i18n.setLanguage(locale)
+}
 
-    // Slide 2
-    const gameDir = ref('')
-    const gameSubDirsFound = ref(false)
-    const useSteam = ref(false)
+// endregion
 
-    async function onClickGameDirSearch() {
-      gameDir.value = await showFileDialog(true)
-      gameSubDirsFound.value = false
-      await onUpdateGameDir(gameDir.value)
-    }
+// region Slide 2
+const gameDir = ref('')
+const gameSubDirsFound = ref(false)
+const useSteam = ref(false)
 
-    async function onUpdateGameDir(path: string | null) {
-      if (!path) {
-        gameSubDirsFound.value = false
-        return
-      }
+async function onClickGameDirSearch() {
+  gameDir.value = await showFileDialog(true)
+  gameSubDirsFound.value = false
+  await onUpdateGameDir(gameDir.value)
+}
 
-      gameSubDirsFound.value = await fs.readDir(path).then((children) => {
-        const bootExists = children.some((child) => child.name === 'boot')
-        const gameExists = children.some((child) => child.name === 'game')
-        return bootExists && gameExists
-      }).catch(() => false)
-    }
+async function onUpdateGameDir(path: string | null) {
+  gameSubDirsFound.value = await isGamePathValid(path)
+}
 
-    // Slide 3
-    const actPath = ref('')
-    const foundAct = ref(false)
-    const enableACT = ref(false)
+// endregion
 
-    onMounted(async () => await getActPath())
+// region Slide 3
+const actPath = ref('')
+const foundAct = ref(false)
+const enableACT = ref(false)
 
-    async function getActPath() {
-      const path = await backend.getAdvancedCombatTrackerPath()
-      if (path) {
-        foundAct.value = true
-        actPath.value = path
-      }
-    }
+onMounted(getActPath)
 
-    async function onClickActPathSearch() {
-      actPath.value = await showFileDialog(false)
-    }
+async function getActPath() {
+  const path = await backend.getAdvancedCombatTrackerPath()
+  if (path) {
+    foundAct.value = true
+    actPath.value = path
+  }
+}
 
-    // Slide 4
-    const enableDalamud = ref(false)
+async function onClickActPathSearch() {
+  actPath.value = await showFileDialog(false)
+}
 
-    // Shared
-    async function showFileDialog(dirOnly: boolean): Promise<string> {
-      const result = await dialog.open({
-        directory: dirOnly,
-        multiple: false,
-      })
+// endregion
 
-      // This should never happen with multiple: false
-      if (Array.isArray(result))
-        throw 'Invalid result'
+// region Slide 4
+const enableDalamud = ref(false)
 
-      return result
-    }
+// endregion
 
-    async function onCompleteSetup() {
-      settings.value.launcher_language = i18n.convertLauncherLanguage(launcherLanguageChoice.value)
-      settings.value.game_language = i18n.convertGameLanguage(gameLanguageChoice.value)
-      settings.value.game_path = gameDir.value
-      settings.value.enable_steam_integration = useSteam.value
-      settings.value.enable_dalamud = enableDalamud.value
-      await backend.setSettings(settings.value)
+async function onCompleteSetup() {
+  settings.value.launcher_language = i18n.convertLauncherLanguage(launcherLanguageChoice.value)
+  settings.value.game_language = i18n.convertGameLanguage(gameLanguageChoice.value)
+  settings.value.game_path = gameDir.value
+  settings.value.enable_steam_integration = useSteam.value
+  settings.value.enable_dalamud = enableDalamud.value
+  await backend.setSettings(settings.value)
 
-      if (enableACT.value) {
-        addons.value.push({
-          is_enabled: true,
-          path: actPath.value,
-          command_line: '',
-          run_as_admin: false,
-          run_on_close: false,
-          kill_after_close: false,
-        })
-        await backend.setAddons(addons.value)
-      }
+  if (enableACT.value) {
+    addons.value.push({
+      is_enabled: true,
+      path: actPath.value,
+      command_line: '',
+      run_as_admin: false,
+      run_on_close: false,
+      kill_after_close: false,
+    })
+    await backend.setAddons(addons.value)
+  }
 
-      await router.push(route.MAIN_ROUTE)
-    }
-
-    return {
-      t: i18n.t, currentSlide,
-      launcherLanguageChoice, launcherLanguageOptions, onLauncherLanguageChange,
-      gameLanguageChoice, gameLanguageOptions,
-      gameDir, gameSubDirsFound, onClickGameDirSearch, onUpdateGameDir,
-      useSteam,
-      actPath, foundAct, enableACT, onClickActPathSearch,
-      enableDalamud,
-      onCompleteSetup,
-    }
-  },
+  await MAIN_ROUTE.push()
 }
 </script>
 

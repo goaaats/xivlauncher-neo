@@ -1,5 +1,3 @@
-extern crate windows;
-
 use anyhow::{Context, Error};
 use std::ffi::OsString;
 use std::os::windows::ffi::OsStringExt;
@@ -13,43 +11,55 @@ use windows::Win32::UI::Shell::{FOLDERID_CommonStartMenu, FOLDERID_RoamingAppDat
 /// Gets the path to application directory
 /// This should be AppData\Roaming\XIVLauncher
 #[cfg(target_os = "windows")]
-pub fn get_config_data_path() -> Result<PathBuf, Error> {
-  get_roaming_appdata_path().map(|path| path.join("XIVLauncher"))
+pub fn get_data_dir_path() -> Result<PathBuf, Error> {
+  get_roaming_appdata_path()
+    .map(|path| path.join("XIVLauncher"))
 }
 
-/// Gets the path to the Dalamud configuration file
-/// This should be AppData\Roaming\XIVLauncher\dalamudConfig.json
-#[cfg(target_os = "windows")]
+/// Gets the path to application directory
+/// This should be <wine_prefix>/???/XIVLauncher
+#[cfg(target_os = "linux")]
+pub fn get_data_dir_path() -> Result<PathBuf, Error> {
+  Err(Error::msg("OS not supported"))
+  // .map(|path| path.join("XIVLauncher"))
+}
+
+/// Gets the path to application directory
+/// This should be <wine_prefix>/???/XIVLauncher
+#[cfg(target_os = "macos")]
+pub fn get_data_dir_path() -> Result<PathBuf, Error> {
+  Err(Error::msg("OS not supported"))
+  // .map(|path| path.join("XIVLauncher"))
+}
+
+/// Gets the path to the Dalamud plugin folder (installedPlugins)
+pub fn get_dalamud_plugin_path() -> Result<PathBuf, Error> {
+  get_data_dir_path().map(|path| path.join("installedPlugins"))
+}
+
+/// Gets the path to the Dalamud configuration file (dalamudConfig.json)
 pub fn get_dalamud_config_path() -> Result<PathBuf, Error> {
-  get_config_data_path().map(|path| path.join("dalamudConfig.json"))
+  get_data_dir_path().map(|path| path.join("dalamudConfig.json"))
 }
 
-/// Gets the path to the launcher configuration file
-/// This should be AppData\Roaming\XIVLauncher\launcherConfigV4.json
-#[cfg(target_os = "windows")]
+/// Gets the path to the launcher configuration file (launcherConfigV4.json)
 pub fn get_launcher_config_path() -> Result<PathBuf, Error> {
-  get_config_data_path().map(|path| path.join("launcherConfigV4.json"))
+  get_data_dir_path().map(|path| path.join("launcherConfigV4.json"))
 }
 
-/// Gets the path to the launcher configuration file
-/// This should be AppData\Roaming\XIVLauncher\launcherConfigV3.json
-#[cfg(target_os = "windows")]
+/// Gets the path to the launcher configuration file (launcherConfigV3.json)
 pub fn get_launcher_old_config_path() -> Result<PathBuf, Error> {
-  get_config_data_path().map(|path| path.join("launcherConfigV3.json"))
+  get_data_dir_path().map(|path| path.join("launcherConfigV3.json"))
 }
 
-/// Gets the path to the launcher configuration file
-/// This should be AppData\Roaming\XIVLauncher\accountsList.json
-#[cfg(target_os = "windows")]
+/// Gets the path to the launcher configuration file (accountsList.json)
 pub fn get_launcher_old_accounts_path() -> Result<PathBuf, Error> {
-  get_config_data_path().map(|path| path.join("accountsList.json"))
+  get_data_dir_path().map(|path| path.join("accountsList.json"))
 }
 
-/// Gets the path to the launcher configuration file
-/// This should be AppData\Roaming\XIVLauncher\uidCache.json
-#[cfg(target_os = "windows")]
+/// Gets the path to the launcher configuration file (uidCache.json)
 pub fn get_launcher_old_uid_cache_path() -> Result<PathBuf, Error> {
-  get_config_data_path().map(|path| path.join("uidCache.json"))
+  get_data_dir_path().map(|path| path.join("uidCache.json"))
 }
 
 /// Gets the path to the special dir FOLDERID_CommonStartMenu

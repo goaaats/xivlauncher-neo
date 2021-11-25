@@ -1,8 +1,8 @@
-use crate::game::language::GameLanguage;
-use crate::language::LauncherLanguage;
-use crate::util::path::{get_dalamud_config_path, get_launcher_config_path};
+use crate::lib::language::LauncherLanguage;
+use crate::lib::path::{get_dalamud_config_path, get_launcher_config_path};
 use anyhow::{Context, Error, Result};
 use chrono::{DateTime, Utc};
+use libxl::game::language::GameLanguage;
 use serde::{Deserialize, Serialize};
 use std::fmt::{Display, Formatter};
 use std::fs;

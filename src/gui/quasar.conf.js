@@ -25,6 +25,7 @@ module.exports = configure(function (ctx) {
 
     // https://quasar.dev/quasar-cli/boot-files
     boot: [
+      'logging',
       'i18n',
       'error',
     ],
@@ -41,14 +42,18 @@ module.exports = configure(function (ctx) {
       // 'eva-icons',
       // 'themify',
       // 'line-awesome',
+      // 'material-icons',
       // 'roboto-font-latin-ext', // this or either 'roboto-font', NEVER both!
       'roboto-font',
-      'material-icons',
-      'mdi-v5',
+      'mdi-v6',
     ],
 
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
+      env: {
+        NODE_OPTIONS: '--trace-warnings'
+      },
+
       // transpile: false,
       // publicPath: '/',
 
@@ -79,7 +84,7 @@ module.exports = configure(function (ctx) {
       config: {
         'notify': {}
       },
-      iconSet: 'material-icons',
+      iconSet: 'mdi-v5',
       plugins: [
         'Notify'
       ]

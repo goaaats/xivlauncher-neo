@@ -1,4 +1,4 @@
-use crate::util::path::get_common_start_menu_path;
+use crate::lib::path::get_common_start_menu_path;
 use anyhow::{Context, Error, Result};
 
 /// Get the path to the Advanced Combat Tracker, if it exists.

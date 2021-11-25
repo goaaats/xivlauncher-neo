@@ -1,7 +1,6 @@
 import {boot} from 'quasar/wrappers'
-import {ComponentPublicInstance} from '@vue/runtime-core'
 import {Notify, useQuasar} from 'quasar'
-import {t} from '@/services/i18n'
+import {log, t} from '@/services'
 
 export default boot(({app}) => {
 
@@ -12,7 +11,7 @@ export default boot(({app}) => {
   })
 
   Notify.registerType('error', {
-    icon: 'error',
+    icon: 'mdi-error',
     color: 'negative',
     timeout: 0,
     multiLine: true,
@@ -20,21 +19,40 @@ export default boot(({app}) => {
     actions: [{label: t('ErrorDismiss'), color: 'white'}],
   })
 
+  /*
   app.config.errorHandler = (err: unknown, vm: ComponentPublicInstance | null, info: string) => {
     console.error(err)
     errorHandler(info)
   }
+  */
 
-  window.addEventListener('unhandledrejection', event => {
+
+  function promiseHandler(event: PromiseRejectionEvent) {
     event.preventDefault()
-    console.error(event)
-    errorHandler(event.reason as string)
-  })
 
+    if (event.reason instanceof Object && 'message' in event.reason) {
+      const context = event.reason as { message: string }
+      log.error('Unhandled error: ', context.message)
+    }
+    else {
+      console.error('Unhandled error:', event.reason)
+    }
+
+    // errorHandler(event.reason as string)
+  }
+
+  window.addEventListener('unhandledrejection', promiseHandler)
+
+  // noinspection JSUnusedLocalSymbols
   function errorHandler(msg: string) {
-    console.error(`Unhandled error: ${msg}`)
+    log.error(`Unhandled error: ${msg}`)
 
     const $q = useQuasar()
+    if (!$q) {
+      console.error('Error during the loading process')
+      return
+    }
+
     $q.notify({
       type: 'error',
       message: `${t('ErrorWarning')}\n${msg}`,

@@ -1,9 +1,7 @@
 #![cfg_attr(all(not(debug_assertions), target_os = "windows"), windows_subsystem = "windows")]
 
-mod config;
-mod game;
-mod setup;
-mod plugin;
+pub mod commands;
+mod lib;
 
 use libxl::either;
 use log::LevelFilter;
@@ -19,22 +17,24 @@ async fn main() {
 
   tauri::Builder::default()
     .invoke_handler(tauri::generate_handler![
-      config::get_settings,
-      config::get_addons,
-      config::get_accounts,
-      config::get_uid_cache,
-      config::update_settings,
-      config::update_addons,
-      config::update_accounts,
-      config::update_uid_cache,
-      game::start_backup_tool,
-      game::start_original_launcher,
-      plugin::get_plugins,
-      plugin::update_plugin,
-      plugin::remove_plugin,
-      setup::get_system_locale,
-      setup::find_advanced_combat_tracker,
-      // game::get_headline,
+      commands::config::get_settings,
+      commands::config::get_addons,
+      commands::config::get_accounts,
+      commands::config::get_uid_cache,
+      commands::config::update_settings,
+      commands::config::update_addons,
+      commands::config::update_accounts,
+      commands::config::update_uid_cache,
+      commands::game::get_headline,
+      commands::game::get_banner_image_data,
+      commands::game::start_backup_tool,
+      commands::game::start_original_launcher,
+      commands::plugin::get_plugins,
+      commands::plugin::update_plugin,
+      commands::plugin::remove_plugin,
+      commands::plugin::open_dalamud_plugin_dir,
+      commands::setup::get_system_locale,
+      commands::setup::find_advanced_combat_tracker,
     ])
     .run(tauri::generate_context!())
     .expect("Error while running tauri application")
