@@ -1,15 +1,14 @@
 use data_encoding::HEXLOWER;
+use lazy_static::lazy_static;
 use rayon::prelude::*;
+use regex::Regex;
 use serde::{Deserialize, Serialize};
 use std::{
   collections::HashMap,
   fs::File,
   io::BufReader,
   path::{Path, PathBuf},
-  sync::{
-    atomic::AtomicU32,
-    Arc,
-  },
+  sync::{atomic::AtomicU32, Arc},
 };
 use walkdir::WalkDir;
 
@@ -49,23 +48,31 @@ impl IntegrityCheckModel {
       version: self.version.clone(),
       failed_files: if !failed.is_empty() { Some(failed) } else { None },
       game_path: game_path.to_path_buf(),
-      missing_files: has_missing
+      missing_files: has_missing,
     }
   }
 
-  pub fn generate(version: &str, game_path: &Path, progress: Arc<AtomicU32>, reference: Option<&IntegrityCheckModel>) -> IntegrityCheckModel {
+  pub fn generate(
+    version: &str,
+    game_path: &Path,
+    progress: Arc<AtomicU32>,
+    reference: Option<&IntegrityCheckModel>,
+  ) -> IntegrityCheckModel {
     let path_len = game_path.to_path_buf().to_str().unwrap().len();
 
     let paths: Vec<PathBuf> = WalkDir::new(game_path)
       .into_iter()
+      .filter_entry(|e| is_applicable(e))
       .filter_map(|v| v.ok())
       // We only want files
       .filter(|v| v.path().is_file())
       // If we have a reference, we only want files that are in the reference
-      .filter(|v| if let Some(reference) = reference {
-        reference.hashes.contains_key(&v.path().to_str().unwrap()[path_len..])
-      } else {
-        true
+      .filter(|v| {
+        if let Some(reference) = reference {
+          reference.hashes.contains_key(&v.path().to_str().unwrap()[path_len..])
+        } else {
+          true
+        }
       })
       .map(|x| x.path().to_path_buf())
       .collect();
@@ -98,6 +105,18 @@ impl IntegrityCheckModel {
   }
 }
 
+fn is_applicable(entry: &walkdir::DirEntry) -> bool {
+  lazy_static! {
+    static ref RE_INTEGRITY: Regex = Regex::new(r#".*\.(index2?|dat[0-9]*|exe|dll|ver|fiin)$"#).unwrap();
+  }
+
+  entry
+    .file_name()
+    .to_str()
+    .map(|s| entry.file_type().is_dir() || RE_INTEGRITY.is_match(s))
+    .unwrap_or(false)
+}
+
 #[derive(Debug)]
 pub struct Integrity {
   pub version: String,
@@ -112,7 +131,7 @@ impl Integrity {
       reqwest::get(format!("{}/{}.json", INTEGRITY_REPO_URL, version))
         .await?
         .json::<IntegrityCheckModel>()
-        .await?
+        .await?,
     )
   }
 }

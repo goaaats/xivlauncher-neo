@@ -36,12 +36,6 @@ pub fn patch_gamever_url(version: &str, sid: &str) -> String {
 /// fmt 2: unix time
 pub const FRONTIER_NOTICE_ULR: &str = "https://frontier.ffxiv.com/v2/notice/{}/message.json?_={}";
 
-pub const PATCH_BOOTVER_URL: &str = "http://patch-bootver.ffxiv.com/http/win32/ffxivneo_release_boot/{}/?time={}";
-pub const PATCH_GAMEVER_URL: &str = "https://patch-gamever.ffxiv.com/http/win32/ffxivneo_release_game/{}/{}";
-
-pub const OAUTH_TOP_URL: &str =
-  "https://ffxiv-login.square-enix.com/oauth/ffxivarr/login/top?lng=en&rgn={}&isft=0&cssmode=1&isnew=1&issteam={}";
-
 pub fn oauth_top_url(region: AccountRegion, free_trial: bool, steam_service: bool) -> String {
   format!(
     "https://ffxiv-login.square-enix.com/oauth/ffxivarr/login/top?lng=en&rgn={}&isft={}&cssmode=1&isnew=1&issteam={}",
