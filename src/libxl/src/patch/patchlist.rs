@@ -5,14 +5,14 @@ pub struct PatchList {
 
 #[derive(Debug)]
 pub struct PatchEntry {
-  length: u64,
-  version_id: String,
+  pub length: u64,
+  pub version_id: String,
 
-  hash_type: String,
-  hash_block_size: u32,
-  hashes: Option<Vec<String>>,
+  pub hash_type: String,
+  pub hash_block_size: u32,
+  pub hashes: Option<Vec<String>>,
 
-  url: String,
+  pub url: String,
 }
 
 impl std::ops::Deref for PatchList {
