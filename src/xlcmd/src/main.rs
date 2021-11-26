@@ -28,8 +28,8 @@ struct Opts {
     gen_integrity: bool,
 
     /// Steam service account
-    #[clap(long)]
-    steam_service: bool,
+    #[clap(short, long)]
+    is_steam: bool,
 
     /// Path the game is installed to, defaults to XL_TESTS_GAMEPATH
     game_path: Option<String>,
@@ -37,11 +37,33 @@ struct Opts {
     /// Region to use
     #[clap(long, default_value = "Europe")]
     region: AccountRegion,
+
+    /// Dont't start the game, don't patch
+    #[clap(short, long)]
+    dry_run: bool,
+
+    /// Save login credentials
+    #[clap(short, long)]
+    saved_creds: bool,
+}
+
+fn ask_password() -> String {
+    Password::with_theme(&ColorfulTheme::default())
+        .with_prompt("Password")
+        .interact()
+        .unwrap()
 }
 
 #[tokio::main]
 async fn main() {
     let opts: Opts = Opts::parse();
+
+    let mut settings = config::Config::default();
+    settings
+        .merge(config::File::with_name("Config"))
+        .unwrap()
+        .merge(config::Environment::with_prefix("XL"))
+        .unwrap();
 
     let provided_path = opts
         .game_path
@@ -117,26 +139,56 @@ async fn main() {
 
     pb.finish_with_message(format!("{} Boot up to date!", SPARKLE));
 
-    let username: String = Input::with_theme(&ColorfulTheme::default())
-        .with_prompt("Username")
-        .validate_with({
-            let mut force = None;
-            move |input: &String| -> Result<(), &str> {
-                if input.contains('@') || force.as_ref().map_or(false, |old| old == input) {
-                    force = Some(input.clone());
-                    Err("Please enter your SE account name, not your email address.")
-                } else {
-                    Ok(())
-                }
-            }
-        })
-        .interact_text()
-        .unwrap();
+    let saved_username = settings.get_str("username");
 
-    let password: String = Password::with_theme(&ColorfulTheme::default())
-        .with_prompt("Password")
-        .interact()
-        .unwrap();
+    let username: String;
+    let password: String;
+
+    // NOTE(goat): Cannot use a let expression with settings here yet, experimental
+    if opts.saved_creds && saved_username.is_ok() {
+        username = saved_username.unwrap();
+        let entry = keyring::Keyring::new("xivlauncher", &username);
+
+        let saved_password = entry.get_password();
+
+        if let Ok(saved_password) = saved_password {
+            password = saved_password;
+
+            println!("=> Using saved credentials for {}", username);
+        } else {
+            password = ask_password();
+
+            if opts.saved_creds {
+                let entry = keyring::Keyring::new("xivlauncher", &username);
+                entry.set_password(&password).unwrap();
+
+                println!("=> Saved credentials for {}", username);
+            }
+        }
+    } else if opts.saved_creds && saved_username.is_err() {
+        println!(
+            "=> No username found, please add it to Config.toml or specify it with XL_USERNAME"
+        );
+        return;
+    } else {
+        username = Input::with_theme(&ColorfulTheme::default())
+            .with_prompt("Username")
+            .validate_with({
+                let mut force = None;
+                move |input: &String| -> Result<(), &str> {
+                    if input.contains('@') || force.as_ref().map_or(false, |old| old == input) {
+                        force = Some(input.clone());
+                        Err("Please enter your SE account name, not your email address.")
+                    } else {
+                        Ok(())
+                    }
+                }
+            })
+            .interact_text()
+            .unwrap();
+
+        password = ask_password();
+    }
 
     let otp: String = Input::with_theme(&ColorfulTheme::default())
         .with_prompt("OTP")
@@ -166,7 +218,7 @@ async fn main() {
         &password,
         &otp,
         libxl::game::platform::Platform::Win32,
-        opts.steam_service,
+        opts.is_steam,
         opts.region,
     )
     .await;
@@ -179,14 +231,12 @@ async fn main() {
                 HumanDuration(started.elapsed())
             ));
 
-            if !oauth.can_play
-            {
+            if !oauth.can_play {
                 println!("You can't play with this account.");
                 return;
             }
 
-            if !oauth.terms_accepted
-            {
+            if !oauth.terms_accepted {
                 println!("You must accept the terms of service.");
                 return;
             }
@@ -195,20 +245,30 @@ async fn main() {
             pb.set_style(spinner_style.clone());
             pb.enable_steady_tick(50);
             pb.set_message("Registering session...");
-            
-            let session = libxl::game::version::SessionInfo::register_session(&oauth.session_id, game_path, libxl::game::platform::Platform::Win32).await.unwrap();
+
+            let session = libxl::game::version::SessionInfo::register_session(
+                &oauth.session_id,
+                game_path,
+                libxl::game::platform::Platform::Win32,
+            )
+            .await
+            .unwrap();
 
             pb.finish();
 
-            if session.patches.is_some() {
-                println!("You must patch the game.");
+            if let Some(patches) = session.patches {
+                println!(
+                    "You must patch the game. There are {} patches to acquire.",
+                    patches.len()
+                );
 
-                let patches = session.patches.unwrap();
                 let mut report = String::new();
 
                 for patch in patches.iter() {
                     report.push_str(&format!("{}\n", patch.url));
                 }
+
+                fs::write("game_patches.txt", report).expect("Unable to write patch info");
 
                 return;
             }
@@ -224,6 +284,4 @@ async fn main() {
             ));
         }
     }
-
-    
 }
