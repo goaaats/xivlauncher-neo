@@ -202,6 +202,14 @@ async fn main() {
 
             if session.patches.is_some() {
                 println!("You must patch the game.");
+
+                let patches = session.patches.unwrap();
+                let mut report = String::new();
+
+                for patch in patches.iter() {
+                    report.push_str(&format!("{}\n", patch.url));
+                }
+
                 return;
             }
 
