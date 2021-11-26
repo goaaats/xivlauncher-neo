@@ -15,6 +15,19 @@ pub struct PatchEntry {
   url: String,
 }
 
+impl std::ops::Deref for PatchList {
+  type Target = Vec<PatchEntry>;
+  fn deref(&self) -> &Vec<PatchEntry> {
+      &self.patches
+  }
+}
+
+impl std::ops::DerefMut for PatchList {
+  fn deref_mut(&mut self) -> &mut Vec<PatchEntry> {
+      &mut self.patches
+  }
+}
+
 impl From<String> for PatchList {
   fn from(patch_list: String) -> Self {
     // The first 4 lines are form data and headers, for whatever reason
