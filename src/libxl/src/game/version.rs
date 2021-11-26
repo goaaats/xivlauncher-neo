@@ -1,4 +1,5 @@
 use data_encoding::HEXLOWER;
+use reqwest::StatusCode;
 use std::{
   fs::File,
   io::BufReader,
@@ -12,7 +13,8 @@ use super::{constants, platform::Platform, repository::Repository, request};
 #[derive(Debug)]
 pub enum VersionError {
   PathConversion,
-  NoSession,
+  NoSuccess(StatusCode),
+  NoUniqueId,
 
   IOError(std::io::Error),
   Reqwest(reqwest::Error),
@@ -55,23 +57,24 @@ pub struct SessionInfo {
 impl SessionInfo {
   pub async fn register_session(sid: &str, game_path: &Path, platform: Platform) -> Result<SessionInfo, VersionError> {
     let ver = get_patch_gamever_info(game_path)?;
-    let url = constants::patch_gamever_url(&ver, &sid);
+    let url = constants::patch_gamever_url(Repository::FFXIV.get_version(game_path).as_str(), sid);
 
     let res = request::patch_get(platform)
-      .get(url)
+      .post(url)
+      .body(ver)
       .header("X-Hash-Check", "enabled")
       .send()
       .await
       .map_err(VersionError::Reqwest)?;
 
     if !res.status().is_success() {
-      return Err(VersionError::NoSession);
+      return Err(VersionError::NoSuccess(res.status()));
     }
 
     let uid = res
       .headers()
       .get("X-Patch-Unique-Id")
-      .ok_or(VersionError::NoSession)?
+      .ok_or(VersionError::NoUniqueId)?
       .to_str()
       .unwrap()
       .to_string();
