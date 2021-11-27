@@ -49,6 +49,9 @@ struct Opts {
     /// Use OTP key
     #[clap(short, long)]
     otp: bool,
+
+    /// Override OTP input, do not prompt
+    otp_override: Option<String>,
 }
 
 fn ask_password() -> String {
@@ -195,7 +198,7 @@ async fn main() {
     }
 
     let mut otp = String::new();
-    if opts.otp {
+    if opts.otp && opts.otp_override.is_none() {
         otp = Input::with_theme(&ColorfulTheme::default())
         .with_prompt("OTP")
         .validate_with({
@@ -213,6 +216,8 @@ async fn main() {
         })
         .interact_text()
         .unwrap();
+    } else if opts.otp_override.is_some() {
+        otp = opts.otp_override.unwrap();
     }
 
     let pb = ProgressBar::new(1);
