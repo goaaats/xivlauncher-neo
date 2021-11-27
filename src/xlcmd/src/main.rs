@@ -45,6 +45,10 @@ struct Opts {
     /// Save login credentials
     #[clap(short, long)]
     saved_creds: bool,
+
+    /// Use OTP key
+    #[clap(short, long)]
+    otp: bool,
 }
 
 fn ask_password() -> String {
@@ -190,7 +194,9 @@ async fn main() {
         password = ask_password();
     }
 
-    let otp: String = Input::with_theme(&ColorfulTheme::default())
+    let mut otp = String::new();
+    if opts.otp {
+        otp = Input::with_theme(&ColorfulTheme::default())
         .with_prompt("OTP")
         .validate_with({
             let mut force = None;
@@ -207,6 +213,7 @@ async fn main() {
         })
         .interact_text()
         .unwrap();
+    }
 
     let pb = ProgressBar::new(1);
     pb.set_style(spinner_style.clone());
