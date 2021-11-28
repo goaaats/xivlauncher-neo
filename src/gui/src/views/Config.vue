@@ -337,10 +337,10 @@
 <script lang="ts" setup>
 import {inject, onMounted, Ref, ref} from 'vue'
 import {useQuasar} from 'quasar'
-import {MAIN_ROUTE} from '@/router/route'
 import {backend, constants, i18n} from '@/services/'
-import {isGamePathValid, showFileDialog} from '@/util'
 import {AddonEntry, LauncherSettings, PluginEntry} from '@/services/backend'
+import {MAIN_ROUTE} from '@/services/router'
+import {isGamePathValid, showFileDialog} from '@/util'
 
 const $q = useQuasar()
 

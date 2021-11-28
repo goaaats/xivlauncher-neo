@@ -1,7 +1,6 @@
 import {createI18n, I18n} from 'vue-i18n'
 import {Ref, ref} from 'vue'
-import * as backend from '@/services/backend'
-import {log} from '@/services/logging'
+import {backend, log} from '@/services'
 
 /**
  * I18n instance.
