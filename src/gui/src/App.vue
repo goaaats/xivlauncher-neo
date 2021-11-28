@@ -7,8 +7,8 @@
 <script lang="ts" setup>
 import {onMounted, provide, Ref, ref} from 'vue'
 import {useQuasar} from 'quasar'
-import {MAIN_ROUTE, SETUP_ROUTE} from '@/router/route'
 import {backend, constants, i18n, log} from '@/services'
+import {MAIN_ROUTE, SETUP_ROUTE} from '@/services/router'
 
 const $q = useQuasar()
 

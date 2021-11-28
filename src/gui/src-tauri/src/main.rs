@@ -29,10 +29,13 @@ async fn main() {
       commands::game::get_banner_image_data,
       commands::game::start_backup_tool,
       commands::game::start_original_launcher,
+      commands::game::play_victory_beep,
       commands::plugin::get_plugins,
       commands::plugin::update_plugin,
       commands::plugin::remove_plugin,
       commands::plugin::open_dalamud_plugin_dir,
+      commands::profile::get_character_profile_picture_url,
+      commands::profile::create_account_shortcut,
       commands::setup::get_system_locale,
       commands::setup::find_advanced_combat_tracker,
     ])

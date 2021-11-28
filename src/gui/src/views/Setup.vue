@@ -102,9 +102,9 @@
 
 <script lang="ts" setup>
 import {inject, onMounted, Ref, ref} from 'vue'
-import {MAIN_ROUTE} from '@/router/route'
 import {backend, constants, i18n} from '@/services/'
 import {LauncherSettings, AddonEntry} from '@/services/backend'
+import {MAIN_ROUTE} from '@/services/router'
 import {isGamePathValid, showFileDialog} from '@/util'
 
 const settings = inject(constants.SETTINGS_KEY) as Ref<LauncherSettings>
