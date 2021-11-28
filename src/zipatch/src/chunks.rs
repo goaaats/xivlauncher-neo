@@ -18,7 +18,7 @@ pub enum ZiPatchChunkType {
 
     #[br(magic = b"SQPK")]
     //SQPK(#[br(pad_after(size.into()))] skip::SKIP),
-    SQPK(#[br(args(size))] skip::SKIP),
+    SQPK(#[br(args(size))] sqpk::SQPK),
 
     #[br(magic = b"EOF_")]
     //EOF(#[br(pad_after(size.into()))] skip::SKIP),
