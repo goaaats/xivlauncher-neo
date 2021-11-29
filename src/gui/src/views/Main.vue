@@ -262,26 +262,23 @@
           <div class="text-body1">{{ $t('MainWaitingForMaintenance') }}</div>
         </q-card-section>
 
-        <q-card-section>
-          <div v-if="loginServerReady" class="flex row justify-center">
-            <!--
-            <q-img fit="contain" width="48px" height="48px" src="/static/sprites/blm.victory.gif" class="flip-horizontal"/>
-            <q-img fit="contain" width="48px" height="48px" src="/static/sprites/rdm.victory.gif" class="flip-horizontal"/>
-            <q-img fit="contain" width="48px" height="48px" src="/static/sprites/rog.victory.gif" class="flip-horizontal"/>
-            <q-img fit="contain" width="48px" height="48px" src="/static/sprites/war.victory.gif" class="flip-horizontal"/>
-            -->
-          </div>
-          <div v-else class="flex row justify-center">
-            <!--
-            <q-img fit="contain" width="48px" height="48px" src="/static/sprites/blm.walking.gif" class="flip-horizontal"/>
-            <q-img fit="contain" width="48px" height="48px" src="/static/sprites/rdm.walking.gif" class="flip-horizontal"/>
-            <q-img fit="contain" width="48px" height="48px" src="/static/sprites/rog.walking.gif" class="flip-horizontal"/>
-            <q-img fit="contain" width="48px" height="48px" src="/static/sprites/war.walking.gif" class="flip-horizontal"/>
-            -->
-          </div>
+        <q-card-section class="flex row justify-center q-py-none">
+          <q-img v-if="loginServerReady"
+                 fit="contain"
+                 width="200px"
+                 height="200px"
+                 src="/static/maintenance.gif"/>
+          <!--
+          TODO Some sort of update found
+          -->
+          <q-img v-else
+                 fit="contain"
+                 width="200px"
+                 height="200px"
+                 src="/static/maintenance.gif"/>
         </q-card-section>
 
-        <q-card-actions align="center">
+        <q-card-actions class="q-pt-none" align="center">
           <q-btn color="primary"
                  :label="$t('MainWaitingForMaintenanceCancel')"
                  :no-caps="true"
@@ -487,7 +484,6 @@ async function onMaintenanceComplete() {
 }
 
 // endregion
-
 
 </script>
 
