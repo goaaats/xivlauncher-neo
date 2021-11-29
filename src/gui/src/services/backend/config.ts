@@ -1,6 +1,6 @@
 import {invoke} from '@tauri-apps/api/tauri'
 
-export type LauncherSettings = {
+export type LauncherConfig = {
   game_path: string,
   use_dx11: boolean,
   use_autologin: boolean,
@@ -22,6 +22,9 @@ export type LauncherSettings = {
   has_admin_complaints: boolean,
   last_version: string,
   has_shown_auto_launch_warning: boolean,
+  addons: AddonEntry[],
+  accounts: AccountEntry[],
+  uid_cache: UidCacheEntry[],
 }
 
 export type AddonEntry = {
@@ -52,61 +55,16 @@ export type UidCacheEntry = {
 }
 
 /**
- * Get the launcher settings
+ * Get the launcher configuration
  */
-export async function getSettings(): Promise<LauncherSettings> {
-  return await invoke<LauncherSettings>('get_settings')
+export async function getConfig(): Promise<LauncherConfig> {
+  return await invoke<LauncherConfig>('get_config')
 }
 
 /**
- * Get the addons list
+ * Save the launcher config
+ * @param config: Launcher configuration
  */
-export async function getAddons(): Promise<AddonEntry[]> {
-  return await invoke<AddonEntry[]>('get_addons')
-}
-
-/**
- * Get the accounts list
- */
-export async function getAccounts(): Promise<AccountEntry[]> {
-  return await invoke<AccountEntry[]>('get_accounts')
-}
-
-/**
- * Get the UID cache
- */
-export async function getUidCache(): Promise<UidCacheEntry[]> {
-  return await invoke<UidCacheEntry[]>('get_uid_cache')
-}
-
-/**
- * Set the launcher settings
- * @param settings: Launcher settings
- */
-export async function setSettings(settings: LauncherSettings) {
-  return await invoke('update_settings', {settings: settings})
-}
-
-/**
- * Set the addons list
- * @param addons: Addons list
- */
-export async function setAddons(addons: AddonEntry[]) {
-  return await invoke('update_addons', {addons: addons})
-}
-
-/**
- * Set the accounts list
- * @param accounts: Accounts list
- */
-export async function setAccounts(accounts: AccountEntry[]) {
-  return await invoke('update_accounts', {accounts: accounts})
-}
-
-/**
- * Set the UID cache list
- * @param uidCache: UID cache list
- */
-export async function setUidCache(uidCache: UidCacheEntry[]) {
-  return await invoke('update_uid_cache', {uid_cache: uidCache})
+export async function saveConfig(config: LauncherConfig) {
+  return await invoke('save_config', {config})
 }

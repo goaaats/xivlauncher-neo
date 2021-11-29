@@ -3,6 +3,9 @@ use anyhow::Context;
 use libxl::game::language::GameLanguage;
 use libxl::game::launcher::headline::Headline;
 
+/// Get the launcher headlines for the day
+/// # Arguments
+/// * `langcode` - Two character language code for localized headlines
 #[tauri::command]
 pub async fn get_headline(langcode: &str) -> XlResult<Headline> {
   let _language = GameLanguage::from_langcode(langcode);
@@ -163,6 +166,9 @@ pub async fn get_headline(langcode: &str) -> XlResult<Headline> {
   Ok(result)
 }
 
+/// Fetch a headline banner as the launcher would
+/// # Arguments
+/// * `url` - URL to fetch
 #[tauri::command]
 pub async fn get_banner_image_data(url: &str) -> XlResult<String> {
   // region image1
@@ -187,63 +193,25 @@ pub async fn get_banner_image_data(url: &str) -> XlResult<String> {
   }
 }
 
+/// Start the integrity tool
 #[tauri::command]
 pub async fn start_integrity_tool() -> XlResult<()> {
   // TODO
   Ok(())
 }
 
+/// Start the backup tool
 #[tauri::command]
 pub async fn start_backup_tool() -> XlResult<()> {
   // TODO Process.Start(Path.Combine(ViewModel.GamePath, "boot", "ffxivconfig.exe"));
   Ok(())
 }
 
+/// Start the original launcher
+/// # Arguments
+/// * `_use_steam` - Launch with Steam support
 #[tauri::command]
 pub async fn start_original_launcher(_use_steam: bool) -> XlResult<()> {
   // TODO Process.Start(Path.Combine(gamePath.FullName, "boot", "ffxivboot.exe"), isSteam ? "-issteam" : string.Empty);
-  Ok(())
-}
-
-#[tauri::command]
-pub async fn play_victory_beep() -> XlResult<()> {
-  #[cfg(target_os = "windows")]
-  async fn beep(hertz: u16, millis: u32) {
-    winconsole::console::beep(hertz as u32, millis)
-  }
-
-  #[cfg(target_os = "linux")]
-  async fn beep(hertz: u32, millis: u32) {
-    beep::beep(hertz as u16);
-
-    if millis > 0 {
-      sleep(millis as u64).await;
-      beep::beep(0);
-    }
-  }
-
-  async fn sleep(millis: u64) {
-    let duration = tokio::time::Duration::from_millis(millis);
-    tokio::time::sleep(duration).await;
-  }
-
-  beep(523, 150).await;
-  sleep(25).await;
-  beep(523, 150).await;
-  sleep(25).await;
-  beep(523, 150).await;
-  sleep(25).await;
-  beep(523, 300).await;
-  sleep(150).await;
-  beep(415, 300).await;
-  sleep(150).await;
-  beep(466, 300).await;
-  sleep(150).await;
-  beep(523, 300).await;
-  sleep(25).await;
-  beep(466, 150).await;
-  sleep(25).await;
-  beep(523, 900).await;
-
   Ok(())
 }

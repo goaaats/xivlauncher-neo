@@ -4,12 +4,19 @@ use anyhow::{Context, Error};
 use libxl::either;
 use std::io::Cursor;
 
+/// Get the Lodestone profile picture for the given character
+/// # Arguments
+/// * `_name` - Character name
+/// * `_server` - Character server
 #[tauri::command]
 pub fn get_character_profile_picture_url(_name: String, _server: String) -> XlResult<String> {
   // TODO
   return Ok(String::from(""));
 }
 
+/// Create a launcher shortcut for the given account profile
+/// # Arguments
+/// * `entry` - Account entry to generate for
 #[tauri::command]
 #[cfg(target_os = "windows")]
 pub async fn create_account_shortcut(entry: AccountEntry) -> XlResult<()> {

@@ -12,16 +12,6 @@ impl XlError {
   /// Create a new error.
   /// # Arguments:
   /// * `message` - The error message
-  #[must_use]
-  pub fn from(message: &str) -> Self {
-    Self {
-      message: message.to_string(),
-    }
-  }
-
-  /// Create a new error.
-  /// # Arguments:
-  /// * `message` - The error message
   pub fn new(message: String) -> Self {
     Self { message }
   }
