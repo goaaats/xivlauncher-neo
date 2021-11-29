@@ -1,4 +1,5 @@
 import {invoke} from '@tauri-apps/api/tauri'
+import {AccountEntry} from '@/services/backend/config'
 
 /**
  * Get the profile picture URL for a given character
@@ -11,8 +12,8 @@ export async function getCharacterProfilePictureUrl(name: string, server: string
 
 /**
  * Create a shortcut to start the launcher with a specific account
- * @param path: Shortcut path
+ * @param entry: Account to create a shortcut of
  */
-export async function createAccountShortcut(path: string) {
-  return await invoke('create_account_shortcut', {path})
+export async function createAccountShortcut(entry: AccountEntry) {
+  return await invoke('create_account_shortcut', {entry})
 }

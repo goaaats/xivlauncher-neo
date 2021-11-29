@@ -1,17 +1,9 @@
 use crate::lib::path::get_common_start_menu_path;
-use anyhow::{Context, Error, Result};
+use anyhow::{Context, Result};
 
 /// Get the path to the Advanced Combat Tracker, if it exists.
-pub fn find_advanced_combat_tracker() -> Result<String> {
-  // https://doc.rust-lang.org/std/env/consts/constant.OS.html
-  match std::env::consts::OS {
-    "windows" => find_advanced_combat_tracker_windows(),
-    _ => Err(Error::msg("OS not supported")),
-  }
-}
-
 #[cfg(target_os = "windows")]
-fn find_advanced_combat_tracker_windows() -> Result<String> {
+pub fn find_advanced_combat_tracker() -> Result<String> {
   let path = get_common_start_menu_path()?;
 
   let shortcut_dir_path = path.join("Programs").join("Advanced Combat Tracker");
@@ -56,4 +48,18 @@ fn find_advanced_combat_tracker_windows() -> Result<String> {
     .with_context(|| format!("Could not stringify ACT shortcut path: {:?}", abs_path))?;
   let result_string = result_string.to_string();
   Ok(result_string)
+}
+
+/// Get the path to the Advanced Combat Tracker, if it exists.
+#[cfg(target_os = "linux")]
+pub fn find_advanced_combat_tracker() -> Result<String> {
+  // TODO
+  Err(Error::msg("OS not supported"))
+}
+
+/// Get the path to the Advanced Combat Tracker, if it exists.
+#[cfg(target_os = "macos")]
+pub fn find_advanced_combat_tracker() -> Result<String> {
+  // TODO
+  Err(Error::msg("OS not supported"))
 }
