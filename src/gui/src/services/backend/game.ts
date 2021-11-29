@@ -59,10 +59,3 @@ export async function startBackupTool() {
 export async function startOriginalLauncher(useSteam: boolean) {
   return await invoke('start_original_launcher', {use_steam: useSteam})
 }
-
-/**
- * Play the FF1 victory music out the system speaker
- */
-export async function playVictoryBeep() {
-  return await invoke('play_victory_beep')
-}

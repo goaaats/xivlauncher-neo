@@ -21,17 +21,17 @@
           <q-tab-panel :name="1" class="column">
             <span class="ws-wrap">{{ $t("ConfigChooseGamePath") }}</span>
             <div>
-              <q-input v-model="settings.game_path" clearable bottom-slots :label="$t('ConfigGameDirectory')"
+              <q-input v-model="config.game_path" clearable bottom-slots :label="$t('ConfigGameDirectory')"
                        :spellcheck="false" maxlength="1000"
                        class="col-grow" @update:modelValue="onUpdateGameDir">
                 <template #append>
-                  <q-icon v-if="!settings.game_path" name="mdi-search" class="cursor-pointer" @click="onClickGameDirSearch"/>
+                  <q-icon v-if="!config.game_path" name="mdi-magnify" class="cursor-pointer" @click="onClickGameDirSearch"/>
                 </template>
                 <template #hint>
-                  <p v-if="settings.game_path && !gameSubDirsFound" class="text-warning">
+                  <p v-if="config.game_path && !gameSubDirsFound" class="text-warning">
                     {{ $t("ConfigGameDirectoryWarning") }}
                   </p>
-                  <p v-if="settings.game_path && gameSubDirsFound" class="text-positive">
+                  <p v-if="config.game_path && gameSubDirsFound" class="text-positive">
                     {{ $t("ConfigGameDirectoryCorrect") }}
                   </p>
                 </template>
@@ -39,7 +39,7 @@
             </div>
 
             <div class="row q-pb-sm">
-              <q-input v-model="settings.extra_game_args" clearable
+              <q-input v-model="config.extra_game_args" clearable
                        :label="$t('ConfigGameAdditionalArguments')"
                        :spellcheck="false"
                        maxlength="1000"
@@ -49,17 +49,17 @@
 
             <div class="row full-width no-wrap">
               <div class="column col-md-8" style="flex: 1">
-                <q-checkbox v-model="settings.enable_steam_integration" dense
+                <q-checkbox v-model="config.enable_steam_integration" dense
                             class="q-pb-sm"
                             :label="$t('ConfigGameSteam')"/>
-                <q-checkbox v-model="settings.enable_otp_server" dense
+                <q-checkbox v-model="config.enable_otp_server" dense
                             class="q-pb-sm"
                             :label="$t('ConfigGameOtpServer')"/>
-                <q-checkbox v-model="settings.encrypt_args" dense
+                <q-checkbox v-model="config.encrypt_args" dense
                             class="q-pb-sm"
                             :label="$t('ConfigGameArgEncryption')"/>
                 <div class="q-pb-sm">
-                  <q-checkbox v-model="settings.enable_uid_cache" dense
+                  <q-checkbox v-model="config.enable_uid_cache" dense
                               class="q-pr-sm"
                               :label="$t('ConfigGameUidCache')"/>
                   <q-btn icon="mdi-lock-reset" size="sm" :no-caps="true" dense
@@ -76,10 +76,10 @@
               </div>
               <div class="column col-md-4" style="flex: 1">
                 <span>{{ $t('ConfigGameDirectX') }}</span>
-                <q-option-group v-model="settings.use_dx11"
+                <q-option-group v-model="config.use_dx11"
                                 :options="directXOptions"
                                 color="primary" inline dense/>
-                <p v-if="!settings.use_dx11" class="text-warning ">
+                <p v-if="!config.use_dx11" class="text-warning ">
                   {{ $t('ConfigGameDirectX9Warning') }}
                 </p>
               </div>
@@ -121,7 +121,7 @@
             <q-card class="bg-grey-9 flex-grow-1">
               <q-scroll-area class="fit">
                 <q-list separator>
-                  <q-item v-for="(item, index) in addons"
+                  <q-item v-for="(item, index) in config.addons"
                           :key="index" v-ripple clickable dense
                           class="q-px-none" @click="onClickEditAddon(item)">
                     <q-item-label>
@@ -189,18 +189,18 @@
           <q-tab-panel :name="4" class="column">
             <p>{{ $t("ConfigDalamudNotice") }}</p>
             <div>
-              <q-checkbox v-model="settings.enable_dalamud" dense
+              <q-checkbox v-model="config.enable_dalamud" dense
                           :label="$t('ConfigDalamudEnable')"/>
             </div>
 
-            <div v-if="settings.enable_dalamud">
+            <div v-if="config.enable_dalamud">
               <span>{{ $t("ConfigDalamudInGameHint") }}</span>
-              <q-input v-model.number="settings.dalamud_injection_delay_ms" type="number" style="max-width: 150px"
+              <q-input v-model.number="config.dalamud_injection_delay_ms" type="number" style="max-width: 150px"
                        :label="$t('ConfigDalamudInjectionDelay') + ' (ms)'"
                        @wheel="onWheelInjectionDelay"/>
               <br/>
               <span>{{ $t("ConfigUniversalisHint") }}</span>
-              <q-checkbox v-model="settings.opt_out_mb_collection" dense
+              <q-checkbox v-model="config.opt_out_mb_collection" dense
                           :label="$t('ConfigUniversalisOptOut')"/>
             </div>
           </q-tab-panel>
@@ -242,23 +242,23 @@
           <!-- Patching -->
           <q-tab-panel :name="6" class="column">
             <div>
-              <q-checkbox v-model="settings.ask_before_patching" dense class="q-mb-sm"
+              <q-checkbox v-model="config.ask_before_patching" dense class="q-mb-sm"
                           :label="$t('ConfigPatchAskBefore')"/>
             </div>
 
             <div>
-              <q-checkbox v-model="settings.keep_patches" dense
+              <q-checkbox v-model="config.keep_patches" dense
                           :label="$t('ConfigPatchKeepAfter')"/>
             </div>
 
             <div class="row q-mb-sm">
-              <q-input v-model="settings.patch_path"
+              <q-input v-model="config.patch_path"
                        clearable
                        :label="$t('ConfigPatchPath')"
                        :spellcheck="false" maxlength="1000"
                        class="col-grow">
                 <template #append>
-                  <q-icon v-if="!settings.patch_path" name="mdi-search" class="cursor-pointer" @click="onClickPatchDirSearch"/>
+                  <q-icon v-if="!config.patch_path" name="mdi-search" class="cursor-pointer" @click="onClickPatchDirSearch"/>
                 </template>
               </q-input>
             </div>
@@ -338,14 +338,13 @@
 import {inject, onMounted, Ref, ref} from 'vue'
 import {useQuasar} from 'quasar'
 import {backend, constants, i18n} from '@/services/'
-import {AddonEntry, LauncherSettings, PluginEntry} from '@/services/backend'
+import {AddonEntry, LauncherConfig, PluginEntry} from '@/services/backend'
 import {MAIN_ROUTE} from '@/services/router'
 import {isGamePathValid, showFileDialog} from '@/util'
 
 const $q = useQuasar()
 
-const settings = inject(constants.SETTINGS_KEY) as Ref<LauncherSettings>
-const addons = inject(constants.ADDONS_KEY) as Ref<AddonEntry[]>
+const config = inject(constants.CONFIG_KEY) as Ref<LauncherConfig>
 
 const currentTab = ref(1)
 
@@ -362,28 +361,28 @@ async function onUpdateGameDir(path: string | null) {
 }
 
 async function onClickGameDirSearch() {
-  settings.value.game_path = await showFileDialog(true)
+  config.value.game_path = await showFileDialog(true)
   gameSubDirsFound.value = false
-  await onUpdateGameDir(settings.value.game_path)
+  await onUpdateGameDir(config.value.game_path)
 }
 
-onMounted(() => onUpdateGameDir(settings.value.game_path))
+onMounted(() => onUpdateGameDir(config.value.game_path))
 
 // endregion
 
 // region Language
 const launcherLanguageOptions = i18n.getLauncherLanguageOptions()
-const launcherLanguageChoice = ref(i18n.convertLauncherLanguage(settings.value.launcher_language))
+const launcherLanguageChoice = ref(i18n.convertLauncherLanguage(config.value.launcher_language))
 const gameLanguageOptions = i18n.getGameLanguageOptions()
-const gameLanguageChoice = ref(i18n.convertGameLanguage(settings.value.game_language))
+const gameLanguageChoice = ref(i18n.convertGameLanguage(config.value.game_language))
 
 async function onLauncherLanguageChange(langValue: string) {
-  settings.value.launcher_language = i18n.convertLauncherLanguage(langValue)
-  await i18n.setLanguage(settings.value.launcher_language)
+  config.value.launcher_language = i18n.convertLauncherLanguage(langValue)
+  await i18n.setLanguage(config.value.launcher_language)
 }
 
 function onGameLanguageChange(langValue: string) {
-  settings.value.game_language = i18n.convertLauncherLanguage(langValue)
+  config.value.game_language = i18n.convertLauncherLanguage(langValue)
 }
 
 // endregion
@@ -419,18 +418,18 @@ async function onClickAppPathSearch() {
 }
 
 function onClickEditAddonSave() {
-  const exists = addons.value.includes(editAddonDialogItem.value)
+  const exists = config.value.addons.includes(editAddonDialogItem.value)
   if (!exists) {
     // Insert is it does not exist
-    addons.value.push(editAddonDialogItem.value)
+    config.value.addons.push(editAddonDialogItem.value)
   }
 }
 
 function onClickEditAddonDelete() {
-  const exists = addons.value.includes(editAddonDialogItem.value)
+  const exists = config.value.addons.includes(editAddonDialogItem.value)
   if (exists) {
     // Delete if it exists
-    addons.value = addons.value.filter((entry) => entry != editAddonDialogItem.value)
+    config.value.addons = config.value.addons.filter((entry) => entry != editAddonDialogItem.value)
   }
 }
 
@@ -440,11 +439,11 @@ function onClickEditAddonDelete() {
 function onWheelInjectionDelay(e: WheelEvent) {
   const delta = e.deltaY < 0 ? 100 : -100
 
-  let value = settings.value.dalamud_injection_delay_ms + delta
+  let value = config.value.dalamud_injection_delay_ms + delta
   if (value < 0)
     value = 0
 
-  settings.value.dalamud_injection_delay_ms = value
+  config.value.dalamud_injection_delay_ms = value
 }
 
 // endregion
@@ -493,10 +492,10 @@ onMounted(getPlugins)
 // endregion
 
 // region Patching
-const downloadSpeedLimitMBs = ref(settings.value.download_speed_limit_bytes / 1024 / 1024)
+const downloadSpeedLimitMBs = ref(config.value.download_speed_limit_bytes / 1024 / 1024)
 
 async function onClickPatchDirSearch() {
-  settings.value.patch_path = await showFileDialog(true)
+  config.value.patch_path = await showFileDialog(true)
 }
 
 function onWheelDownloadSpeedLimit(e: WheelEvent) {
@@ -507,7 +506,7 @@ function onWheelDownloadSpeedLimit(e: WheelEvent) {
     value = 0
 
   downloadSpeedLimitMBs.value = value
-  settings.value.download_speed_limit_bytes = value * 1024 * 1024
+  config.value.download_speed_limit_bytes = value * 1024 * 1024
 }
 
 // endregion
@@ -530,7 +529,7 @@ async function openDalamudPluginDir() {
 }
 
 async function onCompleteConfig() {
-  await backend.setSettings(settings.value)
+  await backend.saveConfig(config.value)
   await MAIN_ROUTE.push()
 }
 </script>

@@ -1,4 +1,4 @@
-use crate::lib::config::{AccountEntry, AddonEntry, LauncherConfig, LauncherSettings};
+use crate::lib::config::{AccountEntry, AddonEntry, LauncherConfig};
 use crate::lib::language::LauncherLanguage;
 use crate::lib::path::{get_launcher_old_accounts_path, get_launcher_old_config_path, get_launcher_old_uid_cache_path};
 use anyhow::{Context, Error, Result};
@@ -59,67 +59,28 @@ impl OldLauncherConfig {
 
   pub fn upgrade(&self) -> Result<LauncherConfig, Error> {
     // Settings
-    let default_settings = LauncherSettings::default();
-    let settings = LauncherSettings {
-      game_path: conv_str(self.settings.game_path.clone(), default_settings.game_path),
-      use_dx11: conv_bool(self.settings.use_dx11.clone(), default_settings.use_dx11),
-      use_autologin: conv_bool(self.settings.use_autologin.clone(), default_settings.use_autologin),
-      enable_uid_cache: conv_bool(
-        self.settings.enable_uid_cache.clone(),
-        default_settings.enable_uid_cache,
-      ),
-      extra_game_args: conv_str(self.settings.extra_game_args.clone(), default_settings.extra_game_args),
-      enable_dalamud: conv_bool(self.settings.enable_dalamud.clone(), default_settings.enable_dalamud),
-      enable_otp_server: conv_bool(
-        self.settings.enable_otp_server.clone(),
-        default_settings.enable_otp_server,
-      ),
-      enable_steam_integration: conv_bool(
-        self.settings.enable_steam_integration.clone(),
-        default_settings.enable_steam_integration,
-      ),
-      game_language: self.settings.client_language.unwrap_or(GameLanguage::English),
-      launcher_language: self.settings.launcher_language.unwrap_or(LauncherLanguage::English),
-      current_account_id: conv_str(
-        self.settings.current_account_id.clone(),
-        default_settings.current_account_id,
-      ),
-      encrypt_args: conv_bool(self.settings.encrypt_args.clone(), default_settings.encrypt_args),
-      patch_path: conv_str(self.settings.patch_path.clone(), default_settings.patch_path),
-      ask_before_patching: conv_bool(
-        self.settings.ask_before_patching.clone(),
-        default_settings.ask_before_patching,
-      ),
-      download_speed_limit_bytes: conv_t(
-        self.settings.download_speed_limit_bytes.clone(),
-        default_settings.download_speed_limit_bytes,
-      ),
-      dalamud_injection_delay_ms: conv_t(
-        self.settings.dalamud_injection_delay_ms.clone(),
-        default_settings.dalamud_injection_delay_ms,
-      ),
-      keep_patches: conv_bool(self.settings.keep_patches.clone(), default_settings.keep_patches),
-      opt_out_mb_collection: conv_bool(
-        self.settings.opt_out_mb_collection.clone(),
-        default_settings.opt_out_mb_collection,
-      ),
-      has_admin_complaints: conv_bool(
-        self.settings.has_admin_complaints.clone(),
-        default_settings.has_admin_complaints,
-      ),
-      last_version: conv_str(self.settings.last_version.clone(), default_settings.last_version),
-      has_shown_auto_launch_warning: conv_bool(
-        self.settings.has_shown_auto_launch_warning.clone(),
-        default_settings.has_shown_auto_launch_warning,
-      ),
-    };
-
-    let mut config = LauncherConfig {
-      settings,
-      addons: vec![],
-      accounts: vec![],
-      uid_cache: vec![],
-    };
+    let mut config = LauncherConfig::default();
+    config.game_path = conv_str(self.settings.game_path.clone(), config.game_path);
+    config.use_dx11 = conv_bool(self.settings.use_dx11.clone(), config.use_dx11);
+    config.use_autologin = conv_bool(self.settings.use_autologin.clone(), config.use_autologin);
+    config.enable_uid_cache = conv_bool(self.settings.enable_uid_cache.clone(), config.enable_uid_cache);
+    config.extra_game_args = conv_str(self.settings.extra_game_args.clone(), config.extra_game_args);
+    config.enable_dalamud = conv_bool(self.settings.enable_dalamud.clone(), config.enable_dalamud);
+    config.enable_otp_server = conv_bool(self.settings.enable_otp_server.clone(), config.enable_otp_server);
+    config.enable_steam_integration = conv_bool(self.settings.enable_steam_integration.clone(), config.enable_steam_integration);
+    config.game_language = self.settings.client_language.unwrap_or(GameLanguage::English);
+    config.launcher_language = self.settings.launcher_language.unwrap_or(LauncherLanguage::English);
+    config.current_account_id = conv_str(self.settings.current_account_id.clone(), config.current_account_id);
+    config.encrypt_args = conv_bool(self.settings.encrypt_args.clone(), config.encrypt_args);
+    config.patch_path = conv_str(self.settings.patch_path.clone(), config.patch_path);
+    config.ask_before_patching = conv_bool(self.settings.ask_before_patching.clone(), config.ask_before_patching);
+    config.download_speed_limit_bytes = conv_t(self.settings.download_speed_limit_bytes.clone(), config.download_speed_limit_bytes);
+    config.dalamud_injection_delay_ms = conv_t(self.settings.dalamud_injection_delay_ms.clone(), config.dalamud_injection_delay_ms);
+    config.keep_patches = conv_bool(self.settings.keep_patches.clone(), config.keep_patches);
+    config.opt_out_mb_collection = conv_bool(self.settings.opt_out_mb_collection.clone(), config.opt_out_mb_collection);
+    config.has_admin_complaints = conv_bool(self.settings.has_admin_complaints.clone(), config.has_admin_complaints);
+    config.last_version = conv_str(self.settings.last_version.clone(), config.last_version);
+    config.has_shown_auto_launch_warning = conv_bool(self.settings.has_shown_auto_launch_warning.clone(), config.has_shown_auto_launch_warning);
 
     // Addons
     for addon in self.addons.iter() {
@@ -136,8 +97,8 @@ impl OldLauncherConfig {
     // Accounts
     for account in self.accounts.iter() {
       config.accounts.push(AccountEntry {
-        character_name: account.character_name.clone(),
-        character_world: account.character_world.clone(),
+        character_name: account.character_name.clone().unwrap_or_default(),
+        character_world: account.character_world.clone().unwrap_or_default(),
         thumbnail_url: account.thumbnail_url.clone().unwrap_or_default(),
         username: account.username.clone(),
         save_password: account.save_password,
@@ -245,9 +206,9 @@ pub struct OldLauncherSettings {
 #[derive(Serialize, Deserialize, Debug)]
 pub struct OldAccountEntry {
   #[serde(rename = "ChosenCharacterName")]
-  pub character_name: String,
+  pub character_name: Option<String>,
   #[serde(rename = "ChosenCharacterWorld")]
-  pub character_world: String,
+  pub character_world: Option<String>,
   #[serde(rename = "ThumbnailUrl")]
   pub thumbnail_url: Option<String>,
   #[serde(rename = "UserName")]
@@ -297,8 +258,8 @@ fn conv_bool(str: Option<String>, default: bool) -> bool {
 }
 
 fn conv_t<T>(str: Option<String>, default: T) -> T
-where
-  T: std::str::FromStr + std::string::ToString,
+  where
+    T: std::str::FromStr + std::string::ToString,
 {
   str.unwrap_or_else(|| default.to_string()).parse().unwrap_or(default)
 }

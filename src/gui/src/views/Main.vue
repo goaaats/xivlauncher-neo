@@ -40,7 +40,7 @@
       </div>
 
       <div class="q-pt-sm q-pb-xs">
-        <q-checkbox v-model="settings.use_autologin" size="xs" :label="$t('MainLoginAutomatically')"/>
+        <q-checkbox v-model="config.use_autologin" size="xs" :label="$t('MainLoginAutomatically')"/>
         <q-checkbox v-model="currentAccount.use_otp" size="xs" :label="$t('MainUseOtp')"/>
         <q-checkbox v-model="currentAccount.use_steam" size="xs" :label="$t('MainUseSteam')"/>
       </div>
@@ -149,7 +149,7 @@
     <q-dialog v-model="showAccountSwitcherDialog">
       <q-card>
         <q-card-section class="row q-pa-sm">
-          <span v-if="accounts.length === 0">
+          <span v-if="config.accounts.length === 0">
             {{ $t('MainNoAccountsAvailable') }}
           </span>
 
@@ -160,7 +160,7 @@
           <q-scroll-area v-else
                          style="width: 250px; height: 220px">
             <q-list>
-              <q-item v-for="entry in accounts"
+              <q-item v-for="entry in config.accounts"
                       :key="entry.username"
                       clickable dense
                       class="q-px-none"
@@ -296,11 +296,10 @@
 <script lang="ts" setup>
 import {inject, onMounted, Ref, ref} from 'vue'
 import {backend, constants} from '@/services/'
-import {AccountEntry, BannerEntry, Headline, HeadlineEntry, LauncherSettings} from '@/services/backend'
+import {AccountEntry, BannerEntry, Headline, HeadlineEntry, LauncherConfig} from '@/services/backend'
 import {CONFIG_ROUTE} from '@/services/router'
 
-const settings = inject(constants.SETTINGS_KEY) as Ref<LauncherSettings>
-const accounts = inject(constants.ACCOUNTS_KEY) as Ref<AccountEntry[]>
+const config = inject(constants.CONFIG_KEY) as Ref<LauncherConfig>
 
 // region Headline
 
@@ -320,7 +319,7 @@ const headlineData = ref([]) as Ref<HeadlineData[]>
 async function getHeadline() {
   let headline: Headline
 
-  headline = await backend.getHeadline(settings.value.game_language)
+  headline = await backend.getHeadline(config.value.game_language)
 
   bannerData.value = headline.banner.map((banner) => {
     return {...banner, loaded: false, srcData: ''}
@@ -365,37 +364,37 @@ async function addEmptyAccount(): Promise<AccountEntry> {
     use_steam: false,
     username: ''
   }
-  accounts.value.push(account)
-  await backend.setAccounts(accounts.value)
+  config.value.accounts.push(account)
+  await backend.saveConfig(config.value)
 
   return account
 }
 
 async function setupAccount() {
   // Make a new account
-  if (accounts.value.length === 0) {
+  if (config.value.accounts.length === 0) {
     currentAccount.value = await addEmptyAccount()
 
     // Different account, save to disk
-    settings.value.current_account_id = currentAccount.value.username
-    await backend.setSettings(settings.value)
+    config.value.current_account_id = currentAccount.value.username
+    await backend.saveConfig(config.value)
 
     return
   }
 
   // Account name match
-  const foundAccount = accounts.value.find((entry) => entry.username === settings.value.current_account_id)
+  const foundAccount = config.value.accounts.find((entry) => entry.username === config.value.current_account_id)
   if (foundAccount) {
     currentAccount.value = foundAccount
     return
   }
 
   // No match, load the first instead
-  currentAccount.value = accounts.value[0]
+  currentAccount.value = config.value.accounts[0]
 
   // Different account, save to disk
-  settings.value.current_account_id = currentAccount.value.username
-  await backend.setSettings(settings.value)
+  config.value.current_account_id = currentAccount.value.username
+  await backend.saveConfig(config.value)
 }
 
 onMounted(setupAccount)
@@ -411,10 +410,10 @@ function openAccountSwitcher() {
 
 async function selectAccount(entry: AccountEntry) {
   currentAccount.value = entry
-  settings.value.current_account_id = entry.username
+  config.value.current_account_id = entry.username
 
   // Save to disk
-  await backend.setSettings(settings.value)
+  await backend.saveConfig(config.value)
 
   // Close the dialog
   showAccountSwitcherDialog.value = false
@@ -441,23 +440,23 @@ async function createAccountShortcut() {
 
 async function deleteAccount() {
   // Remove the account from the list
-  accounts.value = accounts.value.filter(entry => entry != editAccount.value)
+  config.value.accounts = config.value.accounts.filter(entry => entry != editAccount.value)
 
   // Add a new empty account if necessary
-  if (accounts.value.length === 0) {
+  if (config.value.accounts.length === 0) {
     await addEmptyAccount()
   }
 
   // If the current account is the deleted account, swap
   if (currentAccount.value === editAccount.value) {
-    await selectAccount(accounts.value[0])
+    await selectAccount(config.value.accounts[0])
   }
 
   // Drop the reference
   editAccount.value = {} as AccountEntry
 
   // Save to disk
-  await backend.setAccounts(accounts.value)
+  await backend.saveConfig(config.value)
 }
 
 // endregion

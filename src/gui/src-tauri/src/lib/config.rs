@@ -9,7 +9,27 @@ use std::fs;
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct LauncherConfig {
-  pub settings: LauncherSettings,
+  pub game_path: String,
+  pub use_dx11: bool,
+  pub use_autologin: bool,
+  pub enable_uid_cache: bool,
+  pub extra_game_args: String,
+  pub enable_dalamud: bool,
+  pub enable_otp_server: bool,
+  pub enable_steam_integration: bool,
+  pub game_language: GameLanguage,
+  pub launcher_language: LauncherLanguage,
+  pub current_account_id: String,
+  pub encrypt_args: bool,
+  pub patch_path: String,
+  pub ask_before_patching: bool,
+  pub download_speed_limit_bytes: u64,
+  pub dalamud_injection_delay_ms: u64,
+  pub keep_patches: bool,
+  pub opt_out_mb_collection: bool,
+  pub has_admin_complaints: bool,
+  pub last_version: String,
+  pub has_shown_auto_launch_warning: bool,
   pub addons: Vec<AddonEntry>,
   pub accounts: Vec<AccountEntry>,
   pub uid_cache: Vec<UidCacheEntry>,
@@ -59,42 +79,6 @@ impl LauncherConfig {
 
   pub fn default() -> LauncherConfig {
     LauncherConfig {
-      settings: LauncherSettings::default(),
-      addons: vec![],
-      accounts: vec![],
-      uid_cache: vec![],
-    }
-  }
-}
-
-#[derive(Deserialize, Serialize, Clone, Debug)]
-pub struct LauncherSettings {
-  pub game_path: String,
-  pub use_dx11: bool,
-  pub use_autologin: bool,
-  pub enable_uid_cache: bool,
-  pub extra_game_args: String,
-  pub enable_dalamud: bool,
-  pub enable_otp_server: bool,
-  pub enable_steam_integration: bool,
-  pub game_language: GameLanguage,
-  pub launcher_language: LauncherLanguage,
-  pub current_account_id: String,
-  pub encrypt_args: bool,
-  pub patch_path: String,
-  pub ask_before_patching: bool,
-  pub download_speed_limit_bytes: u64,
-  pub dalamud_injection_delay_ms: u64,
-  pub keep_patches: bool,
-  pub opt_out_mb_collection: bool,
-  pub has_admin_complaints: bool,
-  pub last_version: String,
-  pub has_shown_auto_launch_warning: bool,
-}
-
-impl LauncherSettings {
-  pub fn default() -> LauncherSettings {
-    LauncherSettings {
       game_path: "".to_string(),
       use_dx11: true,
       use_autologin: false,
@@ -116,6 +100,9 @@ impl LauncherSettings {
       has_admin_complaints: false,
       last_version: "".to_string(),
       has_shown_auto_launch_warning: false,
+      addons: vec![],
+      accounts: vec![],
+      uid_cache: vec![],
     }
   }
 }
@@ -209,9 +196,5 @@ impl DalamudConfig {
       serde_json::from_str(content.as_str()).with_context(|| format!("Could not deserialize {:?}", path))?;
 
     Ok(config)
-  }
-
-  pub fn default() -> DalamudConfig {
-    DalamudConfig { testing_enabled: true }
   }
 }
