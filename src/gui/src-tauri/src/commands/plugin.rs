@@ -1,7 +1,7 @@
-use std::fs;
+use crate::lib::error::XlResult;
 use anyhow::{Context, Error};
 use serde::{Deserialize, Serialize};
-use crate::lib::error::XlResult;
+use std::fs;
 
 /// Get a list of plugins currently installed
 #[tauri::command]

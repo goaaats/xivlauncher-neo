@@ -241,6 +241,7 @@
 
           <div class="row q-gutter-sm">
             <q-btn :label="$t('MainAccountCreateShortcut')"
+                   :disable="editAccount.thumbnail_url.length === 0"
                    color="primary"
                    :no-caps="true"
                    @click="createAccountShortcut"/>
@@ -263,16 +264,20 @@
 
         <q-card-section>
           <div v-if="loginServerReady" class="flex row justify-center">
+            <!--
             <q-img fit="contain" width="48px" height="48px" src="/static/sprites/blm.victory.gif" class="flip-horizontal"/>
             <q-img fit="contain" width="48px" height="48px" src="/static/sprites/rdm.victory.gif" class="flip-horizontal"/>
             <q-img fit="contain" width="48px" height="48px" src="/static/sprites/rog.victory.gif" class="flip-horizontal"/>
             <q-img fit="contain" width="48px" height="48px" src="/static/sprites/war.victory.gif" class="flip-horizontal"/>
+            -->
           </div>
           <div v-else class="flex row justify-center">
+            <!--
             <q-img fit="contain" width="48px" height="48px" src="/static/sprites/blm.walking.gif" class="flip-horizontal"/>
             <q-img fit="contain" width="48px" height="48px" src="/static/sprites/rdm.walking.gif" class="flip-horizontal"/>
             <q-img fit="contain" width="48px" height="48px" src="/static/sprites/rog.walking.gif" class="flip-horizontal"/>
             <q-img fit="contain" width="48px" height="48px" src="/static/sprites/war.walking.gif" class="flip-horizontal"/>
+            -->
           </div>
         </q-card-section>
 
@@ -429,8 +434,9 @@ function resetAccountPicture() {
   editAccount.value.thumbnail_url = ''
 }
 
-function createAccountShortcut() {
-  console.log('TODO')
+async function createAccountShortcut() {
+  await backend.createAccountShortcut(editAccount.value)
+  // TODO Success notification
 }
 
 async function deleteAccount() {
