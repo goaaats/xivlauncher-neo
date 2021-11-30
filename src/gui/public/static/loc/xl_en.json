@@ -343,10 +343,6 @@
     "message": "Open Account Switcher",
     "description": "Main, login card"
   },
-  "MainNoAccountsAvailable": {
-    "message": "No accounts available",
-    "description": "Main, account switcher dialog"
-  },
   "MainMaintenanceQueueWait": {
     "message": "Wait for maintenance to be over",
     "description": "Main, controls card"
