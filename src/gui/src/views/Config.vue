@@ -335,16 +335,16 @@
 </template>
 
 <script lang="ts" setup>
-import {inject, onMounted, Ref, ref} from 'vue'
+import {onMounted, Ref, ref} from 'vue'
 import {useQuasar} from 'quasar'
-import {backend, constants, i18n} from '@/services/'
-import {AddonEntry, LauncherConfig, PluginEntry} from '@/services/backend'
+import {backend, i18n, store} from '@/services/'
+import {AddonEntry, PluginEntry} from '@/services/backend'
 import {MAIN_ROUTE} from '@/services/router'
 import {isGamePathValid, showFileDialog} from '@/util'
 
 const $q = useQuasar()
 
-const config = inject(constants.CONFIG_KEY) as Ref<LauncherConfig>
+const config = store.CONFIG.inject()
 
 const currentTab = ref(1)
 

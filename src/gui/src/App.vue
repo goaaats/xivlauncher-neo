@@ -5,9 +5,10 @@
 </template>
 
 <script lang="ts" setup>
-import {onMounted, provide, Ref, ref} from 'vue'
+import {onMounted, Ref, ref} from 'vue'
 import {useQuasar} from 'quasar'
-import {backend, constants, i18n, log} from '@/services'
+import {backend, i18n, log, store} from '@/services'
+import {AccountEntry} from '@/services/backend'
 import {MAIN_ROUTE, SETUP_ROUTE} from '@/services/router'
 
 const $q = useQuasar()
@@ -17,7 +18,11 @@ $q.dark.set(true)
 const config = ref({}) as Ref<backend.LauncherConfig>
 
 log.debug('Setting up providers')
-provide(constants.CONFIG_KEY, config)
+store.CONFIG.provide(config)
+store.SHOW_MAINTENANCE_DIALOG.provide(ref(false))
+store.SHOW_ACCOUNTS_DIALOG.provide(ref(false))
+store.SHOW_EDIT_ACCOUNT_DIALOG.provide(ref(false))
+store.CURRENT_ACCOUNT.provide(ref({}) as Ref<AccountEntry>)
 
 async function setupProviders() {
   log.debug('Loading data')

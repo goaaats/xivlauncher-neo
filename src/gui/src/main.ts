@@ -24,7 +24,6 @@ void (async () => {
     plugins: {Notify},
   })
 
-
   // i18n
   app.use(await setupI18n())
 

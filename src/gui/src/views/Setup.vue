@@ -106,13 +106,12 @@
 </template>
 
 <script lang="ts" setup>
-import {inject, onMounted, Ref, ref} from 'vue'
-import {backend, constants, i18n} from '@/services/'
-import {LauncherConfig} from '@/services/backend'
+import {onMounted, ref} from 'vue'
+import {backend, i18n, store} from '@/services/'
 import {MAIN_ROUTE} from '@/services/router'
 import {isGamePathValid, showFileDialog} from '@/util'
 
-const config = inject(constants.CONFIG_KEY) as Ref<LauncherConfig>
+const config = store.CONFIG.inject()
 
 const currentSlide = ref(1)
 
