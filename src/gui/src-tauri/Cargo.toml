@@ -22,7 +22,7 @@ lazy_static = { version = "1.4" }
 log = { version = "0.4.14" }
 log4rs = { version = "1.0.0", features = ["console_appender", "file_appender", "pattern_encoder"] }
 open = { version = "2.0.1" }
-parselnk = { version = "0.1" }
+reqwest = { version = "0.11.6" }
 serde_json = { version = "1.0" }
 serde = { version = "1.0", features = ["derive"] }
 sys-locale = { version = "0.1.0" }
@@ -30,15 +30,21 @@ tauri = { version = "1.0.0-beta.8", features = ["api-all"] }
 tokio = { version = "1.12.0", features = ["full"] }
 libxl = { path = "../../libxl" }
 
-[dependencies.windows]
-version = "0.27.0"
-features = [
+[target.'cfg(windows)'.dependencies]
+image = { version = "0.23.14" }
+mslnk = { version = "0.1.7" }
+parselnk = { version = "0.1" }
+winconsole = { version = "0.11.1" }
+windows = { version = "0.28.0", features = [
   "std",
   "Win32_Foundation",
   "Win32_Globalization",
   "Win32_UI_Shell",
   "Win32_UI_Shell_Common",
-]
+] }
+
+[target.'cfg(linux)'.dependencies]
+beep = { version = "0.3.0" }
 
 [features]
 default = ["custom-protocol"]

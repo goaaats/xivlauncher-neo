@@ -1,6 +1,4 @@
 /dist
-/.quasar
 /node_modules
 .eslintrc.js
-babel.config.js
-quasar.conf.js
+vite.config.ts

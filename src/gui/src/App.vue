@@ -5,36 +5,27 @@
 </template>
 
 <script lang="ts" setup>
-import {onMounted, provide, Ref, ref} from 'vue'
-import {useQuasar} from 'quasar'
-import {MAIN_ROUTE, SETUP_ROUTE} from '@/router/route'
-import {backend, constants, i18n, log} from '@/services'
+import {onMounted, Ref, ref} from 'vue'
+import {backend, i18n, log, store} from '@/services'
+import {AccountEntry} from '@/services/backend'
+import {MAIN_ROUTE, SETUP_ROUTE} from '@/services/router'
 
-const $q = useQuasar()
-
-$q.dark.set(true)
-
-const settingsRef = ref({}) as Ref<backend.LauncherSettings>
-const addonsRef = ref([]) as Ref<backend.AddonEntry[]>
-const accountsRef = ref([]) as Ref<backend.AccountEntry[]>
-const uidCacheRef = ref([]) as Ref<backend.UidCacheEntry[]>
+const config = ref({}) as Ref<backend.LauncherConfig>
 
 log.debug('Setting up providers')
-provide(constants.SETTINGS_KEY, settingsRef)
-provide(constants.ADDONS_KEY, addonsRef)
-provide(constants.ACCOUNTS_KEY, accountsRef)
-provide(constants.UID_CACHE_KEY, uidCacheRef)
+store.CONFIG.provide(config)
+store.SHOW_MAINTENANCE_DIALOG.provide(ref(false))
+store.SHOW_ACCOUNTS_DIALOG.provide(ref(false))
+store.SHOW_EDIT_ACCOUNT_DIALOG.provide(ref(false))
+store.CURRENT_ACCOUNT.provide(ref({}) as Ref<AccountEntry>)
 
 async function setupProviders() {
   log.debug('Loading data')
-  settingsRef.value = await backend.getSettings()
-  addonsRef.value = await backend.getAddons()
-  accountsRef.value = await backend.getAccounts()
-  uidCacheRef.value = await backend.getUidCache()
+  config.value = await backend.getConfig()
 
-  if (settingsRef.value.game_path) {
+  if (config.value.game_path) {
     log.debug('Game path set, loading main')
-    await i18n.setLanguage(settingsRef.value.launcher_language)
+    await i18n.setLanguage(config.value.launcher_language)
     await MAIN_ROUTE.push()
   } else {
     log.debug('Game path missing, loading setup')

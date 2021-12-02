@@ -1,8 +1,7 @@
-import {boot} from 'quasar/wrappers'
 import {Notify, useQuasar} from 'quasar'
 import {log, t} from '@/services'
 
-export default boot(({app}) => {
+export function setupErrorHandler() {
 
   Notify.registerType('message', {
     color: 'primary',
@@ -26,15 +25,13 @@ export default boot(({app}) => {
   }
   */
 
-
   function promiseHandler(event: PromiseRejectionEvent) {
     event.preventDefault()
 
     if (event.reason instanceof Object && 'message' in event.reason) {
       const context = event.reason as { message: string }
       log.error('Unhandled error: ', context.message)
-    }
-    else {
+    } else {
       console.error('Unhandled error:', event.reason)
     }
 
@@ -43,7 +40,7 @@ export default boot(({app}) => {
 
   window.addEventListener('unhandledrejection', promiseHandler)
 
-  // noinspection JSUnusedLocalSymbols
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   function errorHandler(msg: string) {
     log.error(`Unhandled error: ${msg}`)
 
@@ -58,4 +55,4 @@ export default boot(({app}) => {
       message: `${t('ErrorWarning')}\n${msg}`,
     })
   }
-})
+}

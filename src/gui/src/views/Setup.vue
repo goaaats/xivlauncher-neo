@@ -3,6 +3,7 @@
     <q-carousel ref="carousel" v-model="currentSlide" control-color="primary" animated class="fit transparent"
                 transition-prev="slide-right" transition-next="slide-left" transition-duration="500">
 
+      <!-- Language -->
       <q-carousel-slide :name="1" class="flex justify-center row q-py-lg translucent">
         <q-card class="col-8">
           <q-card-section>
@@ -23,6 +24,7 @@
         </q-card>
       </q-carousel-slide>
 
+      <!-- Game -->
       <q-carousel-slide :name="2" class="flex justify-center row q-py-lg translucent">
         <q-card class="col-8">
           <q-card-section>
@@ -32,7 +34,7 @@
                        :spellcheck="false" maxlength="1000"
                        class="col-grow" @update:modelValue="onUpdateGameDir">
                 <template #append>
-                  <q-icon v-if="!gameDir" name="mdi-search" class="cursor-pointer" @click="onClickGameDirSearch"/>
+                  <q-icon v-if="!gameDir" name="mdi-magnify" class="cursor-pointer" @click="onClickGameDirSearch"/>
                 </template>
                 <template #hint>
                   <p v-if="gameDir && !gameSubDirsFound" class="text-warning">
@@ -53,6 +55,7 @@
         </q-card>
       </q-carousel-slide>
 
+      <!-- ACT -->
       <q-carousel-slide v-if="foundAct" :name="3" class="flex justify-center row q-py-lg translucent">
         <q-card class="col-8">
           <q-card-section>
@@ -75,6 +78,7 @@
         </q-card>
       </q-carousel-slide>
 
+      <!-- Dalamud -->
       <q-carousel-slide :name="4" class="flex justify-center row q-py-lg translucent">
         <q-card class="col-8">
           <q-card-section>
@@ -84,6 +88,7 @@
         </q-card>
       </q-carousel-slide>
 
+      <!-- Controls -->
       <template #control>
         <q-carousel-control position="bottom-right" class="q-gutter-xs">
           <q-btn v-if="currentSlide !== 1" push round color="primary"
@@ -92,7 +97,7 @@
                  icon="mdi-arrow-right" :disabled="currentSlide === 2 && !gameDir"
                  @click="$refs.carousel.next()"/>
           <q-btn v-if="currentSlide === 4" push round color="positive"
-                 icon="mdi-done" @click="onCompleteSetup"/>
+                 icon="mdi-check" @click="onCompleteSetup"/>
         </q-carousel-control>
       </template>
 
@@ -101,18 +106,16 @@
 </template>
 
 <script lang="ts" setup>
-import {inject, onMounted, Ref, ref} from 'vue'
-import {MAIN_ROUTE} from '@/router/route'
-import {backend, constants, i18n} from '@/services/'
-import {LauncherSettings, AddonEntry} from '@/services/backend'
+import {onMounted, ref} from 'vue'
+import {backend, i18n, store} from '@/services/'
+import {MAIN_ROUTE} from '@/services/router'
 import {isGamePathValid, showFileDialog} from '@/util'
 
-const settings = inject(constants.SETTINGS_KEY) as Ref<LauncherSettings>
-const addons = inject(constants.ADDONS_KEY) as Ref<AddonEntry[]>
+const config = store.CONFIG.inject()
 
 const currentSlide = ref(1)
 
-// region Slide 1
+// region Language
 const launcherLanguageChoice = ref(i18n.getDefaultLauncherLanguageOption())
 const gameLanguageChoice = ref(i18n.getDefaultGameLanguageOption())
 const launcherLanguageOptions = i18n.getLauncherLanguageOptions()
@@ -125,7 +128,7 @@ async function onLauncherLanguageChange(lang: string) {
 
 // endregion
 
-// region Slide 2
+// region Game
 const gameDir = ref('')
 const gameSubDirsFound = ref(false)
 const useSteam = ref(false)
@@ -142,7 +145,7 @@ async function onUpdateGameDir(path: string | null) {
 
 // endregion
 
-// region Slide 3
+// region ACT
 const actPath = ref('')
 const foundAct = ref(false)
 const enableACT = ref(false)
@@ -169,15 +172,14 @@ const enableDalamud = ref(false)
 // endregion
 
 async function onCompleteSetup() {
-  settings.value.launcher_language = i18n.convertLauncherLanguage(launcherLanguageChoice.value)
-  settings.value.game_language = i18n.convertGameLanguage(gameLanguageChoice.value)
-  settings.value.game_path = gameDir.value
-  settings.value.enable_steam_integration = useSteam.value
-  settings.value.enable_dalamud = enableDalamud.value
-  await backend.setSettings(settings.value)
+  config.value.launcher_language = i18n.convertLauncherLanguage(launcherLanguageChoice.value)
+  config.value.game_language = i18n.convertGameLanguage(gameLanguageChoice.value)
+  config.value.game_path = gameDir.value
+  config.value.enable_steam_integration = useSteam.value
+  config.value.enable_dalamud = enableDalamud.value
 
   if (enableACT.value) {
-    addons.value.push({
+    config.value.addons.push({
       is_enabled: true,
       path: actPath.value,
       command_line: '',
@@ -185,8 +187,9 @@ async function onCompleteSetup() {
       run_on_close: false,
       kill_after_close: false,
     })
-    await backend.setAddons(addons.value)
   }
+
+  await backend.saveConfig(config.value)
 
   await MAIN_ROUTE.push()
 }

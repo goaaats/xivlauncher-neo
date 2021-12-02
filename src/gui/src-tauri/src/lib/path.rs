@@ -6,14 +6,13 @@ use windows::core::GUID;
 use windows::Win32::Foundation::HANDLE;
 use windows::Win32::Globalization::lstrlenW;
 use windows::Win32::UI::Shell::SHGetKnownFolderPath;
-use windows::Win32::UI::Shell::{FOLDERID_CommonStartMenu, FOLDERID_RoamingAppData};
+use windows::Win32::UI::Shell::{FOLDERID_CommonStartMenu, FOLDERID_Desktop, FOLDERID_RoamingAppData};
 
 /// Gets the path to application directory
 /// This should be AppData\Roaming\XIVLauncher
 #[cfg(target_os = "windows")]
 pub fn get_data_dir_path() -> Result<PathBuf, Error> {
-  get_roaming_appdata_path()
-    .map(|path| path.join("XIVLauncher"))
+  get_roaming_appdata_path().map(|path| path.join("XIVLauncher"))
 }
 
 /// Gets the path to application directory
@@ -30,6 +29,11 @@ pub fn get_data_dir_path() -> Result<PathBuf, Error> {
 pub fn get_data_dir_path() -> Result<PathBuf, Error> {
   Err(Error::msg("OS not supported"))
   // .map(|path| path.join("XIVLauncher"))
+}
+
+/// Gets the path to the Profile icon folder (profileIcons)
+pub fn get_profile_icon_path() -> Result<PathBuf, Error> {
+  get_data_dir_path().map(|path| path.join("profileIcons"))
 }
 
 /// Gets the path to the Dalamud plugin folder (installedPlugins)
@@ -74,6 +78,13 @@ pub fn get_common_start_menu_path() -> Result<PathBuf, Error> {
 #[cfg(target_os = "windows")]
 pub fn get_roaming_appdata_path() -> Result<PathBuf, Error> {
   get_folderid_path(&FOLDERID_RoamingAppData, 0)
+}
+
+/// Gets the path to the special dir FOLDERID_RoamingAppData
+/// Typically, this is %APPDATA% (%USERPROFILE%\AppData\Roaming)
+#[cfg(target_os = "windows")]
+pub fn get_desktop_path() -> Result<PathBuf, Error> {
+  get_folderid_path(&FOLDERID_Desktop, 0)
 }
 
 /// Gets the path to a FOLDERID_<GUID> directory

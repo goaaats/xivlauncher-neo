@@ -1,317 +1,409 @@
 {
   "SetupChooseLauncherLanguage": {
     "message": "Please select which language you want to use the launcher with.",
-    "description": "First time setup (Setup.vue)"
+    "description": "First time setup"
   },
   "SetupChooseGameLanguage": {
     "message": "Please select which language you want to load the game with.",
-    "description": "First time setup (Setup.vue)"
+    "description": "First time setup"
   },
   "SetupLauncherLanguage": {
     "message": "Launcher Language",
-    "description": "First time setup (Setup.vue)"
+    "description": "First time setup"
   },
   "SetupGameLanguage": {
     "message": "Game Language",
-    "description": "First time setup (Setup.vue)"
+    "description": "First time setup"
   },
   "SetupChooseGamePath": {
     "message": "Please select the folder your game is installed in.\r\nIt should contain the folders \"game\" and \"boot\".",
-    "description": "First time setup (Setup.vue)"
+    "description": "First time setup"
   },
   "SetupGameDirectory": {
     "message": "Game Directory",
-    "description": "First time setup (Setup.vue)"
+    "description": "First time setup"
   },
   "SetupGameDirectoryCorrect": {
     "message": "Game installation found",
-    "description": "First time setup (Setup.vue)"
+    "description": "First time setup"
   },
   "SetupGameDirectoryWarning": {
     "message": "Game not found, it will be installed on login",
-    "description": "First time setup (Setup.vue)"
+    "description": "First time setup"
   },
   "SetupSteamNotice": {
     "message": "Please check this box if you are usually launching the game using Steam.",
-    "description": "First time setup (Setup.vue)"
+    "description": "First time setup"
   },
   "SetupSteamCheckBox": {
     "message": "Enable Steam integration",
-    "description": "First time setup (Setup.vue)"
+    "description": "First time setup"
   },
   "SetupActDetected": {
     "message": "Advanced Combat Tracker is installed on your computer.\r\nDo you want to launch it automatically when launching the game?",
-    "description": "First time setup (Setup.vue)"
+    "description": "First time setup"
   },
   "SetupActLaunchCheckBox": {
     "message": "Enable ACT Auto-Launch",
-    "description": "First time setup (Setup.vue)"
+    "description": "First time setup"
   },
   "SetupActPathNotice": {
     "message": "Please verify that this path is correct.",
-    "description": "First time setup (Setup.vue)"
+    "description": "First time setup"
   },
   "SetupActPath": {
     "message": "Advanced Combat Tracker Path",
-    "description": "First time setup (Setup.vue)"
+    "description": "First time setup"
   },
   "SetupDalamudNotice": {
     "message": "Do you want to enable the Dalamud plugin system?\r\nThis will add extra functionality to your game, such as RMT chat filtering and Discord notifications for chat messages or Duty Finder pops.\r\n\r\nTo configure these settings, please use the XIVLauncher settings menu and switch to the in-game tab.\r\nEnabling this however could cause a false positive on your antivirus software, please check its settings and add any needed exclusions if you run into problems.",
-    "description": "First time setup (Setup.vue)"
+    "description": "First time setup"
   },
   "SetupDalamudCheckBox": {
     "message": "Enable In-Game features",
-    "description": "First time setup (Setup.vue)"
+    "description": "First time setup"
   },
   "ErrorWarning": {
     "message": "An error has occurred, please notify the dev team.",
-    "description": "Error handler (App.vue)"
+    "description": "Error handler"
   },
   "ErrorDismiss": {
     "message": "Dismiss",
-    "description": "Error handler (App.vue)"
+    "description": "Error handler"
   },
   "ConfigGame": {
     "message": "Game",
-    "description": "Config title bar (Config.vue)"
+    "description": "Config title bar"
   },
   "ConfigLanguage": {
     "message": "Language",
-    "description": "Config title bar (Config.vue)"
+    "description": "Config title bar"
   },
   "ConfigAutoLaunch": {
     "message": "Auto-Launch",
-    "description": "Config title bar (Config.vue)"
+    "description": "Config title bar"
   },
   "ConfigInGame": {
     "message": "In-Game",
-    "description": "Config title bar (Config.vue)"
+    "description": "Config title bar"
   },
   "ConfigPlugins": {
     "message": "Plugins",
-    "description": "Config title bar (Config.vue)"
+    "description": "Config title bar"
   },
   "ConfigPatching": {
     "message": "Patching",
-    "description": "Config title bar (Config.vue)"
+    "description": "Config title bar"
   },
   "ConfigAbout": {
     "message": "About",
-    "description": "Config title bar (Config.vue)"
+    "description": "Config title bar"
   },
   "ConfigChooseGamePath": {
     "message": "Please select the folder your game is installed in.\r\nIt should contain the folders \"game\" and \"boot\".",
-    "description": "Settings - Game tab (Config.vue)"
+    "description": "Settings, game tab"
   },
   "ConfigGameDirectory": {
     "message": "Game Directory",
-    "description": "Settings - Game tab (Config.vue)"
+    "description": "Settings, game tab"
   },
   "ConfigGameDirectoryCorrect": {
     "message": "Game installation found",
-    "description": "Settings - Game tab (Config.vue)"
+    "description": "Settings, game tab"
   },
   "ConfigGameDirectoryWarning": {
     "message": "Game not found, it will be installed on login",
-    "description": "Settings - Game tab (Config.vue)"
+    "description": "Settings, game tab"
   },
   "ConfigGameSteam": {
     "message": "Enable Steam integration",
-    "description": "First time setup (Setup.vue)"
+    "description": "Settings, game tab"
   },
   "ConfigGameOtpServer": {
     "message": "Enable XL Authenticator app/OTP macro support",
-    "description": "Settings - Game tab (Config.vue)"
+    "description": "Settings, game tab"
   },
   "ConfigGameAdditionalArguments": {
     "message": "Additional launch arguments",
-    "description": "Settings - Game tab (Config.vue)"
+    "description": "Settings, game tab"
   },
   "ConfigGameArgEncryption": {
     "message": "Enable encrypting arguments to the client",
-    "description": "Settings - Game tab (Config.vue)"
+    "description": "Settings, game tab"
   },
   "ConfigGameUidCache": {
     "message": "Enable UID cache",
-    "description": "Settings - Game tab (Config.vue)"
+    "description": "Settings, game tab"
   },
   "ConfigGameUidCacheReset": {
     "message": "Reset",
-    "description": "Settings - Game tab (Config.vue)"
+    "description": "Settings, game tab"
   },
   "ConfigGameUidCacheHint": {
     "message": "Hold control while starting the launcher to reset the UID cache",
-    "description": "Settings - Game tab (Config.vue)"
+    "description": "Settings, game tab"
   },
   "ConfigGameIntegrityCheck": {
     "message": "Run integrity check",
-    "description": "Settings - Game tab (Config.vue)"
+    "description": "Settings, game tab"
   },
   "ConfigGameIntegrityCheckHint": {
     "message": "Run integrity check on game files.",
-    "description": "Settings - Game tab (Config.vue)"
+    "description": "Settings, game tab"
   },
   "ConfigGameDirectX": {
     "message": "Please select which DirectX version you want to use.",
-    "description": "Settings - Game tab (Config.vue)"
+    "description": "Settings, game tab"
   },
   "ConfigGameDirectX9Warning": {
     "message": "DirectX 9 mode is not supported anymore. It will still start, but you will not get support from SE for any technical issues and any in-game features such as Dalamud will not work.",
-    "description": "Settings - Game tab (Config.vue)"
+    "description": "Settings, game tab"
   },
   "ConfigChooseLauncherLanguage": {
     "message": "Please select which language you want to use the launcher with.",
-    "description": "Config - Language tab (Config.vue)"
+    "description": "Config, language tab"
   },
   "ConfigChooseGameLanguage": {
     "message": "Please select which language you want to load the game with.",
-    "description": "Config - Language tab (Config.vue)"
+    "description": "Config, language tab"
   },
   "ConfigLauncherLanguage": {
     "message": "Launcher Language",
-    "description": "Config - Language tab (Config.vue)"
+    "description": "Config, language tab"
   },
   "ConfigGameLanguage": {
     "message": "Game Language",
-    "description": "Config - Language tab (Config.vue)"
+    "description": "Config, language tab"
   },
   "ConfigLocalizationHelp": {
     "message": "Notice any mistakes? You can help out translating the launcher! Just click here!",
-    "description": "Config - Language tab (Config.vue)"
+    "description": "Config, language tab"
   },
   "ConfigAddonNotice": {
     "message": "These are applications that are started as soon as the game has started.",
-    "description": "Config - Auto-Launch tab (Config.vue)"
+    "description": "Config, auto-launch tab"
   },
   "ConfigAddonAddNew": {
     "message": "Add new",
-    "description": "Config - Auto-Launch tab (Config.vue)"
+    "description": "Config, auto-launch tab"
   },
   "ConfigAddonAddNewHint": {
     "message": "Add a new Auto-Start entry that allows you to launch any program.",
-    "description": "Config - Auto-Launch tab (Config.vue)"
+    "description": "Config, auto-launch tab"
   },
   "ConfigAddonApplicationPath": {
     "message": "Application Path",
-    "description": "Config - Auto-Launch tab, edit dialog (Config.vue)"
+    "description": "Config, auto-launch tab, edit dialog"
   },
   "ConfigAddonCommandLine": {
     "message": "Command line parameters",
-    "description": "Config - Auto-Launch tab, edit dialog (Config.vue)"
+    "description": "Config, auto-launch tab, addon dialog"
   },
   "ConfigAddonRunAsAdmin": {
     "message": "Run as admin",
-    "description": "Config - Auto-Launch tab, edit dialog (Config.vue)"
+    "description": "Config, auto-launch tab, addon dialog"
   },
   "ConfigAddonRunOnClose": {
     "message": "Run on game close",
-    "description": "Config - Auto-Launch tab, edit dialog (Config.vue)"
+    "description": "Config, auto-launch tab, addon dialog"
   },
   "ConfigAddonKillAfterClose": {
     "message": "Kill after game closes",
-    "description": "Config - Auto-Launch tab, edit dialog (Config.vue)"
+    "description": "Config, auto-launch tab, addon dialog"
   },
   "ConfigAddonSave": {
     "message": "Save",
-    "description": "Config - Auto-Launch tab, edit dialog (Config.vue)"
+    "description": "Config, auto-launch tab, addon dialog"
   },
   "ConfigAddonDelete": {
     "message": "Delete",
-    "description": "Config - Auto-Launch tab, edit dialog (Config.vue)"
+    "description": "Config, auto-launch tab, addon dialog"
   },
   "ConfigDalamudNotice": {
     "message": "These options affect the XIVLauncher in-game features. These features will be automatically\r\nenabled if you are running the DirectX 11 version of the game, the version of the game is\r\ncompatible, and the checkbox below is ticked.",
-    "description": "Config - In-Game tab (Config.vue)"
+    "description": "Config, in-game tab"
   },
   "ConfigDalamudEnable": {
     "message": "Enable in-game features",
-    "description": "Config - In-Game tab (Config.vue)"
+    "description": "Config, in-game tab"
   },
   "ConfigDalamudInGameHint": {
     "message": "When enabled, type \"/xlhelp\" in-game to see other available commands.",
-    "description": "Config - In-Game tab (Config.vue)"
+    "description": "Config, in-game tab"
   },
   "ConfigDalamudInjectionDelay": {
     "message": "Addon Injection Delay",
-    "description": "Config - In-Game tab (Config.vue)"
+    "description": "Config, in-game tab"
   },
   "ConfigUniversalisHint": {
     "message": "Market board data provided in cooperation with Universalis.",
-    "description": "Config - In-Game tab (Config.vue)"
+    "description": "Config, in-game tab"
   },
   "ConfigUniversalisOptOut": {
     "message": "Opt-out of contributing anonymously to crowd-sourced market board information",
-    "description": "Config - In-Game tab (Config.vue)"
+    "description": "Config, in-game tab"
   },
   "ConfigPluginsDescription": {
     "message": "These are the plugins that are currently available installed on your machine.",
-    "description": "Config - Plugins tab (Config.vue)"
+    "description": "Config, plugins tab"
   },
   "ConfigPluginsHint": {
     "message": "You can use the /xlplugins command in-game to install more plugins.",
-    "description": "Config - Plugins tab (Config.vue)"
+    "description": "Config, plugins tab"
   },
   "ConfigPluginDelete": {
     "message": "Delete",
-    "description": "Config - Plugins tab (Config.vue)"
+    "description": "Config, plugins tab"
   },
   "ConfigPluginDeleted": {
     "message": "Deleted",
-    "description": "Config - Plugins tab (Config.vue)"
+    "description": "Config, plugins tab"
   },
   "ConfigPatchAskBefore": {
     "message": "Ask before installing a game patch",
-    "description": "Config - Patching tab (Config.vue)"
+    "description": "Config, patching tab"
   },
   "ConfigPatchPath": {
     "message": "Patch Download Directory",
-    "description": "Config - Patching tab (Config.vue)"
+    "description": "Config, patching tab"
   },
   "ConfigPatchSpeedLimit": {
     "message": "Download Speed Limit",
-    "description": "Config - Patching tab (Config.vue)"
+    "description": "Config, patching tab"
   },
   "ConfigPatchKeepAfter": {
     "message": "Keep downloaded patches for future reinstalls",
-    "description": "Config - Patching tab (Config.vue)"
+    "description": "Config, patching tab"
   },
   "ConfigCredits": {
     "message": "Made by goat. Special thanks to Mino, sky, LeonBlade, Wintermute, Zyian,\r\nRoy, Meli, Aida Enna, Aireil, and the angry paissa artist!\r\n\r\nAny issues or requests? Join the Discord or create an issue on GitHub!",
-    "description": "Config - About tab (Config.vue)"
+    "description": "Config, about tab"
   },
   "ConfigLicense": {
     "message": "Licensed under GPLv3 or later. Click here for more.",
-    "description": "Config - About tab (Config.vue)"
+    "description": "Config, about tab"
   },
   "ConfigJoinDiscord": {
     "message": "Join Discord",
-    "description": "Config - About tab (Config.vue)"
+    "description": "Config, about tab"
   },
   "ConfigOpenFaq": {
     "message": "Open FAQ",
-    "description": "Config - About tab (Config.vue)"
+    "description": "Config, about tab"
   },
   "ConfigStartBackupTool": {
     "message": "Start Backup Tool",
-    "description": "Config - About tab (Config.vue)"
+    "description": "Config, about tab"
   },
   "ConfigStartOriginalLauncher": {
     "message": "Start Original Launcher",
-    "description": "Config - About tab (Config.vue)"
+    "description": "Config, about tab"
   },
   "ConfigLaunchOriginalNormal": {
     "message": "Normal",
-    "description": "Config - About tab, Steam dialog (Config.vue)"
+    "description": "Config, about tab, Steam dialog"
   },
   "ConfigOpenPluginsFolder": {
     "message": "Open Plugins Folder",
-    "description": "Config - Shared buttons (Config.vue)"
+    "description": "Config, page buttons"
   },
   "ConfigSaveSettings": {
     "message": "Save Settings",
-    "description": "Config - Shared buttons (Config.vue)"
+    "description": "Config, page buttons"
   },
-  "------": {
+  "MainUsernamePlaceholder": {
+    "message": "Square Enix ID",
+    "description": "Main, login card"
+  },
+  "MainPasswordPlaceholder": {
+    "message": "Password",
+    "description": "Main, login card"
+  },
+  "MainLoginAutomatically": {
+    "message": "Log in automatically",
+    "description": "Main, login card"
+  },
+  "MainUseOtp": {
+    "message": "Use One-Time-Passwords",
+    "description": "Main, login card"
+  },
+  "MainUseSteam": {
+    "message": "Use Steam service account",
+    "description": "Main, login card"
+  },
+  "MainLogIn": {
+    "message": "Log in",
+    "description": "Main, login card"
+  },
+  "MainLoginHint": {
+    "message": "Log in with the provided credentials",
+    "description": "Main, login card"
+  },
+  "MainOpenAccountSwitcher": {
+    "message": "Open Account Switcher",
+    "description": "Main, login card"
+  },
+  "MainMaintenanceQueueWait": {
+    "message": "Wait for maintenance to be over",
+    "description": "Main, controls card"
+  },
+  "MainWorldStatus": {
+    "message": "World Status",
+    "description": "Main, controls card"
+  },
+  "MainSettings": {
+    "message": "Settings",
+    "description": "Main, controls card"
+  },
+  "MainWaitingForMaintenance": {
+    "message": "Waiting for maintenance to be over...",
+    "description": "Main, maintenance dialog"
+  },
+  "MainWaitingForMaintenanceCancel": {
+    "message": "Cancel",
+    "description": "Main, maintenance dialog"
+  },
+  "MainAccountUsernamePlaceholder": {
+    "message": "Square Enix ID",
+    "description": "Main, edit account dialog"
+  },
+  "MainAccountUseOtp": {
+    "message": "Use One-Time-Passwords",
+    "description": "Main, edit account dialog"
+  },
+  "MainAccountUseSteam": {
+    "message": "Use Steam service account",
+    "description": "Main, edit account dialog"
+  },
+  "MainAccountSavePassword": {
+    "message": "Save password",
+    "description": "Main, edit account dialog"
+  },
+  "MainAccountCharacterName": {
+    "message": "Character Name",
+    "description": "Main, edit account dialog"
+  },
+  "MainAccountCharacterWorld": {
+    "message": "Character World",
+    "description": "Main, edit account dialog"
+  },
+  "MainAccountUpdate": {
+    "message": "Update",
+    "description": "Main, edit account dialog"
+  },
+  "MainAccountReset": {
+    "message": "Reset",
+    "description": "Main, edit account dialog"
+  },
+  "MainAccountCreateShortcut": {
+    "message": "Create Shortcut",
+    "description": "Main, edit account dialog"
+  },
+  "MainAccountDelete": {
+    "message": "Delete",
+    "description": "Main, edit account dialog"
+  },
+  "-------": {
     "message": "",
     "details": ""
   },
@@ -475,10 +567,6 @@
     "message": "Remove",
     "description": "AccountSwitcherViewModel.SetupLoc"
   },
-  "AccountSwitcherDontSavePassword": {
-    "message": "Don't save password",
-    "description": "AccountSwitcherViewModel.SetupLoc"
-  },
   "UpdateNotice": {
     "message": "XIVLauncher was updated to version {0}.",
     "description": "ChangeLogWindowViewModel.SetupLoc"
@@ -539,60 +627,8 @@
     "message": "Running integrity check...",
     "description": "IntegrityCheckProgressWindowViewModel.SetupLoc"
   },
-  "LoginBoxUsername": {
-    "message": "Square Enix ID",
-    "description": "MainWindowViewModel.SetupLoc"
-  },
-  "LoginBoxPassword": {
-    "message": "Password",
-    "description": "MainWindowViewModel.SetupLoc"
-  },
-  "LoginBoxAutoLogin": {
-    "message": "Log in automatically",
-    "description": "MainWindowViewModel.SetupLoc"
-  },
-  "LoginBoxOtp": {
-    "message": "Use One-Time-Passwords",
-    "description": "MainWindowViewModel.SetupLoc"
-  },
-  "LoginBoxSteam": {
-    "message": "Use Steam service account",
-    "description": "MainWindowViewModel.SetupLoc"
-  },
-  "LoginBoxLogin": {
-    "message": "Log in",
-    "description": "MainWindowViewModel.SetupLoc"
-  },
   "LoginBoxNoStartLogin": {
     "message": "Update without starting",
-    "description": "MainWindowViewModel.SetupLoc"
-  },
-  "LoginBoxLoginTooltip": {
-    "message": "Log in with the provided credentials",
-    "description": "MainWindowViewModel.SetupLoc"
-  },
-  "LoginBoxWaitingForMaint": {
-    "message": "Waiting for maintenance to be over...",
-    "description": "MainWindowViewModel.SetupLoc"
-  },
-  "Cancel": {
-    "message": "Cancel",
-    "description": "MainWindowViewModel.SetupLoc"
-  },
-  "OpenAccountSwitcher": {
-    "message": "Open Account Switcher",
-    "description": "MainWindowViewModel.SetupLoc"
-  },
-  "Settings": {
-    "message": "Settings",
-    "description": "MainWindowViewModel.SetupLoc"
-  },
-  "WorldStatus": {
-    "message": "World Status",
-    "description": "MainWindowViewModel.SetupLoc"
-  },
-  "MaintenanceQueue": {
-    "message": "Wait for maintenance to be over",
     "description": "MainWindowViewModel.SetupLoc"
   },
   "OtpInputPrompt": {
@@ -634,22 +670,6 @@
   "PatchEta": {
     "message": "{0} left to download at {1}/s.",
     "description": "PatchDownloadDialogViewModel.SetupLoc"
-  },
-  "ProfilePictureInputTitle": {
-    "message": "Configure profile picture",
-    "description": "ProfilePictureInputWindowViewModel.SetupLoc"
-  },
-  "ProfilePictureInputDescription": {
-    "message": "Please enter a character's name and world.",
-    "description": "ProfilePictureInputWindowViewModel.SetupLoc"
-  },
-  "CharacterName": {
-    "message": "Character Name",
-    "description": "ProfilePictureInputWindowViewModel.SetupLoc"
-  },
-  "WorldName": {
-    "message": "World Name",
-    "description": "ProfilePictureInputWindowViewModel.SetupLoc"
   },
   "UpdateCheckMsg": {
     "message": "Checking for updates...",

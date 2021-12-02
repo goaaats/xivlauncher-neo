@@ -6,8 +6,8 @@
   "build": {
     "distDir": "../dist",
     "devPath": "http://localhost:8080",
-    "beforeDevCommand": "quasar dev",
-    "beforeBuildCommand": "quasar build"
+    "beforeDevCommand": "vite",
+    "beforeBuildCommand": "vite build"
   },
   "tauri": {
     "bundle": {
@@ -49,9 +49,9 @@
     },
     "windows": [
       {
-        "title": "XIVLauncher v1.2.3.4",
+        "title": "XIVLauncher",
         "width": 830,
-        "height": 400,
+        "height": 340,
         "resizable": false,
         "fullscreen": false,
         "decorations": true,

@@ -1,8 +1,11 @@
+use crate::lib::error::{XlError, XlResult};
 use anyhow::Context;
 use libxl::game::language::GameLanguage;
 use libxl::game::launcher::headline::Headline;
-use crate::lib::error::{XlError, XlResult};
 
+/// Get the launcher headlines for the day
+/// # Arguments
+/// * `langcode` - Two character language code for localized headlines
 #[tauri::command]
 pub async fn get_headline(langcode: &str) -> XlResult<Headline> {
   let _language = GameLanguage::from_langcode(langcode);
@@ -12,35 +15,45 @@ pub async fn get_headline(langcode: &str) -> XlResult<Headline> {
   let result = Headline {
     news: vec![
       libxl::game::launcher::headline::HeadlineEntry {
-        date: chrono::DateTime::parse_from_rfc3339("2021-11-22T10:46:35Z").with_context(|| "meh")?.with_timezone(&chrono::Utc),
+        date: chrono::DateTime::parse_from_rfc3339("2021-11-22T10:46:35Z")
+          .with_context(|| "meh")?
+          .with_timezone(&chrono::Utc),
         title: "Recovery from Network Technical Difficulties (Nov. 22)".to_string(),
         url: "".to_string(),
         id: "4b06343d19839aa768a3d79db01d61d65a85d979".to_string(),
         tag: Some("Recovery".to_string()),
       },
       libxl::game::launcher::headline::HeadlineEntry {
-        date: chrono::DateTime::parse_from_rfc3339("2021-11-22T07:32:00Z").with_context(|| "meh")?.with_timezone(&chrono::Utc),
+        date: chrono::DateTime::parse_from_rfc3339("2021-11-22T07:32:00Z")
+          .with_context(|| "meh")?
+          .with_timezone(&chrono::Utc),
         title: "Network Technical Difficulties (Nov. 22)".to_string(),
         url: "".to_string(),
         id: "40d50fd842fec6c98095d284f7e87620fefb528a".to_string(),
         tag: Some("".to_string()),
       },
       libxl::game::launcher::headline::HeadlineEntry {
-        date: chrono::DateTime::parse_from_rfc3339("2021-11-22T04:40:00Z").with_context(|| "meh")?.with_timezone(&chrono::Utc),
+        date: chrono::DateTime::parse_from_rfc3339("2021-11-22T04:40:00Z")
+          .with_context(|| "meh")?
+          .with_timezone(&chrono::Utc),
         title: "Recovery from Network Technical Difficulties (Nov. 21)".to_string(),
         url: "".to_string(),
         id: "f1bdd833c9c09ba250d7c128e5dd7d369a5a69ed".to_string(),
         tag: Some("Recovery".to_string()),
       },
       libxl::game::launcher::headline::HeadlineEntry {
-        date: chrono::DateTime::parse_from_rfc3339("2021-11-18T16:05:00Z").with_context(|| "meh")?.with_timezone(&chrono::Utc),
+        date: chrono::DateTime::parse_from_rfc3339("2021-11-18T16:05:00Z")
+          .with_context(|| "meh")?
+          .with_timezone(&chrono::Utc),
         title: "[Elemental] Recovery from Instanced Areas Technical Difficulties (Nov. 18)".to_string(),
         url: "".to_string(),
         id: "5d571a95ecf5e8aa92805c6830ccc8ea80569e1f".to_string(),
         tag: Some("Recovery".to_string()),
       },
       libxl::game::launcher::headline::HeadlineEntry {
-        date: chrono::DateTime::parse_from_rfc3339("2021-11-18T08:00:00Z").with_context(|| "meh")?.with_timezone(&chrono::Utc),
+        date: chrono::DateTime::parse_from_rfc3339("2021-11-18T08:00:00Z")
+          .with_context(|| "meh")?
+          .with_timezone(&chrono::Utc),
         title: "Actions Taken Against In-Game RMT & Other Illicit Activities (Nov. 18)".to_string(),
         url: "".to_string(),
         id: "6d954aa29061adecd8943e4f07a2979759ea31bd".to_string(),
@@ -49,58 +62,79 @@ pub async fn get_headline(langcode: &str) -> XlResult<Headline> {
     ],
     topics: vec![
       libxl::game::launcher::headline::HeadlineEntry {
-        date: chrono::DateTime::parse_from_rfc3339("2021-11-24T09:00:00Z").with_context(|| "meh")?.with_timezone(&chrono::Utc),
+        date: chrono::DateTime::parse_from_rfc3339("2021-11-24T09:00:00Z")
+          .with_context(|| "meh")?
+          .with_timezone(&chrono::Utc),
         title: "Illustrated Countdown to Endwalker \u{2013} 13 Days Left".to_string(),
-        url: "https://eu.finalfantasyxiv.com/lodestone/topics/detail/ea06d71ba0d23deaaaa8d068fe45dcc23814d7c4".to_string(),
+        url: "https://eu.finalfantasyxiv.com/lodestone/topics/detail/ea06d71ba0d23deaaaa8d068fe45dcc23814d7c4"
+          .to_string(),
         id: "ea06d71ba0d23deaaaa8d068fe45dcc23814d7c4".to_string(),
         tag: None,
       },
       libxl::game::launcher::headline::HeadlineEntry {
-        date: chrono::DateTime::parse_from_rfc3339("2021-11-23T09:00:00Z").with_context(|| "meh")?.with_timezone(&chrono::Utc),
+        date: chrono::DateTime::parse_from_rfc3339("2021-11-23T09:00:00Z")
+          .with_context(|| "meh")?
+          .with_timezone(&chrono::Utc),
         title: "Illustrated Countdown to Endwalker \u{2013} 14 Days Left".to_string(),
-        url: "https://eu.finalfantasyxiv.com/lodestone/topics/detail/19481e4e6cf0c708505c4ce1bb1ddbf12e6f48fb".to_string(),
+        url: "https://eu.finalfantasyxiv.com/lodestone/topics/detail/19481e4e6cf0c708505c4ce1bb1ddbf12e6f48fb"
+          .to_string(),
         id: "19481e4e6cf0c708505c4ce1bb1ddbf12e6f48fb".to_string(),
         tag: None,
       },
       libxl::game::launcher::headline::HeadlineEntry {
-        date: chrono::DateTime::parse_from_rfc3339("2021-11-22T09:00:00Z").with_context(|| "meh")?.with_timezone(&chrono::Utc),
+        date: chrono::DateTime::parse_from_rfc3339("2021-11-22T09:00:00Z")
+          .with_context(|| "meh")?
+          .with_timezone(&chrono::Utc),
         title: "Illustrated Countdown to Endwalker \u{2013} 15 Days Left".to_string(),
-        url: "https://eu.finalfantasyxiv.com/lodestone/topics/detail/abcc40f8b49abe5f8415ad08a3a740dcb71c697f".to_string(),
+        url: "https://eu.finalfantasyxiv.com/lodestone/topics/detail/abcc40f8b49abe5f8415ad08a3a740dcb71c697f"
+          .to_string(),
         id: "abcc40f8b49abe5f8415ad08a3a740dcb71c697f".to_string(),
         tag: None,
       },
       libxl::game::launcher::headline::HeadlineEntry {
-        date: chrono::DateTime::parse_from_rfc3339("2021-11-21T09:00:00Z").with_context(|| "meh")?.with_timezone(&chrono::Utc),
+        date: chrono::DateTime::parse_from_rfc3339("2021-11-21T09:00:00Z")
+          .with_context(|| "meh")?
+          .with_timezone(&chrono::Utc),
         title: "Illustrated Countdown to Endwalker \u{2013} 16 Days Left".to_string(),
-        url: "https://eu.finalfantasyxiv.com/lodestone/topics/detail/900578fe922cf1e4d431ec15829b7bdf5ea0aeef".to_string(),
+        url: "https://eu.finalfantasyxiv.com/lodestone/topics/detail/900578fe922cf1e4d431ec15829b7bdf5ea0aeef"
+          .to_string(),
         id: "900578fe922cf1e4d431ec15829b7bdf5ea0aeef".to_string(),
         tag: None,
       },
       libxl::game::launcher::headline::HeadlineEntry {
-        date: chrono::DateTime::parse_from_rfc3339("2021-11-20T09:00:00Z").with_context(|| "meh")?.with_timezone(&chrono::Utc),
+        date: chrono::DateTime::parse_from_rfc3339("2021-11-20T09:00:00Z")
+          .with_context(|| "meh")?
+          .with_timezone(&chrono::Utc),
         title: "Illustrated Countdown to Endwalker \u{2013} 17 Days Left".to_string(),
-        url: "https://eu.finalfantasyxiv.com/lodestone/topics/detail/4ea5991b8b5c4f15714fd08ae879849cbe1e9f66".to_string(),
+        url: "https://eu.finalfantasyxiv.com/lodestone/topics/detail/4ea5991b8b5c4f15714fd08ae879849cbe1e9f66"
+          .to_string(),
         id: "4ea5991b8b5c4f15714fd08ae879849cbe1e9f66".to_string(),
         tag: None,
       },
     ],
     pinned: vec![
       libxl::game::launcher::headline::HeadlineEntry {
-        date: chrono::DateTime::parse_from_rfc3339("2021-11-23T04:00:00Z").with_context(|| "meh")?.with_timezone(&chrono::Utc),
+        date: chrono::DateTime::parse_from_rfc3339("2021-11-23T04:00:00Z")
+          .with_context(|| "meh")?
+          .with_timezone(&chrono::Utc),
         title: "Ceremony of Eternal Bonding Reservation Restrictions".to_string(),
         url: "".to_string(),
         id: "7cd00028fa344e0921621e2f6b56f12d37c783e2".to_string(),
         tag: Some("".to_string()),
       },
       libxl::game::launcher::headline::HeadlineEntry {
-        date: chrono::DateTime::parse_from_rfc3339("2021-11-19T04:00:00Z").with_context(|| "meh")?.with_timezone(&chrono::Utc),
+        date: chrono::DateTime::parse_from_rfc3339("2021-11-19T04:00:00Z")
+          .with_context(|| "meh")?
+          .with_timezone(&chrono::Utc),
         title: "Forums Maintenance (Nov. 25)".to_string(),
         url: "".to_string(),
         id: "054d9b84f0f828f2da3aa6953fdb9c45ee38dbaf".to_string(),
         tag: Some("Maintenance".to_string()),
       },
       libxl::game::launcher::headline::HeadlineEntry {
-        date: chrono::DateTime::parse_from_rfc3339("2021-09-22T03:00:00Z").with_context(|| "meh")?.with_timezone(&chrono::Utc),
+        date: chrono::DateTime::parse_from_rfc3339("2021-09-22T03:00:00Z")
+          .with_context(|| "meh")?
+          .with_timezone(&chrono::Utc),
         title: "Important Notice about Software Tokens and Other Authentication Apps (Sep. 22)".to_string(),
         url: "".to_string(),
         id: "21b8d3e748b0573a9d122053cfafda885f12d262".to_string(),
@@ -109,17 +143,20 @@ pub async fn get_headline(langcode: &str) -> XlResult<Headline> {
     ],
     banner: vec![
       libxl::game::launcher::headline::BannerEntry {
-        lsb_banner: "https://img.finalfantasyxiv.com/n/09046ec790782c8ce22a71ae10187c2608fc5660.png?1637136474".to_string(),
+        lsb_banner: "https://img.finalfantasyxiv.com/n/09046ec790782c8ce22a71ae10187c2608fc5660.png?1637136474"
+          .to_string(),
         // lsb_banner: "/static/bannerTest1.png".to_string(),
         link: "https://sqex.to/09dfp".to_string(),
       },
       libxl::game::launcher::headline::BannerEntry {
-        lsb_banner: "https://img.finalfantasyxiv.com/n/aaa28767de5f486399212247a2ee16ab0d4681db.jpg?1637136474".to_string(),
+        lsb_banner: "https://img.finalfantasyxiv.com/n/aaa28767de5f486399212247a2ee16ab0d4681db.jpg?1637136474"
+          .to_string(),
         // lsb_banner: "/static/bannerTest2.jpg".to_string(),
         link: "https://sqex.to/s0VW5".to_string(),
       },
       libxl::game::launcher::headline::BannerEntry {
-        lsb_banner: "https://img.finalfantasyxiv.com/n/93e6a0200e181dc6cc3a11b7b590a3debdfb921e.png?1637136474".to_string(),
+        lsb_banner: "https://img.finalfantasyxiv.com/n/93e6a0200e181dc6cc3a11b7b590a3debdfb921e.png?1637136474"
+          .to_string(),
         // lsb_banner: "/static/bannerTest3.png".to_string(),
         link: "https://sqex.to/1Dspw".to_string(),
       },
@@ -129,6 +166,9 @@ pub async fn get_headline(langcode: &str) -> XlResult<Headline> {
   Ok(result)
 }
 
+/// Fetch a headline banner as the launcher would
+/// # Arguments
+/// * `url` - URL to fetch
 #[tauri::command]
 pub async fn get_banner_image_data(url: &str) -> XlResult<String> {
   // region image1
@@ -149,22 +189,27 @@ pub async fn get_banner_image_data(url: &str) -> XlResult<String> {
     "https://img.finalfantasyxiv.com/n/09046ec790782c8ce22a71ae10187c2608fc5660.png?1637136474" => Ok(image1),
     "https://img.finalfantasyxiv.com/n/aaa28767de5f486399212247a2ee16ab0d4681db.jpg?1637136474" => Ok(image2),
     "https://img.finalfantasyxiv.com/n/93e6a0200e181dc6cc3a11b7b590a3debdfb921e.png?1637136474" => Ok(image3),
-    _ => Err(XlError::new(format!("Unknown url: {:?}", url)))
+    _ => Err(XlError::new(format!("Unknown url: {:?}", url))),
   }
 }
 
+/// Start the integrity tool
 #[tauri::command]
 pub async fn start_integrity_tool() -> XlResult<()> {
   // TODO
   Ok(())
 }
 
+/// Start the backup tool
 #[tauri::command]
 pub async fn start_backup_tool() -> XlResult<()> {
   // TODO Process.Start(Path.Combine(ViewModel.GamePath, "boot", "ffxivconfig.exe"));
   Ok(())
 }
 
+/// Start the original launcher
+/// # Arguments
+/// * `_use_steam` - Launch with Steam support
 #[tauri::command]
 pub async fn start_original_launcher(_use_steam: bool) -> XlResult<()> {
   // TODO Process.Start(Path.Combine(gamePath.FullName, "boot", "ffxivboot.exe"), isSteam ? "-issteam" : string.Empty);

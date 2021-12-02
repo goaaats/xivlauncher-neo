@@ -17,24 +17,21 @@ async fn main() {
 
   tauri::Builder::default()
     .invoke_handler(tauri::generate_handler![
-      commands::config::get_settings,
-      commands::config::get_addons,
-      commands::config::get_accounts,
-      commands::config::get_uid_cache,
-      commands::config::update_settings,
-      commands::config::update_addons,
-      commands::config::update_accounts,
-      commands::config::update_uid_cache,
+      commands::addon::find_advanced_combat_tracker,
+      commands::config::get_config,
+      commands::config::save_config,
       commands::game::get_headline,
       commands::game::get_banner_image_data,
       commands::game::start_backup_tool,
       commands::game::start_original_launcher,
+      commands::maintenance::play_victory_beep,
       commands::plugin::get_plugins,
       commands::plugin::update_plugin,
       commands::plugin::remove_plugin,
       commands::plugin::open_dalamud_plugin_dir,
+      commands::profile::get_character_profile_picture_url,
+      commands::profile::create_account_shortcut,
       commands::setup::get_system_locale,
-      commands::setup::find_advanced_combat_tracker,
     ])
     .run(tauri::generate_context!())
     .expect("Error while running tauri application")

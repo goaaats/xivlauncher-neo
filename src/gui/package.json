@@ -6,13 +6,13 @@
   "author": "",
   "private": true,
   "scripts": {
-    "build": "quasar build",
-    "serve": "quasar serve",
+    "build": "yarn vite build",
+    "serve": "yarn vite dev",
     "lint": "eslint --ext .js,.ts,.vue ./",
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
-    "@quasar/extras": "^1.12.1",
+    "@fontsource/roboto": "^4.5.1",
     "@tauri-apps/api": "^1.0.0-beta.8",
     "core-js": "^3.19.1",
     "quasar": "^2.3.3",
@@ -22,17 +22,21 @@
     "vue-router": "^4.0.12"
   },
   "devDependencies": {
-    "@babel/core": "^7.16.0",
-    "@babel/eslint-parser": "^7.13.14",
+    "@mdi/font": "^6.5.95",
     "@quasar/app": "^3.0.0",
+    "@quasar/vite-plugin": "^1.0.2",
     "@tauri-apps/cli": "^1.0.0-beta.10",
     "@types/node": "^12.20.21",
     "@typescript-eslint/eslint-plugin": "^5.3.1",
     "@typescript-eslint/parser": "^5.3.1",
+    "@vitejs/plugin-vue": "^1.10.0",
+    "@vitejs/plugin-vue-jsx": "^1.3.0",
     "eslint": "^8.2.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-vue": "^7.0.0",
-    "typescript": "^4.5.2"
+    "typescript": "^4.5.2",
+    "vite": "^2.6.14",
+    "vite-plugin-eslint": "^1.3.0"
   },
   "browserslist": [
     "last 10 Chrome versions",
