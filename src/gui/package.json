@@ -12,7 +12,7 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
-    "@quasar/extras": "^1.12.1",
+    "@fontsource/roboto": "^4.5.1",
     "@tauri-apps/api": "^1.0.0-beta.8",
     "core-js": "^3.19.1",
     "quasar": "^2.3.3",
@@ -22,6 +22,7 @@
     "vue-router": "^4.0.12"
   },
   "devDependencies": {
+    "@mdi/font": "^6.5.95",
     "@quasar/app": "^3.0.0",
     "@quasar/vite-plugin": "^1.0.2",
     "@tauri-apps/cli": "^1.0.0-beta.10",

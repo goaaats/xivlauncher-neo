@@ -6,14 +6,9 @@
 
 <script lang="ts" setup>
 import {onMounted, Ref, ref} from 'vue'
-import {useQuasar} from 'quasar'
 import {backend, i18n, log, store} from '@/services'
 import {AccountEntry} from '@/services/backend'
 import {MAIN_ROUTE, SETUP_ROUTE} from '@/services/router'
-
-const $q = useQuasar()
-
-$q.dark.set(true)
 
 const config = ref({}) as Ref<backend.LauncherConfig>
 

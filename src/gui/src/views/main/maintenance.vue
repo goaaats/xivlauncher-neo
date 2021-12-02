@@ -43,13 +43,14 @@ function onClickCancel() {
   showMaintenanceDialog.value = false
 }
 
-// TODO a whole bunch of stuff
+/*
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 onMounted(() => {
   void delay(5000).then(async () => {
     await onComplete()
   })
 })
+*/
 
 async function onComplete() {
   // TODO a whole bunch of stuff

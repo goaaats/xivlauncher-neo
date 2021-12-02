@@ -1,6 +1,6 @@
 import {defineConfig} from 'vite'
 import vue from '@vitejs/plugin-vue'
-import {quasar, transformAssetUrls} from '@quasar/vite-plugin'
+import {quasar} from '@quasar/vite-plugin'
 import eslintPlugin from 'vite-plugin-eslint'
 import * as path from 'path'
 
@@ -9,14 +9,9 @@ export default defineConfig({
   build: {
     target: 'esnext'
   },
-  css: {
-    postcss: {}
-  },
   logLevel: 'info',
   plugins: [
-    vue({
-      template: {transformAssetUrls},
-    }),
+    vue({}),
     quasar({
       autoImportComponentCase: 'kebab',
       sassVariables: '@/css/quasar.sass',
